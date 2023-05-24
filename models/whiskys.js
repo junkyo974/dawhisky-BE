@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      whisky_photo: {
+        allowNull: true,
+        type: DataTypes.TEXT,
+      },
       whisky_eng: {
         type: DataTypes.STRING,
         allowNull: true,
