@@ -61,7 +61,7 @@ class StoreController {
         return;
       }
 
-      const storeData = await this.userService.login(email);
+      const storeData = await this.storeService.login(email);
 
       res.cookie(
         "authorization",

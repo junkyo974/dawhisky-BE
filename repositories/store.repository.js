@@ -13,7 +13,7 @@ class StoreRepository {
   };
 
   findOneUser = async (email) => {
-    const findOneStoreData = await Users.findOne({
+    const findOneStoreData = await Stores.findOne({
       where: { email: email },
     });
     return findOneStoreData;

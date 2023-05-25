@@ -19,7 +19,7 @@ class StoreService {
   };
 
   login = async (email) => {
-    const store = await this.userRepository.findOneUser(email);
+    const store = await this.storeRepository.findOneUser(email);
 
     const accessToken = jwt.sign(
       { email: store.email },
