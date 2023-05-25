@@ -10,7 +10,13 @@ const whiskyController = new WhiskyController();
 router.post(
   "/",
   uploadImage.single("whisky_photo"),
+  authMiddleware,
   whiskyController.createWhisky
 );
+
+//위스키정보 수정
+router.put("/whisky_id", authMiddleware, whiskyController.updateWhisky);
+//위스키정보 삭제
+router.delete("/whisky_id", authMiddleware, whiskyController.deletewhisky);
 
 module.exports = router;

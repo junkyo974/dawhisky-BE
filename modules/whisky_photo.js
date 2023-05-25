@@ -36,10 +36,11 @@ const uploadImage = multer({
       if (!allowedExtensions.includes(extension)) {
         return callback(new Error("확장자 에러"));
       }
-      const whisky_photo = `https://dawhisky.s3.ap-northeast-2.amazonaws.com/dawhiskyWhisky/${date}_${randomNumber}`;
-      req.whisky_photo = whisky_photo;
 
-      callback(null, `whisky_photo/${date}_${randomNumber}`);
+      const whisky_photo = `whisky_photo/${date}_${randomNumber}`;
+      req.body.whisky_photo = `https://dawhisky.s3.ap-northeast-2.amazonaws.com/${whisky_photo}`;
+
+      callback(null, whisky_photo);
     },
     acl: "public-read",
   }),

@@ -45,7 +45,7 @@ class ReviewController {
         throw new Error("403/리뷰가 존재하지 않습니다.");
       }
 
-      await this.reviewService.updateRewiew(user_id, whisky_id, review_id);
+      await this.reviewService.updateRewiew(review_id, content);
 
       return res.status(200).json({ message: "리뷰를 수정했습니다." });
     } catch (error) {
@@ -70,9 +70,9 @@ class ReviewController {
         throw new Error("403/리뷰가 존재하지 않습니다.");
       }
 
-      await this.reviewService.deleteRewiew(user_id, whisky_id, review_id);
+      await this.reviewService.deleteRewiew(review_id);
 
-      return res.status(200).json({ message: "리뷰를 지웠습니다." });
+      return res.status(200).json({ message: "리뷰를 삭제하였습니다." });
     } catch (error) {
       error.faiedApi = "리뷰 삭제";
       throw error;

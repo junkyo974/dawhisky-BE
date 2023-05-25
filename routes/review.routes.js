@@ -12,7 +12,7 @@ router.post("/:whisky_id/", authMiddleware, reviewController.createReview);
 router.put(
   "/whisky_id/:review_id",
   authMiddleware,
-  reviewController.deleteReview
+  reviewController.updateReview
 );
 //리뷰삭제
 router.delete(
