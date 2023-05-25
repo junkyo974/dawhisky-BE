@@ -1,11 +1,59 @@
 const WhiskyRepository = require("../repositories/whisky.repository");
+const { Whiskys, Reviews, StoreWhiskys, Stores } = require("../models");
 
 class WhiskyService {
-  whiskyRepository = new WhiskyRepository();
+  whiskyRepository = new WhiskyRepository(
+    Whiskys,
+    Reviews,
+    StoreWhiskys,
+    Stores
+  );
+
+  //위스키 전체조회
+  findAllWhisky = async () => {
+    return await this.whiskyRepository.findAllWhisky();
+  };
+
+  //위스키 상세조회
+
+  whiskyDetail = async (whisky_id) => {
+    const whiskyDetail = await this.whiskyRepository.whiskyDetail(whisky_id);
+
+    const findStoreName = await this.whiskyRepository.findStoreName(
+      whiskyDetail.StoreWhiskys[0].store_id
+    );
+
+    const result = {
+      whiskyDetail,
+      Stores: [
+        {
+          store_id: findStoreName.store_id,
+          store: findStoreName.store,
+        },
+      ],
+    };
+    console.log(
+      result.whiskyDetail,
+      "here!!!!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    );
+
+    return {
+      whisky_id: result.whiskyDetail.whisky_id,
+      whisky_photo: result.whiskyDetail.whisky_photo,
+      whisky_eng: result.whiskyDetail.whisky_eng,
+      whisky_kor: result.whiskyDetail.whisky_kor,
+      whisky_country: result.whiskyDetail.whisky_country,
+      whisky_region: result.whiskyDetail.whisky_region,
+      whisky_age: result.whiskyDetail.whisky_age,
+      whisky_type: result.whiskyDetail.whisky_type,
+      whisky_taste: result.whiskyDetail.whisky_taste,
+      Reviews: result.whiskyDetail.Reviews,
+      Store: result.whiskyDetail.StoreWhiskys[0].Store,
+    };
+  };
 
   // 위스키정보 생성
   createWhisky = async (whiskyData) => {
-    console.log("왜안돼!~~~~~~~~~~~~~~~~~~~~");
     return await this.whiskyRepository.createWhisky(whiskyData);
   };
 

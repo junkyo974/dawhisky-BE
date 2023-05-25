@@ -1,7 +1,8 @@
 const ReviewRepository = require("../repositories/review.repository.js");
+const { Reviews, Whiskys } = require("../models");
 
 class ReviewService {
-  reviewRepository = new ReviewRepository();
+  reviewRepository = new ReviewRepository(Reviews, Whiskys);
 
   //위스키찾기
   findWhiskyById = async (whisky_id) => {

@@ -11,24 +11,28 @@ router.get("/user", authMiddleware, mypageController.mypage);
 // router.get("/store",authMiddleware, mypageController.storepage);
 
 //스토어테이블 생성
-router.post("/table", authMiddleware, mypageController.createTable);
+router.post("/store/table", authMiddleware, mypageController.createTable);
 //스토어테이블 수정
-router.put("/table", authMiddleware, mypageController.updateTable);
+router.put("/store/table", authMiddleware, mypageController.updateTable);
 //스토어테이블 삭제
-router.delete("/table", authMiddleware, mypageController.deleteTable);
+router.delete("/store/table", authMiddleware, mypageController.deleteTable);
 
 //스토어위스키 생성
-router.post("/whisky", authMiddleware, mypageController.createStoreWhisky);
+router.post(
+  "/store/whisky",
+  authMiddleware,
+  mypageController.createStoreWhisky
+);
 
 //스토어위스키수정
 router.put(
-  "/whisky/:storewhisky_id",
+  "/store/whisky/:storewhisky_id",
   authMiddleware,
   mypageController.updateStoreWhisky
 );
 //스토어위스키 삭제
 router.delete(
-  "/whisky/:storewhisky_id",
+  "/store/whisky/:storewhisky_id",
   authMiddleware,
   mypageController.deleteStoreWhisky
 );

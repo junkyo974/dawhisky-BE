@@ -3,6 +3,34 @@ const WhiskyService = require("../services/whisky.service");
 class WhiskyController {
   whiskyService = new WhiskyService();
 
+  //위스키 전체조회
+  allWhisky = async (req, res, next) => {
+    try {
+      const allWhisky = await this.whiskyService.findAllWhisky();
+
+      res.status(200).json(allWhisky);
+    } catch (error) {
+      error.failedApi = "위스키 전체 조회";
+      throw error;
+    }
+  };
+
+  //위스키 상세조회
+  whiskyDetail = async (req, res, next) => {
+    try {
+      const { whisky_id } = req.params;
+      const whiskyDetail = await this.whiskyService.whiskyDetail(whisky_id);
+      if (!whiskyDetail) {
+        throw new Error("403/위스키가 존재하지 않습니다.");
+      }
+
+      res.status(200).json(whiskyDetail);
+    } catch (error) {
+      error.failedApi = "위스키 상세 조회";
+      throw error;
+    }
+  };
+
   //위스키정보 생성
   createWhisky = async (req, res, next) => {
     try {
@@ -15,12 +43,12 @@ class WhiskyController {
         whisky_age,
         whisky_type,
         whisky_taste,
+        whisky_photo,
       } = req.body;
-      const { whisky_photo } = req;
 
-      if (user_id !== "관리자 아이디") {
-        throw new Error("403/위스키 등록 권한이 없습니다.");
-      }
+      // if (user_id !== "관리자 아이디") {
+      //   throw new Error("403/위스키 등록 권한이 없습니다.");
+      // }
 
       const whiskyData = {
         whisky_photo,
@@ -55,13 +83,14 @@ class WhiskyController {
         whisky_age,
         whisky_type,
         whisky_taste,
+        whisky_photo,
       } = req.body;
 
-      if (user_id !== "관리자 아이디") {
-        throw new Error("403/위스키 수정 권한이 없습니다.");
-      }
+      // if (user_id !== "관리자 아이디") {
+      //   throw new Error("403/위스키 수정 권한이 없습니다.");
+      // }
 
-      const whisky = await this.WhiskyService.findWhiskyById(whisky_id);
+      const whisky = await this.whiskyService.findWhiskyById(whisky_id);
       if (!whisky) {
         throw new Error("403/위스키가 존재하지 않습니다.");
       }
@@ -85,7 +114,7 @@ class WhiskyController {
     }
   };
   //위스키 정보 삭제
-  deleteRewiew = async (req, res, next) => {
+  deleteWhisky = async (req, res, next) => {
     try {
       const { user_id } = res.locals.user;
       const { whisky_id } = req.params;
@@ -95,11 +124,11 @@ class WhiskyController {
         throw new Error("403/위스키가 존재하지 않습니다.");
       }
 
-      if (user_id !== "관리자 아이디") {
-        throw new Error("403/위스키 삭제 권한이 없습니다.");
-      }
+      // if (user_id !== "관리자 아이디") {
+      //   throw new Error("403/위스키 삭제 권한이 없습니다.");
+      // }
 
-      await this.whiskyService.deleteRewiew(whisky_id);
+      await this.whiskyService.deleteWhisky(whisky_id);
 
       return res.status(200).json({ message: "위스키를 삭제하였습니다." });
     } catch (error) {

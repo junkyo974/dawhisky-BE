@@ -8,6 +8,10 @@ class QueController {
       const { user_id } = res.locals.user;
       const { request, head_count } = req.body;
       const { store_id } = req.params;
+      const que = await this.queService.findQue(user_id, store_id);
+      if (que) {
+        throw new Error("403/이미 줄서기를 요청하였습니다.");
+      }
 
       await this.queService.createQue(user_id, store_id, request, head_count);
 
@@ -30,7 +34,7 @@ class QueController {
         throw new Error("403/줄서기 요청이 존재하지 않습니다.");
       }
 
-      await this.qudService.updateQue(user_id, store_id, request, head_count);
+      await this.queService.updateQue(user_id, store_id, request, head_count);
 
       return res.status(200).json({ message: "줄서기 요청을 수정했습니다." });
     } catch (error) {

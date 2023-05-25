@@ -10,8 +10,9 @@ const socketRouter = require("./socket.routes");
 const storeRouter = require("./store.routes");
 const userRouter = require("./user.routes");
 const whiskyRouter = require("./whisky.routes");
+const emailRouter = require("./email.routes");
 
-router.use("/auth", [userRouter, storeRouter]);
+router.use("/auth", [userRouter, storeRouter, emailRouter]);
 router.use("/mypage", mypageRouter);
 router.use("/review", reviewRouter);
 router.use("/que", queRouter);

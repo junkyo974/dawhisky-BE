@@ -1,10 +1,10 @@
 const sequelize = require("sequelize");
 
 class ReviewRepository {
-  constructor(Whiskys, Users, Reviews) {
+  constructor(Reviews, Whiskys, Users) {
+    this.Reviews = Reviews;
     this.Whiskys = Whiskys;
     this.Users = Users;
-    this.Reviews = Reviews;
   }
   //위스키찾기
   findOneWhisky = async (whisky_id) => {
@@ -17,6 +17,7 @@ class ReviewRepository {
 
   //리뷰등록
   createReview = async (user_id, whisky_id, content) => {
+    console.log(whisky_id, user_id, content, "here~~~~~~~~~~~~~~~~~~~~~");
     return await this.Reviews.create({
       user_id,
       whisky_id,

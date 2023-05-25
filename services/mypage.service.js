@@ -1,7 +1,24 @@
 const MypageRepository = require("../repositories/mypage.repository");
+const {
+  Users,
+  WhiskyLikes,
+  StoreLikes,
+  Rewiews,
+  StoreTables,
+  StoreWhiskys,
+  Whiskys,
+} = require("../models");
 
 class MyapgeService {
-  mypageRepository = new MypageRepository();
+  mypageRepository = new MypageRepository(
+    Users,
+    WhiskyLikes,
+    StoreLikes,
+    Rewiews,
+    StoreTables,
+    StoreWhiskys,
+    Whiskys
+  );
 
   //마이페이지
   findAllInfoMypage = async (userId) => {
@@ -14,19 +31,24 @@ class MyapgeService {
   //점주페이지
 
   //테이블찾기
-  findStoretableById = async (storetable_id) => {
+  findStoretableById = async (store_id) => {
     return await this.mypageRepository.findOneStoretable(store_id);
   };
 
   //스토어테이블 생성
-  createTable = async (hall_table, bar_table) => {
-    return await this.mypageRepository.createTable(hall_table, bar_table);
+  createTable = async (store_id, hall_table, bar_table) => {
+    return await this.mypageRepository.createTable(
+      store_id,
+      hall_table,
+      bar_table
+    );
   };
 
   //스토어테이블 수정
-  updateTable = async (storetable_id, hall_table, bar_table) => {
+  updateTable = async (storetable_id, store_id, hall_table, bar_table) => {
     return await this.mypageRepository.updateTable(
       storetable_id,
+      store_id,
       hall_table,
       bar_table
     );
@@ -34,7 +56,12 @@ class MyapgeService {
 
   //스토어테이블 삭제
   deleteTable = async (storetable_id) => {
-    await this.mypageRepository.deleteTable(storetable_id);
+    return await this.mypageRepository.deleteTable(storetable_id);
+  };
+
+  //위스키 찾기
+  findWhisky = async (whisky_id) => {
+    return await this.mypageRepository.findWhisky(whisky_id);
   };
 
   //스토어위스키 찾기
@@ -43,7 +70,7 @@ class MyapgeService {
   };
 
   //스토어위스키 생성
-  createStoreWhisky = async (hall_table, bar_table) => {
+  createStoreWhisky = async (store_id, whisky_id, count) => {
     return await this.mypageRepository.createStoreWhisky(
       store_id,
       whisky_id,
@@ -63,7 +90,11 @@ class MyapgeService {
 
   //스토어위스키 삭제
   deleteStoreWhisky = async (storewhisky_id) => {
-    await this.mypageRepository.deleteStoreWhisky(storewhisky_id);
+    console.log(
+      storewhisky_id,
+      "here~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~"
+    );
+    return await this.mypageRepository.deleteStoreWhisky(storewhisky_id);
   };
 }
 

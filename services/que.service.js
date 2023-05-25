@@ -1,7 +1,7 @@
 const QueRepository = require("../repositories/que.repository");
-
+const { Ques, Stores } = require("../models");
 class QueService {
-  queRepository = new QueRepository();
+  queRepository = new QueRepository(Ques, Stores);
 
   //줄서기 찾기
   findQue = async (user_id, store_id) => {

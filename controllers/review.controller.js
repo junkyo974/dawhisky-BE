@@ -20,6 +20,7 @@ class ReviewController {
       }
 
       await this.reviewService.createReview(user_id, whisky_id, content);
+      console.log(whisky_id, "here~~~~~~~~~~~~~~~~~~~~~");
 
       res.status(201).json({ message: "리뷰를 작성하였습니다." });
     } catch (error) {
@@ -29,7 +30,7 @@ class ReviewController {
   };
 
   //리뷰수정
-  updateRewiew = async (req, res, next) => {
+  updateReview = async (req, res, next) => {
     try {
       const { user_id } = res.locals.user;
       const { whisky_id, review_id } = req.params;
@@ -45,7 +46,7 @@ class ReviewController {
         throw new Error("403/리뷰가 존재하지 않습니다.");
       }
 
-      await this.reviewService.updateRewiew(review_id, content);
+      await this.reviewService.updateReview(review_id, content);
 
       return res.status(200).json({ message: "리뷰를 수정했습니다." });
     } catch (error) {
@@ -55,7 +56,7 @@ class ReviewController {
   };
 
   //리뷰삭제
-  deleteRewiew = async (req, res, next) => {
+  deleteReview = async (req, res, next) => {
     try {
       const { user_id } = res.locals.user;
       const { whisky_id, review_id } = req.params;
@@ -70,7 +71,7 @@ class ReviewController {
         throw new Error("403/리뷰가 존재하지 않습니다.");
       }
 
-      await this.reviewService.deleteRewiew(review_id);
+      await this.reviewService.deleteReview(review_id);
 
       return res.status(200).json({ message: "리뷰를 삭제하였습니다." });
     } catch (error) {

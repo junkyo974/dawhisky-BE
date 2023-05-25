@@ -17,12 +17,12 @@ class QueRepository {
 
   //줄서기 요청
   createQue = async (user_id, store_id, request, head_count) => {
-    return await this.Que.create(user_id, store_id, request, head_count);
+    return await this.Ques.create({ user_id, store_id, request, head_count });
   };
 
   //줄서기 수정
   updateQue = async (user_id, store_id, request, head_count) => {
-    return await this.Que.update(
+    return await this.Ques.update(
       {
         request,
         head_count,
@@ -37,7 +37,7 @@ class QueRepository {
 
   //줄서기 삭제
   deleteQue = async (user_id, store_id) => {
-    return await this.Que.destroy({
+    return await this.Ques.destroy({
       where: {
         [Op.and]: [{ user_id }, { store_id }],
       },
