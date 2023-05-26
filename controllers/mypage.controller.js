@@ -6,8 +6,8 @@ class MypageController {
   //마이페이지
   mypage = async (req, res, next) => {
     try {
-      const { userId } = res.locals.user;
-      const mypage = await this.mypageService.findAllInfoMypage(userId);
+      const { user_id } = res.locals.user;
+      const mypage = await this.mypageService.findAllInfoMypage(user_id);
       res.status(200).json(mypage);
     } catch (error) {
       error.failedApi = "마이 페이지 조회";
@@ -15,13 +15,35 @@ class MypageController {
     }
   };
 
-  //점주페이지
+  //스토어위스키 조회
+  getStoreWhisky = async (req, res, next) => {
+    try {
+      const { store_id } = req.params;
+      const storeWhisky = await this.mypageService.getStoreWhisky(store_id);
+      res.status(200).json(storeWhisky);
+    } catch (error) {
+      error.failedApi = "스토어위스키 조회";
+      throw error;
+    }
+  };
+
+  //스토어테이블 조회
+  getStoreTable = async (req, res, next) => {
+    try {
+      const { store_id } = req.params;
+      const storeTable = await this.mypageService.getStoreTable(store_id);
+      res.status(200).json(storeTable);
+    } catch (error) {
+      error.failedApi = "스토어테이블 조회";
+      throw error;
+    }
+  };
 
   //스토어테이블 생성
   createTable = async (req, res, next) => {
     try {
       // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const store_id = 3;
       const { hall_table, bar_table } = req.body;
 
       await this.mypageService.createTable(store_id, hall_table, bar_table);
@@ -82,7 +104,7 @@ class MypageController {
   createStoreWhisky = async (req, res, next) => {
     try {
       // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const store_id = 3;
       const { whisky_id, count } = req.body;
 
       const whisky = await this.mypageService.findWhisky(whisky_id);

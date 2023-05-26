@@ -6,7 +6,7 @@ class MypageRepository {
     Users,
     WhiskyLikes,
     StoreLikes,
-    Rewiews,
+    Reviews,
     StoreTables,
     StoreWhiskys,
     Whiskys
@@ -14,34 +14,55 @@ class MypageRepository {
     this.Users = Users;
     this.WhiskyLikes = WhiskyLikes;
     this.StoreLikes = StoreLikes;
-    this.Rewiews = Rewiews;
+    this.Reviews = Reviews;
     this.StoreTables = StoreTables;
     this.StoreWhiskys = StoreWhiskys;
     this.Whiskys = Whiskys;
   }
 
   //마이페이지 조회
-  findAllMyInfo = async (userId) => {
-    return (myInfos = await this.Users.findAll({
-      where: { user_id: userId },
+  findAllMyInfo = async (user_id) => {
+    console.log(user_id, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    return await this.Users.findAll({
+      where: { user_id },
       attributes: ["user_id", "name"],
       include: [
         {
-          model: this.Whiskylikes,
+          model: this.WhiskyLikes,
           attributes: ["whisky_id"],
         },
         {
-          model: this.Storlikes,
+          model: this.StorLikes,
           attributes: ["store_id"],
         },
         {
-          model: this.Rewiews,
+          model: this.Reviews,
           attributes: ["whisky_id", "content"],
         },
       ],
-    }));
+    });
   };
   //점주페이지
+
+  //스토어위스키 조회
+  findAllStoreWhisky = async (store_id) => {
+    return await this.StoreWhiskys.findAll({
+      where: { store_id },
+      include: [
+        {
+          model: this.Whiskys,
+          attributes: ["whisky_kor"],
+        },
+      ],
+    });
+  };
+
+  //스토어테이블 조회
+  findOneStoreTable = async (store_id) => {
+    return await this.StoreTables.findOne({
+      where: { store_id },
+    });
+  };
 
   //테이블 찾기
   findOneStoretable = async (store_id) => {

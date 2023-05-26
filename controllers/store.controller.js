@@ -14,11 +14,11 @@ class StoreController {
     const redisGetResult = await redisClient.get(email);
 
     try {
-      if (authCode !== redisGetResult) {
-        return res.status(412).json({
-          errorMessage: "인증코드가 일치하지 않습니다",
-        });
-      }
+      // if (authCode !== redisGetResult) {
+      //   return res.status(412).json({
+      //     errorMessage: "인증코드가 일치하지 않습니다",
+      //   });
+      // }
 
       if (password.length < 4) {
         res.status(412).json({

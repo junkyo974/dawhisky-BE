@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { Users } = require("../models");
+const { Users, Stores } = require("../models");
 const redisClient = require("../utils/redis.js");
 require("dotenv").config();
 
@@ -19,6 +19,7 @@ module.exports = async (req, res, next) => {
     const email = decodedToken.email;
 
     const user = await Users.findOne({ where: { email } });
+    // const user = await Stores.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({
         errormessage: "토큰에 해당하는 사용자가 존재하지 않습니다.",
@@ -37,7 +38,8 @@ module.exports = async (req, res, next) => {
       );
       const email = decodedRefreshToken.email;
 
-      const user = await Users.findOne({ where: { email } });
+      // const user = await Users.findOne({ where: { email } });
+      const user = await Stores.findOne({ where: { email } });
 
       if (!user) {
         return res.status(401).json({

@@ -2,9 +2,23 @@ const { Op } = require("sequelize");
 const sequelize = require("sequelize");
 
 class QueRepository {
-  constructor(Ques) {
+  constructor(Ques, Users) {
     this.Ques = Ques;
+    this.Users = Users;
   }
+
+  //줄서기 요청들 조회
+  findAllQue = async (store_id) => {
+    return await this.Ques.findAll({
+      where: { store_id },
+      include: [
+        {
+          model: this.Users,
+          attributes: ["name"],
+        },
+      ],
+    });
+  };
 
   //줄서기 찾기
   findQue = async (user_id, store_id) => {

@@ -3,7 +3,7 @@ const {
   Users,
   WhiskyLikes,
   StoreLikes,
-  Rewiews,
+  Reviews,
   StoreTables,
   StoreWhiskys,
   Whiskys,
@@ -14,21 +14,31 @@ class MyapgeService {
     Users,
     WhiskyLikes,
     StoreLikes,
-    Rewiews,
+    Reviews,
     StoreTables,
     StoreWhiskys,
     Whiskys
   );
 
   //마이페이지
-  findAllInfoMypage = async (userId) => {
-    const MyInfo = await this.mypageRepository.findAllMyInfo(userId);
+  findAllInfoMypage = async (user_id) => {
+    const MyInfo = await this.mypageRepository.findAllMyInfo(user_id);
     //결과가공하기
-    console.log(MyInfo, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    // console.log(MyInfo, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     return MyInfo;
   };
 
   //점주페이지
+
+  //스토어위스키 조회
+  getStoreWhisky = async (store_id) => {
+    return await this.mypageRepository.findAllStoreWhisky(store_id);
+  };
+
+  //스토어테이블 조회
+  getStoreTable = async (store_id) => {
+    return await this.mypageRepository.findOneStoreTable(store_id);
+  };
 
   //테이블찾기
   findStoretableById = async (store_id) => {

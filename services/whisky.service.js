@@ -22,7 +22,6 @@ class WhiskyService {
     const findStoreName = await this.whiskyRepository.findStoreName(
       whiskyDetail.StoreWhiskys[0].store_id
     );
-
     const result = {
       whiskyDetail,
       Stores: [
@@ -32,10 +31,6 @@ class WhiskyService {
         },
       ],
     };
-    console.log(
-      result.whiskyDetail,
-      "here!!!!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    );
 
     return {
       whisky_id: result.whiskyDetail.whisky_id,
@@ -48,7 +43,9 @@ class WhiskyService {
       whisky_type: result.whiskyDetail.whisky_type,
       whisky_taste: result.whiskyDetail.whisky_taste,
       Reviews: result.whiskyDetail.Reviews,
-      Store: result.whiskyDetail.StoreWhiskys[0].Store,
+      Store: result.whiskyDetail.StoreWhiskys.map(
+        (storeWhisky) => storeWhisky.Store
+      ),
     };
   };
 
