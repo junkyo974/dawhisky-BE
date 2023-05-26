@@ -39,7 +39,7 @@ jobs:
         
       - name: 빌드 과정을 시작
         working-directory: ./
-        run: npm run build
+        run: npm run build --if-present
          #- run: npm test
         
       - name: 빌드한 코드를 압축
