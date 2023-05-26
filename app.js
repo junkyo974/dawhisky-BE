@@ -74,6 +74,11 @@ app.use(
 // router
 const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
+app.get("/", (req, res) => {
+  res.send(
+    "이것이 보이나요? 그렇다면 당근을 흔들어주세요! CI/CD 환경 설정에 성공한것입니다"
+  );
+});
 
 // errorHandler
 // app.use(errorHandler);
