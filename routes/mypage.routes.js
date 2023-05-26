@@ -7,6 +7,12 @@ const mypageController = new MypageController();
 //마이페이지
 router.get("/user", authMiddleware, mypageController.mypage);
 
+//스토어위스키 조회
+router.get("/whisky/:store_id", mypageController.getStoreWhisky);
+
+//스토어테이블 조회
+router.get("/table/:store_id", mypageController.getStoreTable);
+
 //점주페이지
 // router.get("/store",authMiddleware, mypageController.storepage);
 
