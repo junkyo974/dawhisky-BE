@@ -76,7 +76,7 @@ const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
 app.get("/", (req, res) => {
   res.send(
-    "CD성공"
+    "CD성공!!!!"
   );
 });
 
