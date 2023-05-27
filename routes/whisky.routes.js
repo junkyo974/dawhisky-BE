@@ -6,6 +6,9 @@ const WhiskyController = require("../controllers/whisky.controller");
 
 const whiskyController = new WhiskyController();
 
+//위스키 검색
+router.get("/:keyword", whiskyController.searchWhisky);
+
 //위스키 전체조회
 router.get("/", whiskyController.allWhisky);
 

@@ -9,6 +9,11 @@ class WhiskyService {
     Stores
   );
 
+  //위스키 검색
+  searchWhisky = async (keyword) => {
+    return await this.whiskyRepository.searchAllWhisky(keyword);
+  };
+
   //위스키 전체조회
   findAllWhisky = async () => {
     return await this.whiskyRepository.findAllWhisky();

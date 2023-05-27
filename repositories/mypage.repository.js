@@ -9,7 +9,8 @@ class MypageRepository {
     Reviews,
     StoreTables,
     StoreWhiskys,
-    Whiskys
+    Whiskys,
+    Stores
   ) {
     this.Users = Users;
     this.WhiskyLikes = WhiskyLikes;
@@ -18,11 +19,11 @@ class MypageRepository {
     this.StoreTables = StoreTables;
     this.StoreWhiskys = StoreWhiskys;
     this.Whiskys = Whiskys;
+    this.Stores = Stores;
   }
 
-  //마이페이지 조회
+  // 마이페이지 조회
   findAllMyInfo = async (user_id) => {
-    console.log(user_id, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     return await this.Users.findAll({
       where: { user_id },
       attributes: ["user_id", "name"],
@@ -30,18 +31,37 @@ class MypageRepository {
         {
           model: this.WhiskyLikes,
           attributes: ["whisky_id"],
+          include: [
+            {
+              model: this.Whiskys,
+              attributes: ["whisky_id", "whisky_kor"],
+            },
+          ],
         },
         {
-          model: this.StorLikes,
+          model: this.StoreLikes,
           attributes: ["store_id"],
+          include: [
+            {
+              model: this.Stores,
+              attributes: ["store_id", "store"],
+            },
+          ],
         },
         {
           model: this.Reviews,
-          attributes: ["whisky_id", "content"],
+          attributes: ["content"],
+          include: [
+            {
+              model: this.Whiskys,
+              attributes: ["whisky_id", "whisky_kor"],
+            },
+          ],
         },
       ],
     });
   };
+
   //점주페이지
 
   //스토어위스키 조회

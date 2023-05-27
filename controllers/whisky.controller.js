@@ -3,6 +3,20 @@ const WhiskyService = require("../services/whisky.service");
 class WhiskyController {
   whiskyService = new WhiskyService();
 
+  //위스키 검색
+  searchWhisky = async (req, res, next) => {
+    try {
+      const { keyword } = req.params;
+
+      const searchWhisky = await this.whiskyService.searchWhisky(keyword);
+
+      res.status(200).json(searchWhisky);
+    } catch (error) {
+      error.failedApi = "위스키 검색";
+      throw error;
+    }
+  };
+
   //위스키 전체조회
   allWhisky = async (req, res, next) => {
     try {
