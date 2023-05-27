@@ -3,11 +3,11 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/build
+    destination: /home/ubuntu/dawhisky-BE
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu
+  - object: /home/ubuntu/dawhisky-BE
     pattern: '**'
     owner: ubuntu
     group: ubuntu
