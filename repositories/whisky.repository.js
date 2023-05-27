@@ -1,4 +1,5 @@
 const sequelize = require("sequelize");
+const { Op } = require("sequelize");
 
 class WhiskyRepository {
   constructor(Whiskys, Reviews, StoreWhiskys, Stores) {
@@ -7,6 +8,46 @@ class WhiskyRepository {
     this.StoreWhiskys = StoreWhiskys;
     this.Stores = Stores;
   }
+
+  //위스키 검색
+  searchAllWhisky = async (keyword) => {
+    return await this.Whiskys.findAll({
+      where: {
+        [Op.or]: [
+          {
+            whisky_kor: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            whisky_eng: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            whisky_country: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            whisky_region: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            whisky_age: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            whisky_type: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+        ],
+      },
+    });
+  };
 
   //위스키 전체조회
   findAllWhisky = async () => {
@@ -46,31 +87,6 @@ class WhiskyRepository {
       attributes: ["store_id", "store"],
     });
   };
-
-  // //위스키 상세조회
-  // whiskyDetail = async (whisky_id) => {
-  //   return await this.Whiskys.findOne({
-  //     where: { whisky_id },
-  //     include: [
-  //       {
-  //         model: this.Reviews,
-  //         attributes: ["content"],
-  //       },
-  //       {
-  //         model: this.StoreWhiskys,
-  //         attributes: ["store_id"],
-  //       },
-  //     ],
-  //   });
-  // };
-
-  // //스토어이름찾기
-  // findStoreName = async (store_id) => {
-  //   return await this.Stores.findOne({
-  //     where: { store_id },
-  //     attributes: ["store_id", "store"],
-  //   });
-  // };
 
   //위스키 찾기
   findOneWhisky = async (whisky_id) => {

@@ -7,6 +7,7 @@ const {
   StoreTables,
   StoreWhiskys,
   Whiskys,
+  Stores,
 } = require("../models");
 
 class MyapgeService {
@@ -17,14 +18,15 @@ class MyapgeService {
     Reviews,
     StoreTables,
     StoreWhiskys,
-    Whiskys
+    Whiskys,
+    Stores
   );
 
   //마이페이지
   findAllInfoMypage = async (user_id) => {
     const MyInfo = await this.mypageRepository.findAllMyInfo(user_id);
     //결과가공하기
-    // console.log(MyInfo, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    console.log(MyInfo, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     return MyInfo;
   };
 
