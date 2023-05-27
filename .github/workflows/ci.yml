@@ -43,7 +43,8 @@ jobs:
          #- run: npm test
         
       - name: 빌드한 코드를 압축
-        run: zip -r jjm.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        #run: zip -r jjm.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r jjm.zip ./ -x "*.zip"
 
       - name: AWS에 접속
         uses: aws-actions/configure-aws-credentials@v1
