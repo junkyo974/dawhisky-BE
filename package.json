@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "^7.51.2",
-    "aws-sdk": "^2.1377.0",
+    "aws-sdk": "^2.1382.0",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
