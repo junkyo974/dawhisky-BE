@@ -145,6 +145,7 @@ class UserController {
       const logoutData = await this.userService.logout(user_id);
       res.clearCookie("authorization", "refreshToken");
       res.status(200).json(logoutData);
+      delete res.locals.user;
     } catch (err) {
       console.error(err);
       res.status(400).json({ errorMessage: "로그아웃에 실패하였습니다." });
