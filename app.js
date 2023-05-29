@@ -9,7 +9,7 @@ const chatPort = 3001;
 const cors = require("cors");
 const { host } = require("./config/config");
 const port = host.port;
-// const errorHandler = require("./middlewares/error-handler");
+const errorHandler = require("./middlewares/error-handler");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerFile = require("./swagger-output");
 
@@ -75,13 +75,11 @@ app.use(
 const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
 app.get("/", (req, res) => {
-  res.send(
-    "CD성공!!!! 찐막"
-  );
+  res.send("CD성공!!!! 찐막");
 });
 
 // errorHandler
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // swagger
 // app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
