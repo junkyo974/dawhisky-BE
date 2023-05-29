@@ -10,16 +10,34 @@ class StoreService {
   }
   storeRepository = new StoreRepository(Stores);
 
-  signup = async (email, store, biz_number, biz_photo, password) => {
-    const storesData = { email, store, biz_number, biz_photo, password };
+  signup = async (
+    email,
+    store,
+    biz_number,
+    biz_photo,
+    password,
+    address,
+    phone,
+    notice
+  ) => {
+    const storesData = {
+      email,
+      store,
+      biz_number,
+      biz_photo,
+      password,
+      address,
+      phone,
+      notice,
+    };
 
-    await this.storeRepository.createUser(storesData);
+    await this.storeRepository.createStore(storesData);
 
     return { message: "회원 가입 완료" };
   };
 
   login = async (email) => {
-    const store = await this.storeRepository.findOneUser(email);
+    const store = await this.storeRepository.findOneStoreEmail(email);
 
     const accessToken = jwt.sign(
       { email: store.email },
@@ -45,13 +63,13 @@ class StoreService {
   };
 
   logout = async (store_id) => {
-    const store = await this.userRepository.findOneUser(store_id);
+    const store = await this.storeRepository.findOneStoreId(store_id);
     // await this.redisClient.DEL(store.email);
     return { message: "로그아웃 되었습니다." };
   };
 
-  findOneUser = async (email) => {
-    const findOneUserData = this.storeRepository.findOneUser(email);
+  findOneStoreEmail = async (email) => {
+    const findOneUserData = this.storeRepository.findOneStoreEmail(email);
     return findOneUserData;
   };
 }

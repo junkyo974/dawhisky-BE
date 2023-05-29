@@ -9,10 +9,20 @@ class StoreController {
   storeService = new StoreService();
 
   signup = async (req, res) => {
-    const { email, store, biz_number, biz_photo, password, authCode } =
-      req.body;
+    const {
+      email,
+      store,
+      biz_number,
+      password,
+      authCode,
+      address,
+      phone,
+      notice,
+    } = req.body;
+    const biz_photos = req.files.map((files) => files.location);
+    const biz_photo = JSON.stringify(biz_photos);
     const redisGetResult = await redisClient.get(email);
-
+    console.log(biz_photo);
     try {
       // if (authCode !== redisGetResult) {
       //   return res.status(412).json({
@@ -33,12 +43,16 @@ class StoreController {
         });
         return;
       }
+
       const signupData = await this.storeService.signup(
         email,
         store,
         biz_number,
         biz_photo,
-        password
+        password,
+        address,
+        phone,
+        notice
       );
       res.status(200).json(signupData);
     } catch (err) {
@@ -51,7 +65,7 @@ class StoreController {
 
   login = async (req, res) => {
     const { email, password } = req.body;
-    const store = await this.storeService.findOneUser(email);
+    const store = await this.storeService.findOneStoreEmail(email);
 
     try {
       if (!store || password !== store.password) {
@@ -78,6 +92,7 @@ class StoreController {
       res.status(200).json({
         authorization: `${storeData.accessObject.type} ${storeData.accessObject.token}`,
         refreshToken: `${storeData.refreshObject.type} ${storeData.refreshObject.token}`,
+        store: `${email}`,
       });
     } catch (err) {
       console.error("로그인 에러 로그", err);
@@ -91,9 +106,8 @@ class StoreController {
     const { store_id } = req.params;
 
     try {
-      const logoutData = await this.userService.logout(store_id);
+      const logoutData = await this.storeService.logout(store_id);
       res.clearCookie("authorization", "refreshToken");
-      delete res.locals.user;
       res.status(200).json(logoutData);
     } catch (err) {
       console.error(err);

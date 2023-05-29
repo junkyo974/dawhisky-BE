@@ -19,7 +19,7 @@ class UserService {
   };
 
   login = async (email) => {
-    const user = await this.userRepository.findOneUser(email);
+    const user = await this.userRepository.findOneUserEmail(email);
 
     const accessToken = jwt.sign(
       { email: user.email },
@@ -45,13 +45,13 @@ class UserService {
   };
 
   logout = async (user_id) => {
-    const user = await this.userRepository.findOneUser(user_id);
+    const user = await this.userRepository.findOneUserId(user_id);
     // await this.redisClient.DEL(user.email);
     return { message: "로그아웃 되었습니다." };
   };
 
-  findOneUser = async (email) => {
-    const findOneUserData = this.userRepository.findOneUser(email);
+  findOneUserEmail = async (email) => {
+    const findOneUserData = this.userRepository.findOneUserEmail(email);
     return findOneUserData;
   };
 }

@@ -19,7 +19,7 @@ class EmailController {
       );
       const redisSetResult = await redisClient.SETEX(email, 300, authNum);
       // const existsEmailUser = await this.userService.findOneUser(email);
-      // const existsEmailStore = await this.storeService.findOneUser(email);
+      // const existsEmailStore = await this.storeService.findOneStoreEmail(email);
 
       const transporter = nodemailer.createTransport({
         service: "naver",

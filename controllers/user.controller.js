@@ -6,49 +6,10 @@ require("dotenv").config();
 class UserController {
   userService = new UserService();
 
-  signup = async (req, res) => {
-    const { email, name, age, gender, password, authCode } = req.body;
-    const redisGetResult = await redisClient.get(email);
-
-    try {
-      if (authCode !== redisGetResult) {
-        return res.status(412).json({
-          errorMessage: "인증코드가 일치하지 않습니다",
-        });
-      }
-
-      if (password.length < 4) {
-        res.status(412).json({
-          errorMessage: "패스워드 형식이 일치하지 않습니다.",
-        });
-        return;
-      }
-
-      if (password.includes(age) || password.includes(name)) {
-        res.status(412).json({
-          errorMessage: "패스워드에 이름 혹은 생일이 포함되어 있습니다.",
-        });
-        return;
-      }
-      const signupData = await this.userService.signup(
-        email,
-        name,
-        age,
-        gender,
-        password
-      );
-      res.status(200).json(signupData);
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({
-        errorMessage: "요청한 데이터 형식이 올바르지 않습니다.",
-      });
-    }
-  };
-
+  // test용 로컬 로그인
   login = async (req, res) => {
     const { email, password } = req.body;
-    const user = await this.userService.findOneUser(email);
+    const user = await this.userService.findOneUserEmail(email);
 
     try {
       if (!user || password !== user.password) {
@@ -75,6 +36,7 @@ class UserController {
       res.status(200).json({
         authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
         refreshToken: `${userData.refreshObject.type} ${userData.refreshObject.token}`,
+        user: `${email}`,
       });
     } catch (err) {
       console.error("로그인 에러 로그", err);
@@ -84,13 +46,104 @@ class UserController {
     }
   };
 
+  //소셜 로그인
+  kakaologin = async (req, res) => {
+    const code = req.query.code;
+
+    try {
+      // Access token 가져오기
+      const res1 = await Axios.post(
+        "https://kauth.kakao.com/oauth/token",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+          params: {
+            grant_type: "authorization_code",
+            client_id: process.env.KAKAO_SECRET_KEY,
+            code: code,
+            redirect_uri: "http://localhost:3000/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
+          },
+        }
+      );
+
+      // Access token을 이용해 정보 가져오기
+      const res2 = await Axios.post(
+        "https://kapi.kakao.com/v2/user/me",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            Authorization: "Bearer " + res1.data.access_token,
+          },
+        }
+      );
+
+      const data = res2.data;
+      const email = data.kakao_account.email;
+      const user = await this.userService.findOneUserEmail(email);
+
+      if (!user) {
+        const name = data.kakao_account.name;
+        const birthyear = data.kakao_account.birthyear;
+        const currentYear = new Date().getFullYear();
+        const age = currentYear - birthyear;
+        const gender = true;
+        const password = "123456";
+
+        if (age < 19) {
+          return res
+            .status(404)
+            .json({ errorMessage: "19세 미만은 회원 가입이 불가능합니다." });
+        }
+
+        await this.userService.signup(email, name, age, gender, password);
+
+        const userData = await this.userService.login(data.kakao_account.email);
+
+        res.cookie(
+          "authorization",
+          `${userData.accessObject.type} ${userData.accessObject.token}`
+        );
+
+        res.cookie(
+          "refreshToken",
+          `${userData.refreshObject.type} ${userData.refreshObject.token}`
+        );
+
+        res.cookie("user", `${email}`);
+
+        res.status(200).redirect("http://localhost:3000");
+      } else {
+        const userData = await this.userService.login(data.kakao_account.email);
+
+        res.cookie(
+          "authorization",
+          `${userData.accessObject.type} ${userData.accessObject.token}`
+        );
+
+        res.cookie(
+          "refreshToken",
+          `${userData.refreshObject.type} ${userData.refreshObject.token}`
+        );
+
+        res.cookie("user", `${data.kakao_account.email}`);
+
+        res.status(200).redirect("http://localhost:3000"); // 로컬 테스트 시 'http:://프론트 포트'
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ errorMessage: "로그인에 실패했습니다." });
+    }
+  };
+
   logout = async (req, res) => {
     const { user_id } = req.params;
 
     try {
       const logoutData = await this.userService.logout(user_id);
       res.clearCookie("authorization", "refreshToken");
-      delete res.locals.user;
       res.status(200).json(logoutData);
     } catch (err) {
       console.error(err);
