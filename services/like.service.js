@@ -1,12 +1,12 @@
 const LikeRepository = require("../repositories/like.repository");
 const WhiskyRepository = require("../repositories/whisky.repository");
 const StoreRepository = require("../repositories/store.repository");
-const { Likes, Whisky, Store } = require("../models");
+const { Likes, Whiskys, Stores } = require("../models");
 
 class LikeService {
   likeRepository = new LikeRepository(Likes);
-  whiskyRepository = new WhiskyRepository(Whisky);
-  storeRepository = new StoreRepository(Store);
+  whiskyRepository = new WhiskyRepository(Whiskys);
+  storeRepository = new StoreRepository(Stores);
 
   findOneWhisky = async (whisky_id) => {
     const findOneWhiskyData = await this.whiskyRepository.findOneWhisky(
@@ -17,7 +17,10 @@ class LikeService {
   };
 
   putWhiskyLikes = async (whiskyLikeData) => {
-    await this.likeRepository.putWhiskyLikes(whiskyLikeData);
+    const whiskyLike = await this.likeRepository.findWhiskyLikes(
+      whiskyLikeData
+    );
+    return whiskyLike;
   };
 
   createWhiskyLike = async (whiskyLikeData) => {
@@ -37,15 +40,16 @@ class LikeService {
   };
 
   putStoreLikes = async (storeLikeData) => {
-    await this.likeRepository.putStoreLikes(storeLikeData);
+    const storeLike = await this.likeRepository.findStoreLikes(storeLikeData);
+    return storeLike;
   };
 
   createStoreLike = async (storeLikeData) => {
-    await this.likeRepository.createWhiskyLike(storeLikeData);
+    await this.likeRepository.createStoreLike(storeLikeData);
   };
 
   deleteStoreLike = async (storeLikeData) => {
-    await this.likeRepository.deleteWhiskysLike(storeLikeData);
+    await this.likeRepository.deleteStoreLike(storeLikeData);
   };
 }
 

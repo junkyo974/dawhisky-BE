@@ -19,12 +19,12 @@ class LikeController {
       const whiskyLikeData = { whisky_id, user_id };
       const whiskyLike = await this.likeService.putWhiskyLikes(whiskyLikeData);
 
-      if (whiskyLike === null) {
+      if (!whiskyLike) {
         await this.likeService.createWhiskyLike(whiskyLikeData);
         res.status(200).json({ message: "좋아요를 등록하였습니다." });
       } else {
         await this.likeService.deleteWhiskysLike(whiskyLikeData);
-        res.status(201).json({ message: "좋아요를 취소하였습니다." });
+        res.status(200).json({ message: "좋아요를 취소하였습니다." });
       }
     } catch (err) {
       console.error(err);
@@ -39,7 +39,7 @@ class LikeController {
     const { store_id } = req.params;
 
     try {
-      const findOneStoreData = await this.likeService.findOneWhisky(store_id);
+      const findOneStoreData = await this.likeService.findOneStoreId(store_id);
 
       if (!findOneStoreData) {
         return res.status(412).json({
@@ -50,11 +50,11 @@ class LikeController {
       const storeLike = await this.likeService.putStoreLikes(storeLikeData);
 
       if (storeLike === null) {
-        await this.likeService.createWhiskyLike(storeLikeData);
+        await this.likeService.createStoreLike(storeLikeData);
         res.status(200).json({ message: "좋아요를 등록하였습니다." });
       } else {
-        await this.likeService.deleteWhiskysLike(storeLikeData);
-        res.status(201).json({ message: "좋아요를 취소하였습니다." });
+        await this.likeService.deleteStoreLike(storeLikeData);
+        res.status(200).json({ message: "좋아요를 취소하였습니다." });
       }
     } catch (err) {
       console.error(err);
