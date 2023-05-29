@@ -60,6 +60,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      notice: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         defaultValue: DataTypes.NOW,
