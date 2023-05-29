@@ -59,7 +59,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      whisky_taste: {
+      whisky_desc: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      whisky_abv: {
         type: DataTypes.STRING,
         allowNull: true,
       },

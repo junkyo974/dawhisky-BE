@@ -46,7 +46,8 @@ class WhiskyService {
       whisky_region: result.whiskyDetail.whisky_region,
       whisky_age: result.whiskyDetail.whisky_age,
       whisky_type: result.whiskyDetail.whisky_type,
-      whisky_taste: result.whiskyDetail.whisky_taste,
+      whisky_desc: result.whiskyDetail.whisky_desc,
+      whisky_abv: result.whiskyDetail.whisky_abv,
       Reviews: result.whiskyDetail.Reviews,
       Store: result.whiskyDetail.StoreWhiskys.map(
         (storeWhisky) => storeWhisky.Store

@@ -62,7 +62,28 @@ class MypageRepository {
     });
   };
 
-  //점주페이지
+  //스토어상세조회
+  findAllStoreInfo = async (store_id) => {
+    return await this.Stores.findOne({
+      where: { store_id },
+    });
+  };
+
+  //스토어마이페이지수정
+  updateStore = async (
+    store_id,
+    store,
+    biz_photo,
+    address,
+    phone,
+    notice,
+    runtime
+  ) => {
+    return await this.Stores.update(
+      { store, biz_photo, address, phone, notice, runtime },
+      { where: { store_id } }
+    );
+  };
 
   //스토어위스키 조회
   findAllStoreWhisky = async (store_id) => {
@@ -136,10 +157,6 @@ class MypageRepository {
 
   //스토어위스키 삭제
   deleteStoreWhisky = async (storewhisky_id) => {
-    console.log(
-      storewhisky_id,
-      "here~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~"
-    );
     return await this.StoreWhiskys.destroy({ where: { storewhisky_id } });
   };
 }

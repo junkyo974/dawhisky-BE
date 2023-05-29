@@ -6,11 +6,12 @@ class StoreRepository {
       email: storesData.email,
       store: storesData.store,
       biz_number: storesData.biz_number,
-      biz_photo: storesData.biz_photos,
+      biz_photo: storesData.biz_photo,
       password: storesData.password,
       address: storesData.address,
       phone: storesData.phone,
       notice: storesData.notice,
+      runtime: storesData.runtime,
     });
     return createdStore;
   };
