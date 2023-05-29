@@ -12,7 +12,14 @@ class UserRepository {
     return createdUser;
   };
 
-  findOneUser = async (email) => {
+  findOneUserId = async (user_id) => {
+    const findOneUserData = await Users.findOne({
+      where: { user_id: user_id },
+    });
+    return findOneUserData;
+  };
+
+  findOneUserEmail = async (email) => {
     const findOneUserData = await Users.findOne({
       where: { email: email },
     });
