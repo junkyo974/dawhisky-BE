@@ -4,10 +4,12 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const LikeController = require("../controllers/like.controller.js");
 const likeController = new LikeController();
 
-// PUT: 스토어 좋아요
-router.put("/store/:store_id", authMiddleware, likeController.storeLikes);
+router.put(
+  "/whisky/:whisky_id",
+  authMiddleware,
+  likeController.whiskyLikeToggle
+);
 
-// PUT: 위스키 좋아요
-router.put("/whisky/:whisky_id", authMiddleware, likeController.whiskyLikes);
+router.put("/store/:store_id", authMiddleware, likeController.storeLikeToggle);
 
 module.exports = router;
