@@ -25,12 +25,35 @@ class MyapgeService {
   //마이페이지
   findAllInfoMypage = async (user_id) => {
     const MyInfo = await this.mypageRepository.findAllMyInfo(user_id);
-    //결과가공하기
-    console.log(MyInfo, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     return MyInfo;
   };
 
-  //점주페이지
+  //스토어상세조회
+  getStoreMypage = async (store_id) => {
+    const storeInfo = await this.mypageRepository.findAllStoreInfo(store_id);
+    return storeInfo;
+  };
+
+  //스토어마이페이지수정
+  updateStore = async (
+    store_id,
+    store,
+    biz_photo,
+    address,
+    phone,
+    notice,
+    runtime
+  ) => {
+    return await this.mypageRepository.updateStore(
+      store_id,
+      store,
+      biz_photo,
+      address,
+      phone,
+      notice,
+      runtime
+    );
+  };
 
   //스토어위스키 조회
   getStoreWhisky = async (store_id) => {
@@ -102,10 +125,6 @@ class MyapgeService {
 
   //스토어위스키 삭제
   deleteStoreWhisky = async (storewhisky_id) => {
-    console.log(
-      storewhisky_id,
-      "here~~~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~"
-    );
     return await this.mypageRepository.deleteStoreWhisky(storewhisky_id);
   };
 }

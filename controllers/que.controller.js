@@ -6,9 +6,13 @@ class QueController {
   getQue = async (req, res, next) => {
     try {
       const { store_id } = req.params;
-      const { store_id: local } = res.locals.user;
-      console.log(store_id, local, "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-      if (store_id != local) {
+      const { store_id: local } = res.locals.store;
+      console.log(
+        typeof store_id,
+        typeof local,
+        "here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      );
+      if (parseInt(store_id) !== local) {
         throw new Error("403/줄서기 요청조회 권한이 존재하지 않습니다.");
       }
 

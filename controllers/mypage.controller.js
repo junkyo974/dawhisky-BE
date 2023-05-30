@@ -15,6 +15,49 @@ class MypageController {
     }
   };
 
+  //스토어상세조회
+  storeMypage = async (req, res, next) => {
+    try {
+      const { store_id } = req.params;
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("403/스토어가 존재하지 않습니다.");
+      }
+      res.status(200).json(storeInfo);
+    } catch (error) {
+      error.failedApi = "스토어 상세 조회";
+      throw error;
+    }
+  };
+
+  //스토어마이페이지수정
+  UpdatestoreMypage = async (req, res, next) => {
+    try {
+      const { store_id } = res.locals.store;
+      const { store, address, phone, notice, runtime } = req.body;
+      const biz_photos = req.files.map((files) => files.location);
+      const biz_photo = JSON.stringify(biz_photos);
+      const storeData = await this.mypageService.getStoreMypage(store_id);
+      if (!storeData) {
+        throw new Error("403/스토어 정보가 존재하지 않습니다.");
+      }
+      await this.mypageService.updateStore(
+        store_id,
+        store,
+        biz_photo,
+        address,
+        phone,
+        notice,
+        runtime
+      );
+
+      return res.status(200).json({ message: "스토어 정보를 수정했습니다." });
+    } catch (error) {
+      error.faiedApi = "스토어 정보 수정";
+      throw error;
+    }
+  };
+
   //스토어위스키 조회
   getStoreWhisky = async (req, res, next) => {
     try {
@@ -42,8 +85,7 @@ class MypageController {
   //스토어테이블 생성
   createTable = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 3;
+      const { store_id } = res.locals.store;
       const { hall_table, bar_table } = req.body;
 
       await this.mypageService.createTable(store_id, hall_table, bar_table);
@@ -58,8 +100,7 @@ class MypageController {
   //스토어테이블 수정
   updateTable = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const { store_id } = res.locals.store;
       const { hall_table, bar_table } = req.body;
 
       const storetable = await this.mypageService.findStoretableById(store_id);
@@ -83,8 +124,7 @@ class MypageController {
   //스토어테이블 삭제
   deleteTable = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const { store_id } = res.locals.store;
 
       const storetable = await this.mypageService.findStoretableById(store_id);
       if (!storetable) {
@@ -103,8 +143,7 @@ class MypageController {
   //스토어위스키 생성
   createStoreWhisky = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 3;
+      const { store_id } = res.locals.store;
       const { whisky_id, count } = req.body;
 
       const whisky = await this.mypageService.findWhisky(whisky_id);
@@ -124,8 +163,7 @@ class MypageController {
   //스토어위스키수정
   updateStoreWhisky = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const { store_id } = res.locals.store;
       const { whisky_id, count } = req.body;
       const { storewhisky_id } = req.params;
 
@@ -158,8 +196,7 @@ class MypageController {
   //스토어위스키 삭제
   deleteStoreWhisky = async (req, res, next) => {
     try {
-      // const { store_id } = res.locals.user;
-      const store_id = 2;
+      const { store_id } = res.locals.store;
       const { storewhisky_id } = req.params;
 
       const storewhisky = await this.mypageService.findStorewhiskyById(

@@ -56,8 +56,9 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
         whisky_photo,
+        whisky_desc,
+        whisky_abv,
       } = req.body;
 
       // if (user_id !== "관리자 아이디") {
@@ -72,7 +73,8 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
+        whisky_desc,
+        whisky_abv,
       };
 
       await this.whiskyService.createWhisky(whiskyData);
@@ -96,8 +98,9 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
         whisky_photo,
+        whisky_desc,
+        whisky_abv,
       } = req.body;
 
       // if (user_id !== "관리자 아이디") {
@@ -116,7 +119,8 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
+        whisky_desc,
+        whisky_abv,
       };
 
       await this.whiskyService.updateWhisky(whisky_id, whiskyData);

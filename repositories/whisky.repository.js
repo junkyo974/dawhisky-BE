@@ -103,7 +103,8 @@ class WhiskyRepository {
       whisky_region: whiskyData.whisky_region,
       whisky_age: whiskyData.whisky_age,
       whisky_type: whiskyData.whisky_type,
-      whisky_taste: whiskyData.whisky_taste,
+      whisky_desc: whiskyData.whisky_desc,
+      whisky_abv: whiskyData.whisky_abv,
     });
   };
 
@@ -118,7 +119,8 @@ class WhiskyRepository {
         whisky_region: whiskyData.whisky_region,
         whisky_age: whiskyData.whisky_age,
         whisky_type: whiskyData.whisky_type,
-        whisky_taste: whiskyData.whisky_taste,
+        whisky_desc: whiskyData.whisky_desc,
+        whisky_abv: whiskyData.whisky_abv,
       },
       { where: { whisky_id } }
     );
