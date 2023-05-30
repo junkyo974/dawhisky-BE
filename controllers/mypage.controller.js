@@ -21,7 +21,7 @@ class MypageController {
       const { store_id } = req.params;
       const storeInfo = await this.mypageService.getStoreMypage(store_id);
       if (!storeInfo) {
-        throw new Error("403/스토어가 존재하지 않습니다.");
+        throw new Error("404/스토어가 존재하지 않습니다.");
       }
       res.status(200).json(storeInfo);
     } catch (error) {
@@ -37,9 +37,9 @@ class MypageController {
       const { store, address, phone, notice, runtime } = req.body;
       const biz_photos = req.files.map((files) => files.location);
       const biz_photo = JSON.stringify(biz_photos);
-      const storeData = await this.mypageService.getStoreMypage(store_id);
-      if (!storeData) {
-        throw new Error("403/스토어 정보가 존재하지 않습니다.");
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("404/스토어가 존재하지 않습니다.");
       }
       await this.mypageService.updateStore(
         store_id,
@@ -63,6 +63,10 @@ class MypageController {
     try {
       const { store_id } = req.params;
       const storeWhisky = await this.mypageService.getStoreWhisky(store_id);
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("404/스토어가 존재하지 않습니다.");
+      }
       res.status(200).json(storeWhisky);
     } catch (error) {
       error.failedApi = "스토어위스키 조회";
@@ -74,6 +78,10 @@ class MypageController {
   getStoreTable = async (req, res, next) => {
     try {
       const { store_id } = req.params;
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("404/스토어가 존재하지 않습니다.");
+      }
       const storeTable = await this.mypageService.getStoreTable(store_id);
       res.status(200).json(storeTable);
     } catch (error) {
@@ -105,7 +113,7 @@ class MypageController {
 
       const storetable = await this.mypageService.findStoretableById(store_id);
       if (!storetable) {
-        throw new Error("403/테이블이 존재하지 않습니다.");
+        throw new Error("404/테이블이 존재하지 않습니다.");
       }
       await this.mypageService.updateTable(
         storetable.storetable_id,
@@ -128,7 +136,7 @@ class MypageController {
 
       const storetable = await this.mypageService.findStoretableById(store_id);
       if (!storetable) {
-        throw new Error("403/테이블이 존재하지 않습니다.");
+        throw new Error("404/테이블이 존재하지 않습니다.");
       }
 
       await this.mypageService.deleteTable(storetable.storetable_id);
@@ -149,7 +157,7 @@ class MypageController {
       const whisky = await this.mypageService.findWhisky(whisky_id);
 
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
       await this.mypageService.createStoreWhisky(store_id, whisky_id, count);
 
@@ -177,7 +185,7 @@ class MypageController {
       );
 
       if (!storewhisky) {
-        throw new Error("403/위스키목록이 존재하지 않습니다.");
+        throw new Error("404/위스키목록이 존재하지 않습니다.");
       }
       await this.mypageService.updateStoreWhisky(
         storewhisky_id,
@@ -203,7 +211,7 @@ class MypageController {
         storewhisky_id
       );
       if (!storewhisky) {
-        throw new Error("403/위스키목록이 존재하지 않습니다.");
+        throw new Error("404/위스키목록이 존재하지 않습니다.");
       }
       await this.mypageService.deleteStoreWhisky(storewhisky_id);
 

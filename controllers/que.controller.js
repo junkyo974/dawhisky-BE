@@ -7,13 +7,8 @@ class QueController {
     try {
       const { store_id } = req.params;
       const { store_id: local } = res.locals.store;
-      console.log(
-        typeof store_id,
-        typeof local,
-        "here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-      );
       if (parseInt(store_id) !== local) {
-        throw new Error("403/줄서기 요청조회 권한이 존재하지 않습니다.");
+        throw new Error("404/줄서기 요청조회 권한이 존재하지 않습니다.");
       }
 
       const getQue = await this.queService.findAllQue(store_id);
@@ -33,7 +28,7 @@ class QueController {
       const { store_id } = req.params;
       const que = await this.queService.findQue(user_id, store_id);
       if (que) {
-        throw new Error("403/이미 줄서기를 요청하였습니다.");
+        throw new Error("404/이미 줄서기를 요청하였습니다.");
       }
 
       await this.queService.createQue(user_id, store_id, request, head_count);
@@ -54,7 +49,7 @@ class QueController {
 
       const que = await this.queService.findQue(user_id, store_id);
       if (!que) {
-        throw new Error("403/줄서기 요청이 존재하지 않습니다.");
+        throw new Error("404/줄서기 요청이 존재하지 않습니다.");
       }
 
       await this.queService.updateQue(user_id, store_id, request, head_count);
@@ -73,7 +68,7 @@ class QueController {
 
       const que = await this.queService.findQue(user_id, store_id);
       if (!que) {
-        throw new Error("403/줄서기 요청이 존재하지 않습니다.");
+        throw new Error("404/줄서기 요청이 존재하지 않습니다.");
       }
 
       await this.queService.deleteQue(user_id, store_id);

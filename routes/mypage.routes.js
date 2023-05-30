@@ -25,9 +25,6 @@ router.get("/whisky/:store_id", mypageController.getStoreWhisky);
 //스토어테이블 조회
 router.get("/table/:store_id", mypageController.getStoreTable);
 
-//점주페이지
-// router.get("/store",authMiddleware, mypageController.storepage);
-
 //스토어테이블 생성
 router.post("/store/table", authMiddleware, mypageController.createTable);
 //스토어테이블 수정
