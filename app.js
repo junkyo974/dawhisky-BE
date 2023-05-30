@@ -89,8 +89,8 @@ app.listen(port, () => {
   console.log(`running http://localhost:${port}`);
 });
 
-chatServer.listen(chatPort, () => {
-  console.log(`running http://localhost:${chatPort}`);
-});
+// chatServer.listen(chatPort, () => {
+//   console.log(`running http://localhost:${chatPort}`);
+// });
 
 module.exports = app;
