@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+require("express-async-errors");
 const socket = require("socket.io");
 const http = require("http");
 const chatServer = http.createServer(app);
