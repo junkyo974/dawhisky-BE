@@ -73,8 +73,7 @@ class LikeController {
         );
         return res.status(200).json(likeResult);
       }
-    } catch (err) {
-      console.log("라잌컨츄롤", err);
+    } catch (err) {      
       res.status(400).json({
         errorMessage: "가게 좋아요에 실패하였습니다.",
       });
