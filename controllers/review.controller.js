@@ -11,16 +11,15 @@ class ReviewController {
       const { content } = req.body;
 
       if (!content) {
-        throw new Error("403/리뷰 작성에 실패하였습니다.");
+        throw new Error("404/리뷰를 입력해주세요.");
       }
 
       const whisky = await this.reviewService.findWhiskyById(whisky_id);
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
 
       await this.reviewService.createReview(user_id, whisky_id, content);
-      console.log(whisky_id, "here~~~~~~~~~~~~~~~~~~~~~");
 
       res.status(201).json({ message: "리뷰를 작성하였습니다." });
     } catch (error) {
@@ -38,12 +37,12 @@ class ReviewController {
 
       const whisky = await this.reviewService.findWhiskyById(whisky_id);
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
 
       const review = await this.reviewService.findReviewById(review_id);
       if (!review) {
-        throw new Error("403/리뷰가 존재하지 않습니다.");
+        throw new Error("404/리뷰가 존재하지 않습니다.");
       }
 
       await this.reviewService.updateReview(review_id, content);
@@ -63,12 +62,12 @@ class ReviewController {
 
       const whisky = await this.reviewService.findWhiskyById(whisky_id);
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
 
       const review = await this.reviewService.findReviewById(review_id);
       if (!review) {
-        throw new Error("403/리뷰가 존재하지 않습니다.");
+        throw new Error("404/리뷰가 존재하지 않습니다.");
       }
 
       await this.reviewService.deleteReview(review_id);
