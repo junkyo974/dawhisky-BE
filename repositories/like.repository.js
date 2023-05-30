@@ -1,59 +1,98 @@
-const { WhiskyLikes, StoreLikes } = require("../models");
+const { WhiskyLikes, StoreLikes, Whiskys, Stores } = require("../models");
 
 class LikeRepository {
-  findWhiskyLikes = async (whiskyLikeData) => {
-    const findOneWhiskyData = await WhiskyLikes.findOne({
+  getWhiskyLiked = async (user_id, whisky_id) => {
+    const getWhiskyLikedData = await WhiskyLikes.findOne({
       where: {
-        whisky_id: whiskyLikeData.whisky_id,
-        user_id: whiskyLikeData.user_id,
-      },
-      raw: true,
-    });
-    return findOneWhiskyData;
-  };
-
-  createWhiskyLike = async (whiskyLikeData) => {
-    const createWhiskyLike = await WhiskyLikes.create({
-      whisky_id: whiskyLikeData.whisky_id,
-      user_id: whiskyLikeData.user_id,
-    });
-    return createWhiskyLike;
-  };
-
-  deleteWhiskysLike = async (whiskyLikeData) => {
-    await WhiskyLikes.destroy({
-      where: {
-        whisky_id: whiskyLikeData.whisky_id,
-        user_id: whiskyLikeData.user_id,
+        user_id,
+        whisky_id,
       },
     });
+    return getWhiskyLikedData;
   };
 
-  findStoreLikes = async (storeLikeData) => {
-    const findOneStoreData = await StoreLikes.findOne({
+  getStoreLiked = async (user_id, store_id) => {
+    const getStoreLikedData = await StoreLikes.findOne({
       where: {
-        store_id: storeLikeData.store_id,
-        user_id: storeLikeData.user_id,
+        user_id,
+        store_id,
       },
     });
-    return findOneStoreData;
+    return getStoreLikedData;
   };
 
-  createStoreLike = async (storeLikeData) => {
-    const createStoreLike = await StoreLikes.create({
-      store_id: storeLikeData.store_id,
-      user_id: storeLikeData.user_id,
+  whiksyDeleteLike = async (user_id, whisky_id) => {
+    const deleteLikeData = await WhiskyLikes.destroy({
+      where: { user_id, whisky_id },
     });
-    return createStoreLike;
+    return deleteLikeData;
   };
 
-  deleteStoreLike = async (storeLikeData) => {
-    await StoreLikes.destroy({
-      where: {
-        store_id: storeLikeData.store_id,
-        user_id: storeLikeData.user_id,
-      },
+  whiksyDecreaseLikes = async (whisky_id) => {
+    const findLikesData = await Whiskys.findOne({
+      where: { whisky_id },
     });
+
+    const decreaseLikesData = await findLikesData.decrement("wlikes", {
+      by: 1,
+    });
+    return decreaseLikesData;
+  };
+
+  whiksyCreateLike = async (user_id, whisky_id) => {
+    const createLikeData = await WhiskyLikes.create({
+      user_id,
+      whisky_id,
+    });
+    return createLikeData;
+  };
+
+  whiksyIncreaseLikes = async (whisky_id) => {
+    const findLikesData = await Whiskys.findOne({
+      where: { whisky_id },
+    });
+
+    const increaseLikesData = await findLikesData.increment("wlikes", {
+      by: 1,
+    });
+    return increaseLikesData;
+  };
+
+  storeDeleteLike = async (user_id, store_id) => {
+    const deleteLikeData = await StoreLikes.destroy({
+      where: { user_id, store_id },
+    });
+    return deleteLikeData;
+  };
+
+  storeDecreaseLikes = async (store_id) => {
+    const findLikesData = await Stores.findOne({
+      where: { store_id },
+    });
+
+    const decreaseLikesData = await findLikesData.decrement("slikes", {
+      by: 1,
+    });
+    return decreaseLikesData;
+  };
+
+  storeCreateLike = async (user_id, store_id) => {
+    const createLikeData = await StoreLikes.create({
+      user_id,
+      store_id,
+    });
+    return createLikeData;
+  };
+
+  storeIncreaseLikes = async (store_id) => {
+    const findLikesData = await Stores.findOne({
+      where: { store_id },
+    });
+
+    const increaseLikesData = await findLikesData.increment("slikes", {
+      by: 1,
+    });
+    return increaseLikesData;
   };
 }
 
