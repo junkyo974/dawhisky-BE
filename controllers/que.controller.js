@@ -5,15 +5,30 @@ class QueController {
   //줄서기 요청들 조회
   getQue = async (req, res, next) => {
     try {
-      const { store_id } = req.params;
-      const { store_id: local } = res.locals.store;
-      if (parseInt(store_id) !== local) {
-        throw new Error("404/줄서기 요청조회 권한이 존재하지 않습니다.");
-      }
+      // const { store_id } = req.params;
+      const { store_id } = res.locals.store;
+      // if (parseInt(store_id) !== local) {
+      //   throw new Error("404/줄서기 요청조회 권한이 존재하지 않습니다.");
+      // }
 
       const getQue = await this.queService.findAllQue(store_id);
 
       res.status(200).json(getQue);
+    } catch (error) {
+      error.failedApi = "줄서기 요청";
+      throw error;
+    }
+  };
+
+  //내 줄서기 현황 조회
+  getMyQue = async (req, res, next) => {
+    try {
+      const { store_id } = req.params;
+      const { user_id } = res.locals.user;
+
+      const myQue = await this.queService.findMyQue(store_id, user_id);
+
+      res.status(200).json(myQue);
     } catch (error) {
       error.failedApi = "줄서기 요청";
       throw error;

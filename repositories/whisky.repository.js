@@ -49,10 +49,17 @@ class WhiskyRepository {
     });
   };
 
-  //위스키 전체조회
-  findAllWhisky = async () => {
+  // //위스키 전체조회
+  // findAllWhisky = async () => {
+  //   return await this.Whiskys.findAll({
+  //     attributes: ["whisky_id", "whisky_kor"],
+  //   });
+  // };
+  findPaginatedWhiskies = async (offset, pageSize) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_id", "whisky_kor"],
+      attributes: ["whisky_id", "whisky_kor", "whisky_photo", "whisky_abv"],
+      limit: pageSize,
+      offset: offset,
     });
   };
 

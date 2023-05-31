@@ -14,9 +14,12 @@ class WhiskyService {
     return await this.whiskyRepository.searchAllWhisky(keyword);
   };
 
-  //위스키 전체조회
-  findAllWhisky = async () => {
-    return await this.whiskyRepository.findAllWhisky();
+  // //위스키 전체조회
+  // findAllWhisky = async () => {
+  //   return await this.whiskyRepository.findAllWhisky();
+  // };
+  findPaginatedWhiskies = async (offset, pageSize) => {
+    return await this.whiskyRepository.findPaginatedWhiskies(offset, pageSize);
   };
 
   //위스키 상세조회
