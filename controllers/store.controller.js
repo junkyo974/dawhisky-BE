@@ -18,6 +18,7 @@ class StoreController {
       address,
       phone,
       notice,
+      runtime,
     } = req.body;
     const biz_photos = req.files.map((files) => files.location);
     const biz_photo = JSON.stringify(biz_photos);
@@ -52,7 +53,8 @@ class StoreController {
         password,
         address,
         phone,
-        notice
+        notice,
+        runtime
       );
       res.status(200).json(signupData);
     } catch (err) {

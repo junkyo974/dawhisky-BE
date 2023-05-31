@@ -18,7 +18,8 @@ class StoreService {
     password,
     address,
     phone,
-    notice
+    notice,
+    runtime
   ) => {
     const storesData = {
       email,
@@ -29,6 +30,7 @@ class StoreService {
       address,
       phone,
       notice,
+      runtime,
     };
 
     await this.storeRepository.createStore(storesData);
