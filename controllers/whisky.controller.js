@@ -16,15 +16,31 @@ class WhiskyController {
     }
   };
 
-  //위스키 전체조회
-  allWhisky = async (req, res, next) => {
-    try {
-      const allWhisky = await this.whiskyService.findAllWhisky();
+  // //위스키 전체조회
+  // allWhisky = async (req, res, next) => {
+  //   try {
+  //     const allWhisky = await this.whiskyService.findAllWhisky();
 
-      res.status(200).json(allWhisky);
+  //     res.status(200).json(allWhisky);
+  //   } catch (error) {
+  //     error.failedApi = "위스키 전체 조회";
+  //     throw error;
+  //   }
+  // };
+  paginatedWhiskies = async (req, res, next) => {
+    try {
+      const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
+      const pageSize = parseInt(req.query.pageSize) || 10; // 페이지당 항목 수 가져오기 (기본값: 10)
+      const offset = (page - 1) * pageSize; // 오프셋 계산
+
+      const whiskies = await this.whiskyService.findPaginatedWhiskies(
+        offset,
+        pageSize
+      );
+
+      res.status(200).json(whiskies);
     } catch (error) {
-      error.failedApi = "위스키 전체 조회";
-      throw error;
+      next(error);
     }
   };
 
