@@ -75,9 +75,9 @@ app.use(
 // router
 const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
-app.get("/", (req, res) => {
-  res.send("CD성공!!!! 찐막");
-});
+// app.get("/", (req, res) => {
+//   res.send("CD성공!!!! 찐막");
+// });
 
 // errorHandler
 app.use(errorHandler);
