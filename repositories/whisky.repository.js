@@ -10,87 +10,64 @@ class WhiskyRepository {
   }
 
   //위스키 검색
-  searchAllWhisky = async (keyword) => {
+  searchAllWhiskyEng = async (keyword) => {
     return await this.Whiskys.findAll({
+      attributes: ["whisky_eng", "whisky_id"],
       where: {
-        [Op.or]: [
-          {
-            whisky_kor: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_eng: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_country: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_region: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_age: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_type: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-        ],
+        whisky_eng: {
+          [Op.like]: `%${keyword}%`,
+        },
+      },
+    });
+  };
+  searchAllWhiskyKor = async (keyword) => {
+    return await this.Whiskys.findAll({
+      attributes: ["whisky_kor", "whisky_id"],
+      where: {
+        whisky_kor: {
+          [Op.like]: `%${keyword}%`,
+        },
       },
     });
   };
 
-  //위스키 전체조회
-  findAllWhisky = async () => {
+  // //위스키 전체조회
+  // findAllWhisky = async () => {
+  //   return await this.Whiskys.findAll({
+  //     attributes: ["whisky_id", "whisky_kor"],
+  //   });
+  // };
+  findPaginatedWhiskies = async (offset, pageSize) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_id", "whisky_kor"],
-    });
-  };
-
-  // 위스키 상세조회
-  whiskyDetail = async (whisky_id) => {
-    const whiskyDetail = await this.Whiskys.findOne({
-      where: { whisky_id },
-      include: [
-        {
-          model: this.Reviews,
-          attributes: ["content"],
-        },
-        {
-          model: this.StoreWhiskys,
-          include: [
-            {
-              model: this.Stores,
-              attributes: ["store_id", "store"],
-            },
-          ],
-        },
-      ],
-    });
-
-    return whiskyDetail;
-  };
-
-  // 스토어이름찾기
-  findStoreName = async (store_id) => {
-    return await this.Stores.findOne({
-      where: { store_id },
-      attributes: ["store_id", "store"],
+      attributes: ["whisky_id", "whisky_kor", "whisky_photo", "whisky_abv"],
+      limit: pageSize,
+      offset: offset,
     });
   };
 
   //위스키 찾기
   findOneWhisky = async (whisky_id) => {
     return await this.Whiskys.findOne({ where: { whisky_id } });
+  };
+
+  //위스키 보유 스토어 조회
+  findAllWhiskyStore = async (whisky_id) => {
+    return await this.StoreWhiskys.findOne({
+      where: { whisky_id },
+      include: [
+        {
+          model: this.Stores,
+          attributes: ["store"],
+        },
+      ],
+    });
+  };
+
+  //위스키 코멘트 조회
+  findAllWhiskyComment = async (whisky_id) => {
+    return await this.Reviews.findOne({
+      where: { whisky_id },
+    });
   };
 
   //위스키정보 생성
@@ -103,7 +80,8 @@ class WhiskyRepository {
       whisky_region: whiskyData.whisky_region,
       whisky_age: whiskyData.whisky_age,
       whisky_type: whiskyData.whisky_type,
-      whisky_taste: whiskyData.whisky_taste,
+      whisky_desc: whiskyData.whisky_desc,
+      whisky_abv: whiskyData.whisky_abv,
     });
   };
 
@@ -118,7 +96,8 @@ class WhiskyRepository {
         whisky_region: whiskyData.whisky_region,
         whisky_age: whiskyData.whisky_age,
         whisky_type: whiskyData.whisky_type,
-        whisky_taste: whiskyData.whisky_taste,
+        whisky_desc: whiskyData.whisky_desc,
+        whisky_abv: whiskyData.whisky_abv,
       },
       { where: { whisky_id } }
     );

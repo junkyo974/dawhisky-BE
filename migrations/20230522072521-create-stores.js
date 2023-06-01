@@ -28,7 +28,7 @@ module.exports = {
       slikes: {
         allowNull: false,
         defaultValue: 0,
-        type: Sequelize.TEXT,
+        type: Sequelize.INTEGER,
       },
       password: {
         allowNull: false,

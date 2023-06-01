@@ -17,7 +17,6 @@ class ReviewRepository {
 
   //리뷰등록
   createReview = async (user_id, whisky_id, content) => {
-    console.log(whisky_id, user_id, content, "here~~~~~~~~~~~~~~~~~~~~~");
     return await this.Reviews.create({
       user_id,
       whisky_id,

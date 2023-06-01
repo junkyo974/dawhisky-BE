@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+require("express-async-errors");
 const socket = require("socket.io");
 const http = require("http");
 const chatServer = http.createServer(app);
@@ -9,7 +10,7 @@ const chatPort = 3001;
 const cors = require("cors");
 const { host } = require("./config/config");
 const port = host.port;
-// const errorHandler = require("./middlewares/error-handler");
+const errorHandler = require("./middlewares/error-handler");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerFile = require("./swagger-output");
 
@@ -74,14 +75,12 @@ app.use(
 // router
 const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
-app.get("/", (req, res) => {
-  res.send(
-    "CD성공!!!! 찐막"
-  );
-});
+// app.get("/", (req, res) => {
+//   res.send("CD성공!!!! 찐막");
+// });
 
 // errorHandler
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // swagger
 // app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -90,8 +89,8 @@ app.listen(port, () => {
   console.log(`running http://localhost:${port}`);
 });
 
-chatServer.listen(chatPort, () => {
-  console.log(`running http://localhost:${chatPort}`);
-});
+// chatServer.listen(chatPort, () => {
+//   console.log(`running http://localhost:${chatPort}`);
+// });
 
 module.exports = app;

@@ -7,7 +7,6 @@ class WhiskyController {
   searchWhisky = async (req, res, next) => {
     try {
       const { keyword } = req.params;
-
       const searchWhisky = await this.whiskyService.searchWhisky(keyword);
 
       res.status(200).json(searchWhisky);
@@ -17,15 +16,31 @@ class WhiskyController {
     }
   };
 
-  //위스키 전체조회
-  allWhisky = async (req, res, next) => {
-    try {
-      const allWhisky = await this.whiskyService.findAllWhisky();
+  // //위스키 전체조회
+  // allWhisky = async (req, res, next) => {
+  //   try {
+  //     const allWhisky = await this.whiskyService.findAllWhisky();
 
-      res.status(200).json(allWhisky);
+  //     res.status(200).json(allWhisky);
+  //   } catch (error) {
+  //     error.failedApi = "위스키 전체 조회";
+  //     throw error;
+  //   }
+  // };
+  paginatedWhiskies = async (req, res, next) => {
+    try {
+      const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
+      const pageSize = parseInt(req.query.pageSize) || 10; // 페이지당 항목 수 가져오기 (기본값: 10)
+      const offset = (page - 1) * pageSize; // 오프셋 계산
+
+      const whiskies = await this.whiskyService.findPaginatedWhiskies(
+        offset,
+        pageSize
+      );
+
+      res.status(200).json(whiskies);
     } catch (error) {
-      error.failedApi = "위스키 전체 조회";
-      throw error;
+      next(error);
     }
   };
 
@@ -35,12 +50,46 @@ class WhiskyController {
       const { whisky_id } = req.params;
       const whiskyDetail = await this.whiskyService.whiskyDetail(whisky_id);
       if (!whiskyDetail) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
 
       res.status(200).json(whiskyDetail);
     } catch (error) {
       error.failedApi = "위스키 상세 조회";
+      throw error;
+    }
+  };
+
+  //위스키 보유 스토어 조회
+  whiskyStore = async (req, res, next) => {
+    try {
+      const { whisky_id } = req.params;
+      const whisky = await this.whiskyService.findWhiskyById(whisky_id);
+      if (!whisky) {
+        throw new Error("404/위스키가 존재하지 않습니다.");
+      }
+      const whiskyStore = await this.whiskyService.whiskyStore(whisky_id);
+
+      res.status(200).json(whiskyStore);
+    } catch (error) {
+      error.failedApi = "위스키 보유 스토어 조회";
+      throw error;
+    }
+  };
+
+  //위스키 코멘트 조회
+  whiskyComment = async (req, res, next) => {
+    try {
+      const { whisky_id } = req.params;
+      const whisky = await this.whiskyService.findWhiskyById(whisky_id);
+      if (!whisky) {
+        throw new Error("404/위스키가 존재하지 않습니다.");
+      }
+      const whiskyComment = await this.whiskyService.whiskyComment(whisky_id);
+
+      res.status(200).json(whiskyComment);
+    } catch (error) {
+      error.failedApi = "위스키 코멘트 조회";
       throw error;
     }
   };
@@ -56,12 +105,13 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
         whisky_photo,
+        whisky_desc,
+        whisky_abv,
       } = req.body;
 
       // if (user_id !== "관리자 아이디") {
-      //   throw new Error("403/위스키 등록 권한이 없습니다.");
+      //   throw new Error("404/위스키 등록 권한이 없습니다.");
       // }
 
       const whiskyData = {
@@ -72,7 +122,8 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
+        whisky_desc,
+        whisky_abv,
       };
 
       await this.whiskyService.createWhisky(whiskyData);
@@ -96,17 +147,18 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
         whisky_photo,
+        whisky_desc,
+        whisky_abv,
       } = req.body;
 
       // if (user_id !== "관리자 아이디") {
-      //   throw new Error("403/위스키 수정 권한이 없습니다.");
+      //   throw new Error("404/위스키 수정 권한이 없습니다.");
       // }
 
       const whisky = await this.whiskyService.findWhiskyById(whisky_id);
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
       const whiskyData = {
         whisky_photo,
@@ -116,7 +168,8 @@ class WhiskyController {
         whisky_region,
         whisky_age,
         whisky_type,
-        whisky_taste,
+        whisky_desc,
+        whisky_abv,
       };
 
       await this.whiskyService.updateWhisky(whisky_id, whiskyData);
@@ -135,7 +188,7 @@ class WhiskyController {
 
       const whisky = await this.whiskyService.findWhiskyById(whisky_id);
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
 
       // if (user_id !== "관리자 아이디") {

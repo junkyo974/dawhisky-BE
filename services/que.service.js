@@ -8,6 +8,15 @@ class QueService {
     return await this.queRepository.findAllQue(store_id);
   };
 
+  //내 줄서기 현황 조회
+  findMyQue = async (store_id, user_id) => {
+    const myQue = await this.queRepository.findMyQue(store_id, user_id);
+    const queCount = await this.queRepository.findAndCountAll(store_id);
+    const myOrder = queCount.count;
+
+    return { myQue, myOrder };
+  };
+
   //줄서기 찾기
   findQue = async (user_id, store_id) => {
     return await this.queRepository.findQue(user_id, store_id);

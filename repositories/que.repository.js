@@ -19,6 +19,19 @@ class QueRepository {
       ],
     });
   };
+  //내 순서조회
+  findAndCountAll = async (store_id) => {
+    return await this.Ques.findAndCountAll({
+      where: { store_id },
+    });
+  };
+
+  //내 줄서기 현황 조회
+  findMyQue = async (store_id, user_id) => {
+    return await this.Ques.findOne({
+      where: { store_id, user_id },
+    });
+  };
 
   //줄서기 찾기
   findQue = async (user_id, store_id) => {
