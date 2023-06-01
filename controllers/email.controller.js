@@ -1,4 +1,5 @@
-// const Axios = require("axios");
+const StoreService = require("../services/store.service");
+const UserService = require("../services/user.service");
 const nodemailer = require("nodemailer");
 const redisClient = require("../utils/redis.js");
 const ejs = require("ejs");
@@ -7,6 +8,9 @@ const appDir = path.dirname(require.main.filename);
 require("dotenv").config();
 
 class EmailController {
+  storeService = new StoreService();
+  userService = new UserService();
+
   send = async (req, res) => {
     const { email } = req.body;
     const emailFilter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$/.test(email);
@@ -17,9 +21,8 @@ class EmailController {
         appDir + "/template/authMail.ejs",
         { authCode: authNum }
       );
-      const redisSetResult = await redisClient.SETEX(email, 300, authNum);
-      // const existsEmailUser = await this.userService.findOneUser(email);
-      // const existsEmailStore = await this.storeService.findOneStoreEmail(email);
+
+      const redisSetResult = await redisClient.SETEX(email, 600, authNum);
 
       const transporter = nodemailer.createTransport({
         service: "naver",
@@ -38,20 +41,6 @@ class EmailController {
         html: emailTemplate,
       };
 
-      // if (existsEmailUser) {
-      //   res.status(412).json({
-      //     errorMessage: "유저에 등록된 이메일입니다.",
-      //   });
-      //   return;
-      // }
-
-      // if (existsEmailStore) {
-      //   res.status(412).json({
-      //     errorMessage: "점주에 등록된 이메일입니다.",
-      //   });
-      //   return;
-      // }
-
       if (!emailFilter) {
         res.status(412).json({
           errorMessage: "이메일 형식이 일치하지 않습니다.",
@@ -65,9 +54,39 @@ class EmailController {
       });
     } catch (err) {
       console.error(err);
+      res.status(400).json({ errorMessage: "인증번호 발송에 실패하였습니다." });
+    }
+  };
+
+  checkEmail = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+      const existsEmailUser = await this.userService.findOneUserEmail(email);
+      const existsEmailStore = await this.storeService.findOneStoreEmail(email);
+
+      if (existsEmailUser) {
+        res.status(412).json({
+          errorMessage: "유저에 등록된 이메일입니다.",
+        });
+        return;
+      }
+
+      if (existsEmailStore) {
+        res.status(412).json({
+          errorMessage: "점주에 등록된 이메일입니다.",
+        });
+        return;
+      }
+
+      res.status(200).json({
+        message: `가입 가능한 이메일입니다.`,
+      });
+    } catch (err) {
+      console.error(err);
       res
         .status(400)
-        .json({ errorMessage: "인증 이메일 전송에 실패하였습니다." });
+        .json({ errorMessage: "이메일 중복 확인에 실패했습니다." });
     }
   };
 }

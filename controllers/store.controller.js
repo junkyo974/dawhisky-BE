@@ -23,15 +23,31 @@ class StoreController {
     const biz_photos = req.files.map((files) => files.location);
     const biz_photo = JSON.stringify(biz_photos);
     const redisGetResult = await redisClient.get(email);
-    console.log(biz_photo);
-    try {
-      // if (authCode !== redisGetResult) {
-      //   return res.status(412).json({
-      //     errorMessage: "인증코드가 일치하지 않습니다",
-      //   });
-      // }
+    const emailFilter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$/.test(email);
+    const passwordFilter = /^(?=.*\d)(?=.*[a-zA-Z]).{4,}$/.test(password);
+    const authCodeFilter = /^\d{6}$/;
 
-      if (password.length < 4) {
+    try {
+      if (!authCodeFilter) {
+        return res.status(412).json({
+          errorMessage: "인증코드는 6자리 숫자만 입력하세요",
+        });
+      }
+
+      if (authCode !== redisGetResult) {
+        return res.status(412).json({
+          errorMessage: "인증코드가 일치하지 않습니다.",
+        });
+      }
+
+      if (!emailFilter) {
+        res.status(412).json({
+          errorMessage: "이메일 형식이 일치하지 않습니다.",
+        });
+        return;
+      }
+
+      if (!passwordFilter) {
         res.status(412).json({
           errorMessage: "패스워드 형식이 일치하지 않습니다.",
         });
@@ -43,6 +59,12 @@ class StoreController {
           errorMessage: "패스워드에 상호명이 포함되어 있습니다.",
         });
         return;
+      }
+
+      if (!biz_photo) {
+        return res.status(412).json({
+          errorMessage: "사진을 올려주세요.",
+        });
       }
 
       const signupData = await this.storeService.signup(

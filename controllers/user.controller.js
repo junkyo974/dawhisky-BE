@@ -49,6 +49,7 @@ class UserController {
   //소셜 로그인
   kakaologin = async (req, res) => {
     const code = req.query.code;
+    console.log("코드" + code);
 
     try {
       // Access token 가져오기
@@ -63,11 +64,11 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://localhost:3000/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
+            redirect_uri: "http://jjmdev.site/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
           },
         }
       );
-
+      console.log(res1);
       // Access token을 이용해 정보 가져오기
       const res2 = await Axios.post(
         "https://kapi.kakao.com/v2/user/me",
@@ -79,6 +80,7 @@ class UserController {
           },
         }
       );
+      console.log(res2);
 
       const data = res2.data;
       const email = data.kakao_account.email;
@@ -114,7 +116,7 @@ class UserController {
 
         res.cookie("user", `${email}`);
 
-        res.status(200).redirect("http://localhost:3000");
+        res.status(200).redirect("http://jjmdev.site");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -130,7 +132,7 @@ class UserController {
 
         res.cookie("user", `${data.kakao_account.email}`);
 
-        res.status(200).redirect("http://localhost:3000"); // 로컬 테스트 시 'http:://프론트 포트'
+        res.status(200).redirect("http://jjmdev.site"); // 로컬 테스트 시 'http:://프론트 포트'
       }
     } catch (error) {
       console.error(error);
