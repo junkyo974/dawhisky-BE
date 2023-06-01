@@ -12,7 +12,7 @@ class WhiskyRepository {
   //위스키 검색
   searchAllWhiskyEng = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_eng"],
+      attributes: ["whisky_eng", "whisky_id"],
       where: {
         whisky_eng: {
           [Op.like]: `%${keyword}%`,
@@ -22,7 +22,7 @@ class WhiskyRepository {
   };
   searchAllWhiskyKor = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_kor"],
+      attributes: ["whisky_kor", "whisky_id"],
       where: {
         whisky_kor: {
           [Op.like]: `%${keyword}%`,
