@@ -64,7 +64,7 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://localhost:3000/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
+            redirect_uri: "http://jjmdev.site/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
           },
         }
       );
@@ -116,7 +116,7 @@ class UserController {
 
         res.cookie("user", `${email}`);
 
-        res.status(200).redirect("http://localhost:3000");
+        res.status(200).redirect("http://jjmdev.site");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -132,7 +132,7 @@ class UserController {
 
         res.cookie("user", `${data.kakao_account.email}`);
 
-        res.status(200).redirect("http://localhost:3000"); // 로컬 테스트 시 'http:://프론트 포트'
+        res.status(200).redirect("http://jjmdev.site"); // 로컬 테스트 시 'http:://프론트 포트'
       }
     } catch (error) {
       console.error(error);
@@ -154,78 +154,5 @@ class UserController {
     }
   };
 }
-
-// message = async (req, res) => {
-//   const code = req.query.code;
-
-//   try {
-//     // Access token 가져오기
-//     const res1 = await Axios.post(
-//       "https://kapi.kakao.com/v1/api/talk/friends/message/send",
-//       "Authorization: Bearer ${ACCESS_TOKEN}",
-//       {},
-//       {
-//         headers: {
-//           "Content-Type": "application/x-www-form-urlencoded",
-//         },
-//         params: {
-//           template_id=94232
-//           receiver_uuids=["abcdefg0003"]
-//         },
-//       }
-//     );
-
-//     // Access token을 이용해 정보 가져오기
-//     const res2 = await Axios.post(
-//       "https://kapi.kakao.com/v2/user/me",
-//       {},
-//       {
-//         headers: {
-//           "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-//           Authorization: "Bearer " + res1.data.access_token,
-//         },
-//       }
-//     );
-
-//     const data = res2.data;
-//     const email = data.kakao_account.email;
-//     const user = await this.userService.findOneUserEmail(email);
-
-//     if (!user) {
-//       const name = data.kakao_account.name;
-//       const birthyear = data.kakao_account.birthyear;
-//       const currentYear = new Date().getFullYear();
-//       const age = currentYear - birthyear;
-//       const gender = true;
-//       const password = "123456";
-
-//       if (age < 19) {
-//         return res
-//           .status(404)
-//           .json({ errorMessage: "19세 미만은 회원 가입이 불가능합니다." });
-//       }
-
-//       await this.userService.signup(email, name, age, gender, password);
-
-//       const userData = await this.userService.login(data.kakao_account.email);
-
-//       res.cookie(
-//         "authorization",
-//         `${userData.accessObject.type} ${userData.accessObject.token}`
-//       );
-
-//       res.cookie(
-//         "refreshToken",
-//         `${userData.refreshObject.type} ${userData.refreshObject.token}`
-//       );
-
-//       res.cookie("user", `${email}`);
-
-//       res.status(200).redirect("http://localhost:3000");
-//       }} catch (error) {
-//         console.error(error);
-//         res.status(400).json({ errorMessage: "로그인에 실패했습니다." });
-//       }
-//     }
 
 module.exports = UserController;
