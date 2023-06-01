@@ -62,15 +62,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       notice: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       runtime: {
         type: DataTypes.STRING,
