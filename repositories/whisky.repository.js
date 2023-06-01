@@ -10,41 +10,23 @@ class WhiskyRepository {
   }
 
   //위스키 검색
-  searchAllWhisky = async (keyword) => {
+  searchAllWhiskyEng = async (keyword) => {
     return await this.Whiskys.findAll({
+      attributes: ["whisky_eng"],
       where: {
-        [Op.or]: [
-          {
-            whisky_kor: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_eng: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_country: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_region: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_age: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-          {
-            whisky_type: {
-              [Op.like]: `%${keyword}%`,
-            },
-          },
-        ],
+        whisky_eng: {
+          [Op.like]: `%${keyword}%`,
+        },
+      },
+    });
+  };
+  searchAllWhiskyKor = async (keyword) => {
+    return await this.Whiskys.findAll({
+      attributes: ["whisky_kor"],
+      where: {
+        whisky_kor: {
+          [Op.like]: `%${keyword}%`,
+        },
       },
     });
   };

@@ -11,7 +11,11 @@ class WhiskyService {
 
   //위스키 검색
   searchWhisky = async (keyword) => {
-    return await this.whiskyRepository.searchAllWhisky(keyword);
+    if (/[a-zA-Z]/.test(keyword)) {
+      return await this.whiskyRepository.searchAllWhiskyEng(keyword);
+    } else {
+      return await this.whiskyRepository.searchAllWhiskyKor(keyword);
+    }
   };
 
   // //위스키 전체조회
