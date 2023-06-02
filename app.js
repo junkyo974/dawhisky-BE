@@ -8,9 +8,10 @@ const chatServer = http.createServer(app);
 const io = socket(chatServer);
 const chatPort = 3001;
 const cors = require("cors");
-const { host } = require("./config/config");
+const { host, sentry } = require("./config/config");
 const port = host.port;
 const errorHandler = require("./middlewares/error-handler");
+const Sentry = require("@sentry/node");
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerFile = require("./swagger-output");
 
@@ -18,6 +19,23 @@ const errorHandler = require("./middlewares/error-handler");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+
+// sentry
+Sentry.init({
+  dsn: sentry.dsn,
+  tracesSampleRate: 1.0,
+});
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
+
+// 나중에 쓸까 말까 고민
+// app.get("/", function rootHandler(req, res) {
+//   res.end("Hello world!");
+// });
+
+// 센트리로 에러 핸들러 구성
+// app.use(Sentry.Handlers.errorHandler());
 
 // chat
 app.use("/css", express.static("./static/css"));
@@ -66,7 +84,11 @@ io.on("connection", (socket) => {
 // cors
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://52.78.56.220:3000",
+    ],
     credentials: "true",
     // cors options
   })
