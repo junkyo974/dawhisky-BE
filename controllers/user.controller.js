@@ -114,9 +114,9 @@ class UserController {
           `${userData.refreshObject.type} ${userData.refreshObject.token}`
         );
 
-        res.cookie("user", `${email}`);
+        res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://jjmdev.site");
+        res.status(200).redirect("http://jjmdev.site/api/whisky");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -130,9 +130,9 @@ class UserController {
           `${userData.refreshObject.type} ${userData.refreshObject.token}`
         );
 
-        res.cookie("user", `${data.kakao_account.email}`);
+        res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://jjmdev.site"); // 로컬 테스트 시 'http:://프론트 포트'
+        res.status(200).redirect("http://jjmdev.site/api/whisky");
       }
     } catch (error) {
       console.error(error);
@@ -141,7 +141,7 @@ class UserController {
   };
 
   logout = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = res.locals.user;
 
     try {
       const logoutData = await this.userService.logout(user_id);

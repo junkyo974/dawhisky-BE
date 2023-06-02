@@ -14,6 +14,8 @@ class EmailController {
   send = async (req, res) => {
     const { email } = req.body;
     const emailFilter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$/.test(email);
+    const existsEmailUser = await this.userService.findOneUserEmail(email);
+    const existsEmailStore = await this.storeService.findOneStoreEmail(email);
     let authNum = Math.random().toString().substr(2, 6);
 
     try {
@@ -48,23 +50,6 @@ class EmailController {
         return;
       }
 
-      await transporter.sendMail(emailForm);
-      res.status(200).json({
-        message: `${email}로 인증번호를 발송하였습니다.`,
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "인증번호 발송에 실패하였습니다." });
-    }
-  };
-
-  checkEmail = async (req, res) => {
-    const { email } = req.body;
-
-    try {
-      const existsEmailUser = await this.userService.findOneUserEmail(email);
-      const existsEmailStore = await this.storeService.findOneStoreEmail(email);
-
       if (existsEmailUser) {
         res.status(412).json({
           errorMessage: "유저에 등록된 이메일입니다.",
@@ -79,14 +64,13 @@ class EmailController {
         return;
       }
 
+      await transporter.sendMail(emailForm);
       res.status(200).json({
-        message: `가입 가능한 이메일입니다.`,
+        message: `${email}로 인증번호를 발송하였습니다.`,
       });
     } catch (err) {
       console.error(err);
-      res
-        .status(400)
-        .json({ errorMessage: "이메일 중복 확인에 실패했습니다." });
+      res.status(400).json({ errorMessage: "인증번호 발송에 실패하였습니다." });
     }
   };
 }

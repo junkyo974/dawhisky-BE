@@ -111,12 +111,12 @@ class StoreController {
         `${storeData.refreshObject.type} ${storeData.refreshObject.token}`
       );
 
-      res.cookie("store", `${email}`);
+      res.cookie("store", `${store.store_id}`);
 
       res.status(200).json({
         authorization: `${storeData.accessObject.type} ${storeData.accessObject.token}`,
         refreshToken: `${storeData.refreshObject.type} ${storeData.refreshObject.token}`,
-        store: `${email}`,
+        store: `${store.store_id}`,
       });
     } catch (err) {
       console.error("로그인 에러 로그", err);
@@ -127,7 +127,7 @@ class StoreController {
   };
 
   logout = async (req, res) => {
-    const { store_id } = req.params;
+    const { store_id } = res.locals.store;
 
     try {
       const logoutData = await this.storeService.logout(store_id);
