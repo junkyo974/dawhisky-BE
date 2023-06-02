@@ -23,7 +23,7 @@
 //   const whiskyList = [];
 //   const whiskyEngSet = new Set();
 
-//   let i = 2000;
+//   let i = 1;
 
 //   while (true) {
 //     const url = `https://www.whisky.com/whisky-database/bottle-search/whisky/fdb/Flaschen/search.html?type=1505224767&tx_datamintsflaschendb_pi4%5BsearchCriteria%5D%5BsortingCombined%5D=bewertungsAnzahl_descending&tx_datamintsflaschendb_pi4%5BsearchCriteria%5D%5BspiritType%5D=1&tx_datamintsflaschendb_pi4%5BcurPage%5D=${i}&tx_datamintsflaschendb_pi4%5BresultsOnly%5D=1`;

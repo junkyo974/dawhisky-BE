@@ -8,6 +8,6 @@ const eamilController = new EmailController();
 router.post("/send", eamilController.send);
 
 // POST: 메일 중복 검증
-router.post("/checkEmail", eamilController.checkEmail);
+// router.post("/checkEmail", eamilController.checkEmail);
 
 module.exports = router;

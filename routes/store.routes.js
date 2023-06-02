@@ -17,7 +17,7 @@ router.post(
 router.post("/login/store", storeController.login);
 
 // DELETE: 로그아웃
-router.delete("/api/auth/logout/store", authMiddleware, storeController.logout);
+router.delete("/logout/store", authMiddleware, storeController.logout);
 
 // DELETE: 회원 탈퇴
 // router.delete('/api/auth/signout/store', storeController.deleteUser);
