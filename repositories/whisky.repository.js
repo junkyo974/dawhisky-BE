@@ -2,11 +2,12 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
 class WhiskyRepository {
-  constructor(Whiskys, Reviews, StoreWhiskys, Stores) {
+  constructor(Whiskys, Reviews, StoreWhiskys, Stores, WhiskyLikes) {
     this.Whiskys = Whiskys;
     this.Reviews = Reviews;
     this.StoreWhiskys = StoreWhiskys;
     this.Stores = Stores;
+    this.WhiskyLikes = WhiskyLikes;
   }
 
   //위스키 검색
@@ -39,15 +40,27 @@ class WhiskyRepository {
   // };
   findPaginatedWhiskies = async (offset, pageSize) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_id", "whisky_kor", "whisky_photo", "whisky_abv"],
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
       limit: pageSize,
       offset: offset,
     });
   };
+  //위스키 좋아요 여부 찾기
+  findOneWhiskyLike = async (user_id) => {
+    return await this.WhiskyLikes.findOne({ where: { user_id } });
+  };
 
   //위스키 찾기
   findOneWhisky = async (whisky_id) => {
-    return await this.Whiskys.findOne({ where: { whisky_id } });
+    return await this.Whiskys.findOne({
+      where: { whisky_id },
+    });
   };
 
   //위스키 보유 스토어 조회
