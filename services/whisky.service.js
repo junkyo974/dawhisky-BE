@@ -1,12 +1,19 @@
 const WhiskyRepository = require("../repositories/whisky.repository");
-const { Whiskys, Reviews, StoreWhiskys, Stores } = require("../models");
+const {
+  Whiskys,
+  Reviews,
+  StoreWhiskys,
+  Stores,
+  WhiskyLikes,
+} = require("../models");
 
 class WhiskyService {
   whiskyRepository = new WhiskyRepository(
     Whiskys,
     Reviews,
     StoreWhiskys,
-    Stores
+    Stores,
+    WhiskyLikes
   );
 
   //위스키 검색
@@ -27,8 +34,11 @@ class WhiskyService {
   };
 
   //위스키 상세조회
-  whiskyDetail = async (whisky_id) => {
-    return await this.whiskyRepository.findOneWhisky(whisky_id);
+  whiskyDetail = async (whisky_id, user_id) => {
+    const whiskyLike = await this.whiskyRepository.findOneWhiskyLike(user_id);
+    let liked = whiskyLike ? true : false;
+    const whiskyInfo = await this.whiskyRepository.findOneWhisky(whisky_id);
+    return { liked, whiskyInfo };
   };
 
   //위스키 보유 스토어 조회

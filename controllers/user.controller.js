@@ -31,12 +31,12 @@ class UserController {
         `${userData.refreshObject.type} ${userData.refreshObject.token}`
       );
 
-      res.cookie("user", `${email}`);
+      res.cookie("user", `${user.user_id}`);
 
       res.status(200).json({
         authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
         refreshToken: `${userData.refreshObject.type} ${userData.refreshObject.token}`,
-        user: `${email}`,
+        user: `${user.user_id}`,
       });
     } catch (err) {
       console.error("로그인 에러 로그", err);
