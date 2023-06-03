@@ -29,6 +29,13 @@ class StoreRepository {
     });
     return findOneStoreData;
   };
+
+  deleteStore = async (store_id) => {
+    const deleteStore = await Stores.destroy({
+      where: { store_id: store_id },
+    });
+    return deleteStore;
+  };
 }
 
 module.exports = StoreRepository;

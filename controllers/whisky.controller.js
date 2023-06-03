@@ -16,17 +16,17 @@ class WhiskyController {
     }
   };
 
-  // //위스키 전체조회
-  // allWhisky = async (req, res, next) => {
-  //   try {
-  //     const allWhisky = await this.whiskyService.findAllWhisky();
+  //위스키 전체조회
+  allWhisky = async (req, res, next) => {
+    try {
+      const allWhisky = await this.whiskyService.findAllWhisky();
 
-  //     res.status(200).json(allWhisky);
-  //   } catch (error) {
-  //     error.failedApi = "위스키 전체 조회";
-  //     throw error;
-  //   }
-  // };
+      res.status(200).json(allWhisky);
+    } catch (error) {
+      error.failedApi = "위스키 전체 조회";
+      throw error;
+    }
+  };
   paginatedWhiskies = async (req, res, next) => {
     try {
       const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
@@ -48,6 +48,17 @@ class WhiskyController {
   whiskyDetail = async (req, res, next) => {
     try {
       const { whisky_id } = req.params;
+      const { user } = req.cookies;
+
+      if (!user) {
+        throw new Error("404/유저아이디가 존재하지 않습니다.");
+      } else {
+        console.log(
+          user,
+          "here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`"
+        );
+      }
+
       const whiskyDetail = await this.whiskyService.whiskyDetail(whisky_id);
       if (!whiskyDetail) {
         throw new Error("404/위스키가 존재하지 않습니다.");

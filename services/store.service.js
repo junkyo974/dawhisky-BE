@@ -74,6 +74,12 @@ class StoreService {
     const findOneUserData = this.storeRepository.findOneStoreEmail(email);
     return findOneUserData;
   };
+
+  deleteStore = async (store_id) => {
+    const store = await this.storeRepository.deleteStore(store_id);
+
+    return { message: "회원님의 계정이 삭제되었습니다." };
+  };
 }
 
 module.exports = StoreService;

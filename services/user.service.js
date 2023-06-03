@@ -54,6 +54,12 @@ class UserService {
     const findOneUserData = this.userRepository.findOneUserEmail(email);
     return findOneUserData;
   };
+
+  deleteUser = async (user_id) => {
+    const user = await this.userRepository.deleteUser(user_id);
+
+    return { message: "회원님의 계정이 삭제되었습니다." };
+  };
 }
 
 module.exports = UserService;
