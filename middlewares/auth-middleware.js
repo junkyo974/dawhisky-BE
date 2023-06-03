@@ -4,9 +4,10 @@ const redisClient = require("../utils/redis.js");
 require("dotenv").config();
 
 module.exports = async (req, res, next) => {
-  let { authorization, refreshToken } = req.cookies;
+  let { authorization, refreshToken } = req.headers;
 
   try {
+    console.log("미들웨어체크1", authorization, refreshToken);
     authorization = !req.headers.refreshToken
       ? req.cookies.authorization
       : authorization;
@@ -14,7 +15,7 @@ module.exports = async (req, res, next) => {
     refreshToken = !req.headers.refreshToken
       ? req.cookies.refreshToken
       : refreshToken;
-
+    console.log("미들웨어체크2", authorization, refreshToken);
     const [authType, authToken] = (authorization ?? "").split(" ");
     if (authType !== "Bearer" || !authToken) {
       return res
