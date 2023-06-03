@@ -21,4 +21,12 @@ router.use("/socket", socketRouter);
 router.use("/map", mapRouter);
 router.use("/like", likeRouter);
 
+// sentry test
+// router.get(
+//   "/error",
+//   asyncErrorWrapper(async (req, res, next) => {
+//     throw new Error("에러 상황 테스트!");
+//   })
+// );
+
 module.exports = router;

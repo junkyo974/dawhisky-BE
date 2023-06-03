@@ -48,18 +48,15 @@ class WhiskyController {
   whiskyDetail = async (req, res, next) => {
     try {
       const { whisky_id } = req.params;
-      const { user } = req.cookies;
-
+      let { user } = req.cookies;
       if (!user) {
-        throw new Error("404/유저아이디가 존재하지 않습니다.");
-      } else {
-        console.log(
-          user,
-          "here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`"
-        );
+        user = 0;
       }
-
-      const whiskyDetail = await this.whiskyService.whiskyDetail(whisky_id);
+      console.log(user, "here!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+      const whiskyDetail = await this.whiskyService.whiskyDetail(
+        whisky_id,
+        user
+      );
       if (!whiskyDetail) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }

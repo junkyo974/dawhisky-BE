@@ -4,10 +4,22 @@ const redisClient = require("../utils/redis.js");
 require("dotenv").config();
 
 module.exports = async (req, res, next) => {
-  const { authorization } = req.cookies;
-  const [authType, authToken] = (authorization ?? "").split(" ");
+  let { authorization, refreshtoken } = req.headers;
 
   try {
+    console.log("미들웨어체크1", authorization, refreshtoken);
+    authorization = !req.headers.refreshtoken
+      ? req.cookies.authorization
+      : authorization;
+    console.log("미들웨어체크1.5", !req.headers.refreshtoken);
+
+    refreshtoken = !req.headers.refreshtoken
+      ? req.cookies.refreshtoken
+      : refreshtoken;
+
+    console.log("미들웨어체크2", authorization, refreshtoken);
+
+    const [authType, authToken] = (authorization ?? "").split(" ");
     if (authType !== "Bearer" || !authToken) {
       return res
         .status(403)
@@ -39,8 +51,7 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      const refreshToken = req.cookies.refreshToken;
-      const token = refreshToken.split(" ")[1];
+      const token = refreshtoken.split(" ")[1];
       const decodedRefreshToken = jwt.verify(
         token,
         process.env.USER_REFRESH_KEY
