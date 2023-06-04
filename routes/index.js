@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Sentry = require("@sentry/node");
 
 const likeRouter = require("./like.routes");
 const mapRouter = require("./map.routes");

@@ -106,16 +106,13 @@ class StoreController {
         `${storeData.accessObject.type} ${storeData.accessObject.token}`
       );
 
-      res.cookie(
-        "refreshToken",
-        `${storeData.refreshObject.type} ${storeData.refreshObject.token}`
-      );
+      res.cookie("refreshToken", `${storeData.refreshObject.token}`);
 
       res.cookie("store", `${store.store_id}`);
 
       res.status(200).json({
         authorization: `${storeData.accessObject.type} ${storeData.accessObject.token}`,
-        refreshToken: `${storeData.refreshObject.type} ${storeData.refreshObject.token}`,
+        refreshToken: `${storeData.refreshObject.token}`,
         store: `${store.store_id}`,
       });
     } catch (err) {
