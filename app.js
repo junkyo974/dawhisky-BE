@@ -12,8 +12,8 @@ const { host, sentry } = require("./config/config");
 const port = host.port;
 const errorHandler = require("./middlewares/error-handler");
 const Sentry = require("@sentry/node");
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerFile = require("./swagger-output");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 
 // parser
 app.use(express.urlencoded({ extended: false }));
@@ -105,7 +105,7 @@ app.use("/api", [apiMainRouter]);
 app.use(errorHandler);
 
 // swagger
-// app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/api/swag", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.listen(port, () => {
   console.log(`running http://localhost:${port}`);

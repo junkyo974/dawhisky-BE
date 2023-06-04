@@ -36,6 +36,11 @@ class ReviewController {
       const { content } = req.body;
 
       const whisky = await this.reviewService.findWhiskyById(whisky_id);
+
+      if (!content) {
+        throw new Error("404/리뷰를 입력해주세요.");
+      }
+
       if (!whisky) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }
