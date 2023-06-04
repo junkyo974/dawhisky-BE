@@ -28,14 +28,7 @@ Sentry.init({
 
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
-
-// 나중에 쓸까 말까 고민
-// app.get("/", function rootHandler(req, res) {
-//   res.end("Hello world!");
-// });
-
-// 센트리로 에러 핸들러 구성
-// app.use(Sentry.Handlers.errorHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 // chat
 app.use("/css", express.static("./static/css"));
