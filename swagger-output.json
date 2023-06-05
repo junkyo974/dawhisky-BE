@@ -1,0 +1,764 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Da-Whisky",
+    "description": "항해 14기 실전프로젝트 13조",
+    "version": "1.0.0"
+  },
+  "host": "jjmdev.site",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/api/auth/login/user": {     
+      "post": {
+        "tags": ["auth"],
+        "description": "로컬 유저 로그인",
+        "parameters": [          
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"example":"jjm@jjm.com" },
+                  "password": {"example":"1234abc"}                  
+                }
+              }
+            }
+          ],        
+        "responses": {
+          "200": {
+            "description": "로그인 성공"            
+          },
+          "412": {
+            "description": "아이디/비밀번호 잘못 입력함"            
+          },
+          "400": {
+            "description": "로그인 실패"            
+          }
+        }
+      },
+      "get": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/auth/logout/user": {      
+      "delete": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/auth/signup/store": {      
+      "post": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/auth/login/store": {    
+      "post": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/auth/logout/store": {      
+      "delete": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/auth/send": {      
+      "post": {
+        "tags": ["auth"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/mypage/user": {
+       "get": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/mypage/store/{store_id}": {      
+      "get": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/mypage/store": {      
+      "put": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/mypage/whisky/{store_id}": {      
+      "get": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/mypage/table/{store_id}": {     
+      "get": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/mypage/store/table": {     
+      "post": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "put": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/mypage/store/whisky": {      
+      "post": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/mypage/store/whisky/{storewhisky_id}": {      
+      "put": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storewhisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storewhisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/review/{whisky_id}/": {     
+      "post": {
+        "tags": ["review"],
+        "description": "위스키 리뷰 작성",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {"example":"마라탕 맛이네요" }                                 
+              }
+            }
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "위스키나 리뷰내용이 없음"
+          },
+          "403": {
+            "description": "로그인 에러"
+          },
+          "400": {
+            "description": "리뷰 등록 실패"
+          }
+        }
+      }
+    },
+    "/api/review/{whisky_id}/{review_id}": {      
+      "put": {
+        "tags": ["review"],
+        "description": "위스키 리뷰 수정",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {"example":"마라탕 맛이네요 수정" }                                 
+              }
+            }
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "위스키나 리뷰나 리뷰내용이 없음"
+          },
+          "403": {
+            "description": "로그인 에러"
+          },
+          "400": {
+            "description": "리뷰 수정 실패"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["review"],
+        "description": "위스키 리뷰 삭제",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "위스키나 리뷰가 없음"
+          },
+          "403": {
+            "description": "로그인 에러"
+          },
+          "400": {
+            "description": "리뷰 삭제 실패"
+          }
+        }
+      }
+    },
+    "/api/que/": {      
+      "get": {
+        "tags": ["que"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/que/{store_id}": {      
+      "get": {
+        "tags": ["que"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "tags": ["que"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "put": {
+        "tags": ["que"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["que"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/whisky/search/{keyword}": {     
+      "get": {
+        "tags": ["whisky"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/whisky/": {
+        "get": {
+        "tags": ["whisky"],
+        "description": "위스키 전체 조회",
+        "parameters": [
+          
+        ],
+        "responses": {
+        
+        }
+      }     
+    },
+    "/api/whisky/{whisky_id}": {      
+      "get": {
+        "tags": ["whisky"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }     
+    },
+    "/api/whisky/store/{whisky_id}": {      
+      "get": {
+        "tags": ["whisky"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/whisky/comment/{whisky_id}": {      
+      "get": {
+        "tags": ["whisky"],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+   
+    "/api/like/whisky/{whisky_id}": {
+      "put": {
+        "tags": ["like"],
+        "description": "위스키 좋아요",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "404": {
+            "description": "해당 위스키 없음"
+          },
+          "403": {
+            "description": "로그인 에러"
+          }
+        }
+      }
+    },
+    "/api/like/store/{store_id}": {
+      "put": {
+        "tags": ["like"],
+        "description": "가게 좋아요",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공"
+          },
+          "404": {
+            "description": "해당 가게 없음"
+          },
+          "403": {
+            "description": "로그인 에러"
+          }
+        }
+      }
+    }
+  }
+}

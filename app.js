@@ -12,8 +12,8 @@ const { host, sentry } = require("./config/config");
 const port = host.port;
 const errorHandler = require("./middlewares/error-handler");
 const Sentry = require("@sentry/node");
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerFile = require("./swagger-output");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 
 // parser
 app.use(express.urlencoded({ extended: false }));
@@ -28,14 +28,7 @@ Sentry.init({
 
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
-
-// 나중에 쓸까 말까 고민
-// app.get("/", function rootHandler(req, res) {
-//   res.end("Hello world!");
-// });
-
-// 센트리로 에러 핸들러 구성
-// app.use(Sentry.Handlers.errorHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 // chat
 app.use("/css", express.static("./static/css"));
@@ -105,7 +98,7 @@ app.use("/api", [apiMainRouter]);
 app.use(errorHandler);
 
 // swagger
-// app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/api/swag", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.listen(port, () => {
   console.log(`running http://localhost:${port}`);
