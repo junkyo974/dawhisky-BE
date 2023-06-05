@@ -40,7 +40,7 @@
       },
       "get": {
         "tags": ["auth"],
-        "description": "",
+        "description": "소셜 로그인",
         "parameters": [],
         "responses": {}
       }
@@ -48,8 +48,18 @@
     "/api/auth/logout/user": {
       "delete": {
         "tags": ["auth"],
-        "description": "",
+        "description": "유저 로그아웃",
         "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {"example":"1" }
+              }
+            }
+          },
           {
             "name": "refreshtoken",
             "in": "header",
@@ -62,11 +72,11 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "로그아웃 성공"            
           },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "로그아웃 실패"
           }
         }
       }
@@ -74,24 +84,81 @@
     "/api/auth/signup/store": {
       "post": {
         "tags": ["auth"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "스토어 회원가입",
+        "parameters": [
+          {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "email": {"example":"junkyo814@naver.com" },
+              "store": {"example":"상호명" },
+              "biz_number": {"example":"12345678912" },
+              "password": {"example":"123456a" },
+              "authCode": {"example":"123456" }
+            }
+          }
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": "회원가입 성공"            
+          },
+          "412": {
+            "description": "입력값 형식 불일치"
+          },
+          "400": {
+            "description": "데이터 형식 불일치"
+          }
+        }
       }
     },
     "/api/auth/login/store": {
       "post": {
         "tags": ["auth"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "스토어 로그인",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {"example":"junkyo814@naver.com" },
+                "password": {"example":"123456a"}                  
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "로그인 성공"            
+          },
+          "412": {
+            "description": "아이디/비밀번호 잘못 입력함"            
+          },
+          "400": {
+            "description": "로그인 실패"            
+          }
+        }
       }
     },
     "/api/auth/logout/store": {
       "delete": {
         "tags": ["auth"],
-        "description": "",
+        "description": "스토어 로그아웃",
         "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "store_id": {"example":"1" }
+              }
+            }
+          },
           {
             "name": "refreshtoken",
             "in": "header",
@@ -104,11 +171,11 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "로그아웃 성공"            
           },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "로그아웃 실패"
           }
         }
       }
@@ -116,9 +183,30 @@
     "/api/auth/send": {
       "post": {
         "tags": ["auth"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "인증메일 발송",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {"example":"junkyo814@naver.com" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "이메일 발송 성공"            
+          },
+          "412": {
+            "description": "형식 불일치 및 중복 이메일"            
+          },
+          "400": {
+            "description": "이메일 발송 실패"
+          }
+        }
       }
     },
     "/api/mypage/user": {
@@ -736,8 +824,14 @@
     "/api/que/": {
       "get": {
         "tags": ["que"],
-        "description": "",
+        "description": "줄서기 요청 조회",
         "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "refreshtoken",
             "in": "header",
@@ -750,11 +844,11 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "줄서기 요청 조회 성공"
           },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "줄서기 요청 조회 실패"
           }
         }
       }
@@ -762,10 +856,15 @@
     "/api/que/{store_id}": {
       "get": {
         "tags": ["que"],
-        "description": "",
+        "description": "내 줄서기 현황 조회",
         "parameters": [
           {
             "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },{
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -782,17 +881,17 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "내 줄서기 요청 조회 성공"
           },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "내 줄서기 요청 조회 실패"
           }
         }
       },
       "post": {
         "tags": ["que"],
-        "description": "",
+        "description": "줄서기 요청 등록",
         "parameters": [
           {
             "name": "store_id",
@@ -800,6 +899,23 @@
             "required": true,
             "type": "string"
           },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "request": {"example":"요청사항" },
+                "head_count": {"example":"1" }
+              }
+            }
+          },          
           {
             "name": "refreshtoken",
             "in": "header",
@@ -812,17 +928,20 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "201": {
+            "description": "줄서기 요청 성공"
           },
-          "403": {
-            "description": "Forbidden"
+          "404": {
+            "description": "이미 줄서기를 요청하였습니다."
+          },
+          "400": {
+            "description": "줄서기 요청 실패"
           }
         }
       },
       "put": {
         "tags": ["que"],
-        "description": "",
+        "description": "줄서기 요청 수정",
         "parameters": [
           {
             "name": "store_id",
@@ -830,6 +949,23 @@
             "required": true,
             "type": "string"
           },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "request": {"example":"요청사항" },
+                "head_count": {"example":"1" }
+              }
+            }
+          }, 
           {
             "name": "refreshtoken",
             "in": "header",
@@ -842,20 +978,29 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "줄서기 수정 성공"
           },
-          "403": {
-            "description": "Forbidden"
+          "404": {
+            "description": "줄서기 요청이 존재하지 않습니다."
+          },
+          "400": {
+            "description": "줄서기 수정 실패"
           }
         }
       },
       "delete": {
         "tags": ["que"],
-        "description": "",
+        "description": "줄서기 요청 삭제",
         "parameters": [
           {
             "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -872,11 +1017,11 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "줄서기 삭제 성공"
           },
-          "403": {
-            "description": "Forbidden"
+          "400": {
+            "description": "줄서기 삭제 실패"
           }
         }
       }
