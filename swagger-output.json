@@ -7,37 +7,34 @@
   },
   "host": "jjmdev.site",
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "paths": {
-    "/api/auth/login/user": {     
+    "/api/auth/login/user": {
       "post": {
         "tags": ["auth"],
         "description": "로컬 유저 로그인",
-        "parameters": [          
-            {
-              "name": "body",
-              "in": "body",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {"example":"jjm@jjm.com" },
-                  "password": {"example":"1234abc"}                  
-                }
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "example": "jjm@jjm.com" },
+                "password": { "example": "1234abc" }
               }
             }
-          ],        
+          }
+        ],
         "responses": {
           "200": {
-            "description": "로그인 성공"            
+            "description": "로그인 성공"
           },
           "412": {
-            "description": "아이디/비밀번호 잘못 입력함"            
+            "description": "아이디/비밀번호 잘못 입력함"
           },
           "400": {
-            "description": "로그인 실패"            
+            "description": "로그인 실패"
           }
         }
       },
@@ -48,7 +45,7 @@
         "responses": {}
       }
     },
-    "/api/auth/logout/user": {      
+    "/api/auth/logout/user": {
       "delete": {
         "tags": ["auth"],
         "description": "",
@@ -74,7 +71,7 @@
         }
       }
     },
-    "/api/auth/signup/store": {      
+    "/api/auth/signup/store": {
       "post": {
         "tags": ["auth"],
         "description": "",
@@ -82,7 +79,7 @@
         "responses": {}
       }
     },
-    "/api/auth/login/store": {    
+    "/api/auth/login/store": {
       "post": {
         "tags": ["auth"],
         "description": "",
@@ -90,7 +87,7 @@
         "responses": {}
       }
     },
-    "/api/auth/logout/store": {      
+    "/api/auth/logout/store": {
       "delete": {
         "tags": ["auth"],
         "description": "",
@@ -116,7 +113,7 @@
         }
       }
     },
-    "/api/auth/send": {      
+    "/api/auth/send": {
       "post": {
         "tags": ["auth"],
         "description": "",
@@ -125,9 +122,9 @@
       }
     },
     "/api/mypage/user": {
-       "get": {
+      "get": {
         "tags": ["mypage"],
-        "description": "",
+        "description": "유저마이페이지 조회",
         "parameters": [
           {
             "name": "refreshtoken",
@@ -141,27 +138,110 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "user_id": 2,
+            "name": "박지현",
+            "WhiskyLikes": [],
+            "StoreLikes": [
+              {
+                "store_id": 27,
+                "Store": {
+                  "store_id": 27,
+                  "store": "이숙희"
+                }
+              }
+            ],
+            "Reviews": []
+          },
+          "400": {
+            "description": "마이 페이지 조회에 실패하였습니다"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       }
     },
-    "/api/mypage/store/{store_id}": {      
+    "/api/mypage/store/{store_id}": {
       "get": {
         "tags": ["mypage"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "유저가 스토어 상세조회",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "store_id": 27,
+            "email": "jenny9681@naver.com",
+            "store": "이숙희",
+            "biz_number": "19960801",
+            "biz_photo": "[\"https://dawhisky.s3.ap-northeast-2.amazonaws.com/biz_photo/2023-5-30-2-54-54_6322\"]",
+            "slikes": 0,
+            "password": "dltnrgml81",
+            "address": "서울 중구 을지로3가",
+            "phone": "01075579223",
+            "notice": " 분위기 짱짱짱 좋은 을지로 술집",
+            "runtime": "저녁부터새벽",
+            "createdAt": "2023-05-29T15:58:43.000Z",
+            "updatedAt": "2023-05-29T17:54:54.000Z"
+          },
+          "404": {
+            "description": "스토어가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "스토어 상세조회에 실패하였습니다."
+          }
+        }
       }
     },
-    "/api/mypage/store": {      
+    "/api/mypage/store": {
+      "get": {
+        "tags": ["mypage"],
+        "description": "점주가 스토어 상세조회",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "store_id": 27,
+            "email": "jenny9681@naver.com",
+            "store": "이숙희",
+            "biz_number": "19960801",
+            "biz_photo": "[\"https://dawhisky.s3.ap-northeast-2.amazonaws.com/biz_photo/2023-5-30-2-54-54_6322\"]",
+            "slikes": 0,
+            "password": "dltnrgml81",
+            "address": "서울 중구 을지로3가",
+            "phone": "01075579223",
+            "notice": " 분위기 짱짱짱 좋은 을지로 술집",
+            "runtime": "저녁부터새벽",
+            "createdAt": "2023-05-29T15:58:43.000Z",
+            "updatedAt": "2023-05-29T17:54:54.000Z"
+          },
+          "400": {
+            "description": "스토어 마이 페이지 조회에 실패하였습니다"
+          },
+          "403": {
+            "description": "로그인이 필요한 기능입니다."
+          }
+        }
+      },
       "put": {
         "tags": ["mypage"],
-        "description": "",
+        "description": "점주가 스토어 정보 수정",
         "parameters": [
           {
             "name": "refreshtoken",
@@ -172,35 +252,114 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "store": { "example": "이숙희" },
+                "address": { "example": "을지로3가" },
+                "phone": { "example": "01012345678" },
+                "notice": { "example": "분위기좋은 위스키바입니다" },
+                "runtime": { "example": "17:00~04:00" }
+              }
+            }
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "스토어 정보를 수정했습니다."
           },
-          "403": {
-            "description": "Forbidden"
+          "404": {
+            "description": "스토어가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "스토어 정보 수정에 실패하였습니다."
           }
         }
       }
     },
-    "/api/mypage/whisky/{store_id}": {      
+    "/api/mypage/whisky/{store_id}": {
       "get": {
         "tags": ["mypage"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "스토어 위스키 조회",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": [
+              {
+                "storewhisky_id": 9,
+                "whisky_id": 9,
+                "store_id": 27,
+                "count": "55",
+                "createdAt": "2023-06-05T03:31:28.000Z",
+                "updatedAt": "2023-06-05T03:31:28.000Z",
+                "Whisky": {
+                  "whisky_kor": "글렌모랑기 10년 더 오리지널"
+                }
+              },
+              {
+                "storewhisky_id": 10,
+                "whisky_id": 22,
+                "store_id": 27,
+                "count": "8",
+                "createdAt": "2023-06-05T03:31:36.000Z",
+                "updatedAt": "2023-06-05T03:31:36.000Z",
+                "Whisky": {
+                  "whisky_kor": "탈리스커 10년 차 태세 + 그루지카르트"
+                }
+              }
+            ]
+          },
+          "404": {
+            "description": "스토어가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "스토어 위스키 조회에 실패하였습니다."
+          }
+        }
       }
     },
-    "/api/mypage/table/{store_id}": {     
+    "/api/mypage/table/{store_id}": {
       "get": {
         "tags": ["mypage"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "스토어 테이블 조회",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "storetable_id": 10,
+            "store_id": 27,
+            "bar_table": "[0,0,0,0]",
+            "hall_table": "[1,0,0,0,1,0]",
+            "createdAt": "2023-06-02T12:42:57.000Z",
+            "updatedAt": "2023-06-02T12:42:57.000Z"
+          },
+          "404": {
+            "description": "스토어가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "스토어 테이블 조회에 실패하였습니다."
+          }
+        }
       }
     },
-    "/api/mypage/store/table": {     
+    "/api/mypage/store/table": {
       "post": {
         "tags": ["mypage"],
         "description": "",
@@ -214,14 +373,28 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hall_table": { "example": "[1,0,0,0,1,0]" },
+                "bar_table": { "example": "[0,0,0,0]" }
+              }
+            }
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "테이블을 생성하였습니다."
+          },
+          "400": {
+            "description": "테이블 생성에 실패하였습니다."
           },
           "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       },
@@ -238,14 +411,31 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hall_table": { "example": "[1,0,0,0,1,0]" },
+                "bar_table": { "example": "[0,0,0,0]" }
+              }
+            }
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "테이블을 수정하였습니다."
+          },
+          "404": {
+            "description": "테이블이 존재하지 않습니다."
+          },
+          "400": {
+            "description": "테이블 수정에 실패하였습니다."
           },
           "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       },
@@ -265,16 +455,22 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "테이블을 삭제하였습니다."
+          },
+          "404": {
+            "description": "테이블이 존재하지 않습니다."
+          },
+          "400": {
+            "description": "테이블 삭제에 실패하였습니다."
           },
           "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       }
     },
-    "/api/mypage/store/whisky": {      
+    "/api/mypage/store/whisky": {
       "post": {
         "tags": ["mypage"],
         "description": "",
@@ -288,20 +484,84 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "whisky_id": { "example": "20" },
+                "count": { "example": "33" }
+              }
+            }
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "위스키목록을 추가하였습니다."
+          },
+          "404": {
+            "description": "위스키가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 목록 추가에 실패하였습니다."
           },
           "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       }
     },
-    "/api/mypage/store/whisky/{storewhisky_id}": {      
+    "/api/mypage/store/whisky/{storewhisky_id}": {
       "put": {
+        "tags": ["mypage"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storewhisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "whisky_id": { "example": "20" },
+                "count": { "example": "33" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "위스키목록을 수정하였습니다."
+          },
+          "404": {
+            "description": "위스키목록이 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 목록 수정에 실패하였습니다."
+          },
+          "403": {
+            "description": "로그인이 필요한 기능입니다."
+          }
+        }
+      },
+      "delete": {
         "tags": ["mypage"],
         "description": "",
         "parameters": [
@@ -323,46 +583,22 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
+          "200": {
+            "description": "위스키목록을 삭제하였습니다."
+          },
+          "404": {
+            "description": "위스키목록이 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 목록 삭제에 실패하였습니다."
           },
           "403": {
-            "description": "Forbidden"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["mypage"],
-        "description": "",
-        "parameters": [
-          {
-            "name": "storewhisky_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "refreshtoken",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "로그인이 필요한 기능입니다."
           }
         }
       }
     },
-    "/api/review/{whisky_id}/": {     
+    "/api/review/{whisky_id}": {
       "post": {
         "tags": ["review"],
         "description": "위스키 리뷰 작성",
@@ -379,7 +615,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "content": {"example":"마라탕 맛이네요" }                                 
+                "content": { "example": "마라탕 맛이네요" }
               }
             }
           },
@@ -407,7 +643,7 @@
         }
       }
     },
-    "/api/review/{whisky_id}/{review_id}": {      
+    "/api/review/{whisky_id}/{review_id}": {
       "put": {
         "tags": ["review"],
         "description": "위스키 리뷰 수정",
@@ -430,7 +666,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "content": {"example":"마라탕 맛이네요 수정" }                                 
+                "content": { "example": "마라탕 맛이네요 수정" }
               }
             }
           },
@@ -497,7 +733,7 @@
         }
       }
     },
-    "/api/que/": {      
+    "/api/que/": {
       "get": {
         "tags": ["que"],
         "description": "",
@@ -523,7 +759,7 @@
         }
       }
     },
-    "/api/que/{store_id}": {      
+    "/api/que/{store_id}": {
       "get": {
         "tags": ["que"],
         "description": "",
@@ -645,51 +881,198 @@
         }
       }
     },
-    "/api/whisky/search/{keyword}": {     
+    "/api/whisky/search/{keyword}": {
       "get": {
         "tags": ["whisky"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "위스키 검색",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": [
+            {
+              "whisky_kor": "잭 다니엘스 올드 7번 - 기타 케이스",
+              "whisky_id": 186
+            },
+            {
+              "whisky_kor": "잭 다니엘의 올드 넘버 7",
+              "whisky_id": 190
+            },
+            {
+              "whisky_kor": "올드 발란트루안 더 페이트 몰트",
+              "whisky_id": 458
+            }
+          ],
+          "400": {
+            "description": "위스키 검색에 실패하였습니다."
+          }
+        }
       }
     },
     "/api/whisky/": {
-        "get": {
+      "get": {
         "tags": ["whisky"],
         "description": "위스키 전체 조회",
         "parameters": [
-          
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          }
         ],
         "responses": {
-        
+          "200": [
+            {
+              "whisky_id": 1,
+              "whisky_kor": "라가불린 16년",
+              "whisky_eng": "Lagavulin 16 Years",
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/9/csm_0_c4c456_lagav1600_aw_7a3c1490b0.jpg",
+              "whisky_abv": "43%"
+            },
+            {
+              "whisky_id": 2,
+              "whisky_kor": "하이랜드 파크 12년",
+              "whisky_eng": "Highland Park 12 Years",
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/9/csm_0_e0f279_highl1200_aw_0817f66b47.jpg",
+              "whisky_abv": "40%"
+            }
+          ],
+          "400": {
+            "description": "위스키 검색에 실패하였습니다."
+          }
         }
-      }     
-    },
-    "/api/whisky/{whisky_id}": {      
-      "get": {
-        "tags": ["whisky"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }     
-    },
-    "/api/whisky/store/{whisky_id}": {      
-      "get": {
-        "tags": ["whisky"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
       }
     },
-    "/api/whisky/comment/{whisky_id}": {      
+    "/api/whisky/{whisky_id}": {
       "get": {
         "tags": ["whisky"],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "description": "위스키 상세조회",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "liked": false,
+            "whiskyInfo": {
+              "whisky_id": 120,
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/0/b/csm_0_f7577a_balve12sb_aw_1625336958.jpg",
+              "whisky_eng": "Balvenie 12 Years Single Barrel First Fill",
+              "whisky_kor": "발베니 12년 싱글 배럴 퍼스트 필",
+              "whisky_country": "Scotland",
+              "whisky_region": "Speyside",
+              "whisky_age": "12 Years",
+              "whisky_type": "Single Malt Whisky",
+              "whisky_desc": "This single-barrel bottling from Balvenie emphasizes the influence of the barrel on the taste of a whisky. Oak barrels are natural products and each one is different. This gives each whisky a different taste. For this bottling, Balvenies Malt Master selec",
+              "whisky_abv": "47.8%",
+              "wlikes": 0,
+              "createdAt": "2023-06-02T11:08:27.000Z",
+              "updatedAt": "2023-06-02T11:08:27.000Z"
+            }
+          },
+          "404": {
+            "description": "위스키가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 상세 조회에 실패하였습니다."
+          }
+        }
       }
     },
-   
+    "/api/whisky/store/{whisky_id}": {
+      "get": {
+        "tags": ["whisky"],
+        "description": "위스키 보유 스토어 조회",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": [
+            {
+              "storewhisky_id": 9,
+              "whisky_id": 9,
+              "store_id": 27,
+              "count": "55",
+              "createdAt": "2023-06-05T03:31:28.000Z",
+              "updatedAt": "2023-06-05T03:31:28.000Z",
+              "Store": {
+                "store": "이숙희"
+              }
+            }
+          ],
+          "404": {
+            "description": "위스키가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 보유 스토어 조회에 실패하였습니다."
+          }
+        }
+      }
+    },
+    "/api/whisky/comment/{whisky_id}": {
+      "get": {
+        "tags": ["whisky"],
+        "description": "위스키 코멘트 조회",
+        "parameters": [
+          {
+            "name": "whisky_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": [
+            {
+              "review_id": 13,
+              "user_id": 2,
+              "whisky_id": 9,
+              "content": "맛있어요요",
+              "createdAt": "2023-06-05T06:34:57.000Z",
+              "updatedAt": "2023-06-05T06:34:57.000Z"
+            }
+          ],
+          "404": {
+            "description": "위스키가 존재하지 않습니다."
+          },
+          "400": {
+            "description": "위스키 코멘트어 조회에 실패하였습니다."
+          }
+        }
+      }
+    },
+
     "/api/like/whisky/{whisky_id}": {
       "put": {
         "tags": ["like"],
