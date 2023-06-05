@@ -15,10 +15,25 @@ class MypageController {
     }
   };
 
-  //스토어상세조회
-  storeMypage = async (req, res, next) => {
+  //유저가 스토어상세조회
+  storePage = async (req, res, next) => {
     try {
       const { store_id } = req.params;
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("404/스토어가 존재하지 않습니다.");
+      }
+      res.status(200).json(storeInfo);
+    } catch (error) {
+      error.failedApi = "스토어 상세 조회";
+      throw error;
+    }
+  };
+
+  //점주가 스토어상세조회
+  storeMypage = async (req, res, next) => {
+    try {
+      const { store_id } = res.locals.store;
       const storeInfo = await this.mypageService.getStoreMypage(store_id);
       if (!storeInfo) {
         throw new Error("404/스토어가 존재하지 않습니다.");

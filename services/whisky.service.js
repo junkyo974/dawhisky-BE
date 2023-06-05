@@ -5,6 +5,7 @@ const {
   StoreWhiskys,
   Stores,
   WhiskyLikes,
+  Users,
 } = require("../models");
 
 class WhiskyService {
@@ -13,7 +14,8 @@ class WhiskyService {
     Reviews,
     StoreWhiskys,
     Stores,
-    WhiskyLikes
+    WhiskyLikes,
+    Users
   );
 
   //위스키 검색
@@ -25,17 +27,16 @@ class WhiskyService {
     }
   };
 
-  // //위스키 전체조회
-  // findAllWhisky = async () => {
-  //   return await this.whiskyRepository.findAllWhisky();
-  // };
   findPaginatedWhiskies = async (offset, pageSize) => {
     return await this.whiskyRepository.findPaginatedWhiskies(offset, pageSize);
   };
 
   //위스키 상세조회
-  whiskyDetail = async (whisky_id, user_id) => {
-    const whiskyLike = await this.whiskyRepository.findOneWhiskyLike(user_id);
+  whiskyDetail = async (whisky_id, email) => {
+    const whiskyLike = await this.whiskyRepository.findOneUser(
+      whisky_id,
+      email
+    );
     let liked = whiskyLike ? true : false;
     const whiskyInfo = await this.whiskyRepository.findOneWhisky(whisky_id);
     return { liked, whiskyInfo };
