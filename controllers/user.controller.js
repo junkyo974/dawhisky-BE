@@ -35,7 +35,7 @@ class UserController {
 
       res.status(200).json({
         authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
-        refreshToken: `${userData.refreshObject.type} ${userData.refreshObject.token}`,
+        refreshtoken: `${userData.refreshObject.type} ${userData.refreshObject.token}`,
         user: `${user.user_id}`,
       });
     } catch (err) {
@@ -110,7 +110,7 @@ class UserController {
         );
 
         res.cookie(
-          "refreshToken",
+          "refreshtoken",
           `${userData.refreshObject.type} ${userData.refreshObject.token}`
         );
 
@@ -126,7 +126,7 @@ class UserController {
         );
 
         res.cookie(
-          "refreshToken",
+          "refreshtoken",
           `${userData.refreshObject.type} ${userData.refreshObject.token}`
         );
 
@@ -145,7 +145,7 @@ class UserController {
 
     try {
       const logoutData = await this.userService.logout(user_id);
-      res.clearCookie("authorization", "refreshToken", "user");
+      res.clearCookie("authorization", "refreshtoken", "user");
       res.status(200).json(logoutData);
       console.log(logoutData);
       delete res.locals.user;
@@ -160,7 +160,7 @@ class UserController {
 
     try {
       const deleteUser = await this.userService.deleteUser(user_id);
-      res.clearCookie("authorization", "refreshToken", "user");
+      res.clearCookie("authorization", "refreshtoken", "user");
       res.status(200).json(deleteUser);
       delete res.locals.user;
     } catch (err) {
