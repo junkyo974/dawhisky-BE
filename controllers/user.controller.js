@@ -61,11 +61,11 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://localhost:3000/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
+            redirect_uri: "http://jjmdev.site/api/auth/login/user",
           },
         }
       );
-      console.log(res1);
+
       // Access token을 이용해 정보 가져오기
       const res2 = await Axios.post(
         "https://kapi.kakao.com/v2/user/me",
@@ -77,8 +77,6 @@ class UserController {
           },
         }
       );
-      console.log(res2);
-
       const data = res2.data;
       const email = data.kakao_account.email;
       const user = await this.userService.findOneUserEmail(email);
@@ -99,18 +97,7 @@ class UserController {
 
         await this.userService.signup(email, name, age, gender, password);
 
-        const userData = await this.userService.login(data.kakao_account.email);
-
-        res.cookie(
-          "authorization",
-          `${userData.accessObject.type} ${userData.accessObject.token}`
-        );
-
-        res.cookie("refreshToken", `${userData.refreshObject.token}`);
-
-        res.cookie("user", `${user.user_id}`);
-
-        res.status(200).redirect("http://localhost:3000/api/whisky");
+        res.status(200).redirect("http://jjmdev.site/api/whisky");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -123,7 +110,7 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://localhost:3000/api/whisky");
+        res.status(200).redirect("http://jjmdev.site/api/whisky");
       }
     } catch (error) {
       console.error(error);
