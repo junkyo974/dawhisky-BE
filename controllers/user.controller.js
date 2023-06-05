@@ -26,16 +26,13 @@ class UserController {
         `${userData.accessObject.type} ${userData.accessObject.token}`
       );
 
-      res.cookie(
-        "refreshToken",
-        `${userData.refreshObject.type} ${userData.refreshObject.token}`
-      );
+      res.cookie("refreshToken", `${userData.refreshObject.token}`);
 
       res.cookie("user", `${user.user_id}`);
 
       res.status(200).json({
         authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
-        refreshtoken: `${userData.refreshObject.type} ${userData.refreshObject.token}`,
+        refreshToken: `${userData.refreshObject.token}`,
         user: `${user.user_id}`,
       });
     } catch (err) {
@@ -109,10 +106,7 @@ class UserController {
           `${userData.accessObject.type} ${userData.accessObject.token}`
         );
 
-        res.cookie(
-          "refreshtoken",
-          `${userData.refreshObject.type} ${userData.refreshObject.token}`
-        );
+        res.cookie("refreshToken", `${userData.refreshObject.token}`);
 
         res.cookie("user", `${user.user_id}`);
 
@@ -125,10 +119,7 @@ class UserController {
           `${userData.accessObject.type} ${userData.accessObject.token}`
         );
 
-        res.cookie(
-          "refreshtoken",
-          `${userData.refreshObject.type} ${userData.refreshObject.token}`
-        );
+        res.cookie("refreshToken", `${userData.refreshObject.token}`);
 
         res.cookie("user", `${user.user_id}`);
 

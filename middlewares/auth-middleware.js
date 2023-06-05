@@ -7,17 +7,13 @@ module.exports = async (req, res, next) => {
   let { authorization, refreshtoken } = req.headers;
 
   try {
-    console.log("미들웨어체크1", authorization, refreshtoken);
     authorization = !req.headers.refreshtoken
       ? req.cookies.authorization
       : authorization;
-    console.log("미들웨어체크1.5", !req.headers.refreshtoken);
 
     refreshtoken = !req.headers.refreshtoken
       ? req.cookies.refreshtoken
       : refreshtoken;
-
-    console.log("미들웨어체크2", authorization, refreshtoken);
 
     const [authType, authToken] = (authorization ?? "").split(" ");
     if (authType !== "Bearer" || !authToken) {
