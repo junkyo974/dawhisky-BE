@@ -25,6 +25,13 @@ class UserRepository {
     });
     return findOneUserData;
   };
+
+  deleteUser = async (user_id) => {
+    const deleteUser = await Users.destroy({
+      where: { user_id: user_id },
+    });
+    return deleteUser;
+  };
 }
 
 module.exports = UserRepository;

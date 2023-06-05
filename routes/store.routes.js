@@ -20,6 +20,9 @@ router.post("/login/store", storeController.login);
 router.delete("/logout/store", authMiddleware, storeController.logout);
 
 // DELETE: 회원 탈퇴
-// router.delete('/api/auth/signout/store', storeController.deleteUser);
+router.delete("/signout/store", authMiddleware, storeController.deleteStore);
+
+// // GET: 알림메시지
+// router.get("/push", storeController.pushAlam);
 
 module.exports = router;

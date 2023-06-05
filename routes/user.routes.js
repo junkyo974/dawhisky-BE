@@ -14,6 +14,6 @@ router.get("/login/user", userController.kakaologin);
 router.delete("/logout/user", authMiddleware, userController.logout);
 
 // DELETE: 회원 탈퇴
-// router.delete('/api/auth/signout/user', userController.deleteUser);
+router.delete("/signout/user", authMiddleware, userController.deleteUser);
 
 module.exports = router;

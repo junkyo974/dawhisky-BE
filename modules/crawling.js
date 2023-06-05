@@ -1,5 +1,5 @@
 // const puppeteer = require("puppeteer");
-// const request = require("request");
+// const axios = require("axios");
 // const mysql = require("mysql");
 
 // const connection = mysql.createConnection({
@@ -23,9 +23,12 @@
 //   const whiskyList = [];
 //   const whiskyEngSet = new Set();
 
-//   let i = 1;
+//   const startPage = 60;
+//   const endPage = 60; //60까지 크롤링 완료
 
-//   while (true) {
+//   let j = 1;
+
+//   for (let i = startPage; i <= endPage; i++) {
 //     const url = `https://www.whisky.com/whisky-database/bottle-search/whisky/fdb/Flaschen/search.html?type=1505224767&tx_datamintsflaschendb_pi4%5BsearchCriteria%5D%5BsortingCombined%5D=bewertungsAnzahl_descending&tx_datamintsflaschendb_pi4%5BsearchCriteria%5D%5BspiritType%5D=1&tx_datamintsflaschendb_pi4%5BcurPage%5D=${i}&tx_datamintsflaschendb_pi4%5BresultsOnly%5D=1`;
 
 //     await page.goto(url);
@@ -132,97 +135,95 @@
 //         }
 
 //         await whiskyPage.close();
-
-//         if (whiskyList.length >= 5) {
-//           break;
-//         }
-//         // for (const whiskyList of whiskyList) {
-//         //   const query = whiskyList.whisky_eng;
-//         //   const api_url = "https://openapi.naver.com/v1/papago/n2mt";
-//         //   const client_id = "Uj7d9jdvBCGEsQ_J8VJp";
-//         //   const client_secret = "_CWWJSvuyv";
-
-//         //   const options = {
-//         //     method: "POST",
-//         //     uri: api_url,
-//         //     form: {
-//         //       source: "en",
-//         //       target: "ko",
-//         //       text: query,
-//         //     },
-//         //     headers: {
-//         //       "X-Naver-Client-Id": client_id,
-//         //       "X-Naver-Client-Secret": client_secret,
-//         //     },
-//         //     json: true,
-//         //   };
-
-//         //   const response = await request(options);
-
-//         //   if (response && response.message && response.message.result) {
-//         //     const translatedText = response.message.result.translatedText;
-//         //     whiskyData.whisky_kor = translatedText;
-//         //     console.log(translatedText);
-//         //   } else {
-//         //     console.log("번역 실패");
-//         //   }
-
-//         const duplicateCheckQuery =
-//           "SELECT COUNT(*) AS count FROM Whiskys WHERE whisky_eng = ?";
-//         connection.query(
-//           duplicateCheckQuery,
-//           [whiskyData.whisky_eng],
-//           (error, results, fields) => {
-//             if (error) {
-//               console.error("중복검사 실패:", error);
-//             } else {
-//               const count = results[0].count;
-//               if (count === 0) {
-//                 const insertQuery = `
-//               INSERT INTO Whiskys (whisky_eng, whisky_kor, whisky_country, whisky_region, whisky_age, whisky_type, whisky_desc, whisky_abv, whisky_photo)
-//               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-//             `;
-
-//                 const insertValues = [
-//                   whiskyData.whisky_eng,
-//                   whiskyData.whisky_kor,
-//                   whiskyData.whisky_country,
-//                   whiskyData.whisky_region,
-//                   whiskyData.whisky_age,
-//                   whiskyData.whisky_type,
-//                   whiskyData.whisky_desc,
-//                   whiskyData.whisky_abv,
-//                   whiskyData.whisky_photo,
-//                 ];
-
-//                 connection.query(
-//                   insertQuery,
-//                   insertValues,
-//                   (error, results, fields) => {
-//                     if (error) {
-//                       console.error("데이터 삽입 실패:", error);
-//                     } else {
-//                       console.log(`${whiskyData.whisky_eng} 데이터 삽입 성공`);
-//                     }
-//                   }
-//                 );
-//               } else {
-//                 console.log(
-//                   `${whiskyData.whisky_eng} 이미 존재하여 데이터 삽입 스킵`
-//                 );
-//               }
-//             }
-//           }
-//         );
 //       }
-//       // }
-
-//       i++; // 다음 URL을 위해 i 증가
+//       if (j === 16) {
+//         j = 1;
+//         i++;
+//       } else {
+//         j++;
+//       }
 //     }
 //   }
 
-//   console.log(whiskyList);
+//   // 번역
+//   for (const whiskyData of whiskyList) {
+//     const query = whiskyData.whisky_eng;
+//     const api_url = "https://openapi.naver.com/v1/papago/n2mt";
+//     const client_id = "AafBncl7kO_Y87FQU5dr";
+//     const client_secret = "ySDym2Y2Mq";
+
+//     try {
+//       const response = await axios.post(
+//         api_url,
+//         {
+//           source: "en",
+//           target: "ko",
+//           text: query,
+//         },
+//         {
+//           headers: {
+//             "X-Naver-Client-Id": client_id,
+//             "X-Naver-Client-Secret": client_secret,
+//           },
+//         }
+//       );
+
+//       if (
+//         response.data &&
+//         response.data.message &&
+//         response.data.message.result
+//       ) {
+//         const translatedText = response.data.message.result.translatedText;
+//         whiskyData.whisky_kor = translatedText;
+//         console.log(translatedText);
+//       } else {
+//         console.log("번역 실패");
+//       }
+//     } catch (error) {
+//       console.error("에러 발생:", error);
+//     }
+
+//     const duplicateCheckQuery =
+//       "SELECT COUNT(*) AS count FROM Whiskys WHERE whisky_eng = ?";
+//     connection.query(
+//       duplicateCheckQuery,
+//       [whiskyData.whisky_eng],
+//       (error, results, fields) => {
+//         if (error) {
+//           console.error("중복 체크 실패:", error);
+//           return;
+//         }
+
+//         if (results[0].count === 0) {
+//           const insertQuery =
+//             "INSERT INTO Whiskys (whisky_eng, whisky_kor, whisky_country, whisky_region, whisky_age, whisky_type, whisky_desc, whisky_abv, whisky_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//           const insertValues = [
+//             whiskyData.whisky_eng,
+//             whiskyData.whisky_kor,
+//             whiskyData.whisky_country,
+//             whiskyData.whisky_region,
+//             whiskyData.whisky_age,
+//             whiskyData.whisky_type,
+//             whiskyData.whisky_desc,
+//             whiskyData.whisky_abv,
+//             whiskyData.whisky_photo,
+//           ];
+
+//           connection.query(
+//             insertQuery,
+//             insertValues,
+//             (error, results, fields) => {
+//               if (error) {
+//                 console.error("데이터 삽입 실패:", error);
+//               }
+//             }
+//           );
+//         }
+//       }
+//     );
+//   }
+
+//   // connection.end();
 
 //   await browser.close();
-//   return whiskyList;
 // })();

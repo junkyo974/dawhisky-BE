@@ -1,3 +1,4 @@
+const { invalid } = require("joi");
 const StoreService = require("../services/store.service");
 // const axios = require("axios");
 const redisClient = require("../utils/redis.js");
@@ -128,12 +129,26 @@ class StoreController {
 
     try {
       const logoutData = await this.storeService.logout(store_id);
-      res.clearCookie("authorization", "refreshToken");
+      res.clearCookie("authorization", "refreshToken", "store");
       res.status(200).json(logoutData);
       delete res.locals.store;
     } catch (err) {
       console.error(err);
       res.status(400).json({ errorMessage: "로그아웃에 실패하였습니다." });
+    }
+  };
+
+  deleteStore = async (req, res) => {
+    const { store_id } = res.locals.store;
+
+    try {
+      const deleteStore = await this.storeService.deleteStore(store_id);
+      res.clearCookie("authorization", "refreshToken", "store");
+      res.status(200).json(deleteStore);
+      delete res.locals.store;
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ errorMessage: "회원정보 삭제에 실패하였습니다." });
     }
   };
 }

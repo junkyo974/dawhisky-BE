@@ -61,7 +61,7 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://jjmdev.site/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
+            redirect_uri: "http://localhost:3000/api/auth/login/user", // 로컬 테스트 시 'http:://백엔드 포트/api/auth/kakaoLogin
           },
         }
       );
@@ -110,7 +110,7 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://jjmdev.site/api/whisky");
+        res.status(200).redirect("http://localhost:3000/api/whisky");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -123,7 +123,7 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://jjmdev.site/api/whisky");
+        res.status(200).redirect("http://localhost:3000/api/whisky");
       }
     } catch (error) {
       console.error(error);
@@ -136,12 +136,27 @@ class UserController {
 
     try {
       const logoutData = await this.userService.logout(user_id);
-      res.clearCookie("authorization", "refreshToken");
+      res.clearCookie("authorization", "refreshtoken", "user");
       res.status(200).json(logoutData);
+      console.log(logoutData);
       delete res.locals.user;
     } catch (err) {
       console.error(err);
       res.status(400).json({ errorMessage: "로그아웃에 실패하였습니다." });
+    }
+  };
+
+  deleteUser = async (req, res) => {
+    const { user_id } = res.locals.user;
+
+    try {
+      const deleteUser = await this.userService.deleteUser(user_id);
+      res.clearCookie("authorization", "refreshtoken", "user");
+      res.status(200).json(deleteUser);
+      delete res.locals.user;
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ errorMessage: "회원정보 삭제에 실패하였습니다." });
     }
   };
 }
