@@ -27,22 +27,22 @@ class WhiskyController {
 //       throw error;
 //     }
 //   };
-//   paginatedWhiskies = async (req, res, next) => {
-//     try {
-//       const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
-//       const pageSize = parseInt(req.query.pageSize) || 10; // 페이지당 항목 수 가져오기 (기본값: 10)
-//       const offset = (page - 1) * pageSize; // 오프셋 계산
+  paginatedWhiskies = async (req, res, next) => {
+    try {
+      const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
+      const pageSize = parseInt(req.query.pageSize) || 10; // 페이지당 항목 수 가져오기 (기본값: 10)
+      const offset = (page - 1) * pageSize; // 오프셋 계산
 
-//       const whiskies = await this.whiskyService.findPaginatedWhiskies(
-//         offset,
-//         pageSize
-//       );
+      const whiskies = await this.whiskyService.findPaginatedWhiskies(
+        offset,
+        pageSize
+      );
 
-//       res.status(200).json(whiskies);
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
+      res.status(200).json(whiskies);
+    } catch (error) {
+      next(error);
+    }
+  };
 
   //위스키 상세조회
   whiskyDetail = async (req, res, next) => {
