@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const sequelize = require("sequelize");
 
 class ReviewRepository {
@@ -11,8 +12,10 @@ class ReviewRepository {
     return await this.Whiskys.findOne({ where: { whisky_id } });
   };
   //리뷰찾기
-  findOneReview = async (review_id) => {
-    return await this.Reviews.findOne({ where: { review_id } });
+  findOneReview = async (user_id, whisky_id) => {
+    return await this.Reviews.findOne({
+      where: { [Op.and]: [{ whisky_id }, { user_id }] },
+    });
   };
 
   //리뷰등록
@@ -25,12 +28,19 @@ class ReviewRepository {
   };
 
   //리뷰수정
-  updateReview = async (review_id, content) => {
-    return await this.Reviews.update({ content }, { where: { review_id } });
+  updateReview = async (user_id, whisky_id, content) => {
+    return await this.Reviews.update(
+      { content },
+      {
+        where: { [Op.and]: [{ whisky_id }, { user_id }] },
+      }
+    );
   };
   //리뷰삭제
-  deleteReview = async (review_id) => {
-    await this.Reviews.destroy({ where: { review_id } });
+  deleteReview = async (user_id, whisky_id) => {
+    await this.Reviews.destroy({
+      where: { [Op.and]: [{ whisky_id }, { user_id }] },
+    });
   };
 }
 

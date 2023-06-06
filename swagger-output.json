@@ -95,7 +95,11 @@
                 "email": { "example": "junkyo814@naver.com" },
                 "store": { "example": "상호명" },
                 "biz_number": { "example": "12345678912" },
-                "biz_photo": { "example": "[\"photo1.jpg\", \"photo2.jpg\"]", "type": "array", "items": { "type": "string" } },
+                "biz_photo": {
+                  "example": "[\"photo1.jpg\", \"photo2.jpg\"]",
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
                 "password": { "example": "123456a" },
                 "authCode": { "example": "123456" }
               }
@@ -353,7 +357,11 @@
                 "phone": { "example": "01012345678" },
                 "notice": { "example": "분위기좋은 위스키바입니다" },
                 "runtime": { "example": "17:00~04:00" },
-                "biz_photo": { "example": "[\"photo1.jpg\", \"photo2.jpg\"]", "type": "array", "items": { "type": "string" } }
+                "biz_photo": {
+                  "example": "[\"photo1.jpg\", \"photo2.jpg\"]",
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
               }
             }
           }
@@ -480,6 +488,9 @@
           "200": {
             "description": "테이블을 생성하였습니다."
           },
+          "412": {
+            "description": "이미 스토어테이블을 생성하였습니다."
+          },
           "400": {
             "description": "테이블 생성에 실패하였습니다."
           },
@@ -594,6 +605,9 @@
           "404": {
             "description": "위스키가 존재하지 않습니다."
           },
+          "412": {
+            "description": "이미 등록된 스토어위스키 입니다."
+          },
           "400": {
             "description": "위스키 목록 추가에 실패하였습니다."
           },
@@ -603,13 +617,13 @@
         }
       }
     },
-    "/api/mypage/store/whisky/{storewhisky_id}": {
+    "/api/mypage/store/whisky/{whisky_id}": {
       "put": {
         "tags": ["mypage"],
         "description": "점주가 스토어위스키 수정",
         "parameters": [
           {
-            "name": "storewhisky_id",
+            "name": "whisky_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -630,7 +644,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "whisky_id": { "example": "20" },
                 "count": { "example": "33" }
               }
             }
@@ -641,6 +654,9 @@
             "description": "위스키목록을 수정하였습니다."
           },
           "404": {
+            "description": "위스키가 존재하지 않습니다."
+          },
+          "412": {
             "description": "위스키목록이 존재하지 않습니다."
           },
           "400": {
@@ -656,7 +672,7 @@
         "description": "점주가 스토어위스키 삭제",
         "parameters": [
           {
-            "name": "storewhisky_id",
+            "name": "whisky_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -676,7 +692,7 @@
           "200": {
             "description": "위스키목록을 삭제하였습니다."
           },
-          "404": {
+          "412": {
             "description": "위스키목록이 존재하지 않습니다."
           },
           "400": {
@@ -727,6 +743,9 @@
           "403": {
             "description": "로그인 에러"
           },
+          "412": {
+            "description": "이미 리뷰를 작성한 위스키입니다."
+          },
           "400": {
             "description": "리뷰 등록 실패"
           }
@@ -740,12 +759,6 @@
         "parameters": [
           {
             "name": "whisky_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "review_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -778,6 +791,9 @@
           "403": {
             "description": "로그인 에러"
           },
+          "412": {
+            "description": "리뷰가 존재하지 않습니다."
+          },
           "400": {
             "description": "리뷰 수정 실패"
           }
@@ -789,12 +805,6 @@
         "parameters": [
           {
             "name": "whisky_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "review_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -865,7 +875,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },          
+          },
           {
             "name": "refreshtoken",
             "in": "header",
@@ -895,7 +905,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },         
+          },
           {
             "name": "body",
             "in": "body",
@@ -939,7 +949,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },        
+          },
           {
             "name": "body",
             "in": "body",
@@ -983,7 +993,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },          
+          },
           {
             "name": "refreshtoken",
             "in": "header",

@@ -44,13 +44,13 @@ router.post(
 
 //스토어위스키수정
 router.put(
-  "/store/whisky/:storewhisky_id",
+  "/store/whisky/:whisky_id",
   authMiddleware,
   mypageController.updateStoreWhisky
 );
 //스토어위스키 삭제
 router.delete(
-  "/store/whisky/:storewhisky_id",
+  "/store/whisky/:whisky_id",
   authMiddleware,
   mypageController.deleteStoreWhisky
 );
