@@ -1276,6 +1276,43 @@
           }
         }
       }
+    },
+    "/api/map/store/": {
+      "get": {
+        "tags": ["map"],
+        "description": "스토어 불러오기",
+        "parameters": [],
+        "responses": {
+          "200": [
+            {
+              "store_id": 27,
+              "store": "이숙희",
+              "address": "서울 중구 을지로3가",
+              "StoreTables": [
+                {
+                  "bar_table": "[0,0,0,0]",
+                  "hall_table": "[1,0,0,0,1,0]"
+                }
+              ]
+            },
+            {
+              "store_id": 28,
+              "store": "팀스피릿츠",
+              "address": "null",
+              "StoreTables": []
+            },
+            {
+              "store_id": 29,
+              "store": "팀스피릿츠2",
+              "address": "null",
+              "StoreTables": []
+            }
+          ],
+          "400": {
+            "description": "스토어 불러오기에 실패하였습니다."
+          }
+        }
+      }
     }
   }
 }

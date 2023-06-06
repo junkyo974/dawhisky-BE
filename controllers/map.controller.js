@@ -1,6 +1,8 @@
 const fs = require("fs");
+const MapService = require("../services/map.service");
 
 class MapController {
+  mapService = new MapService();
   getMap = async (req, res) => {
     fs.readFile("./static/index.html", (err, data) => {
       if (err) {
@@ -11,6 +13,18 @@ class MapController {
         res.end();
       }
     });
+  };
+
+  //스토어 불러오기
+  getStore = async (req, res, next) => {
+    try {
+      const store = await this.mapService.getStore();
+
+      res.status(200).json(store);
+    } catch (error) {
+      error.failedApi = "스토어 불러오기";
+      throw error;
+    }
   };
 }
 
