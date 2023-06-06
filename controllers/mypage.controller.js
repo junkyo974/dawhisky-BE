@@ -113,7 +113,7 @@ class MypageController {
 
       await this.mypageService.createTable(store_id, hall_table, bar_table);
 
-      res.status(201).json({ message: "테이블을 생성하였습니다." });
+      res.status(200).json({ message: "테이블을 생성하였습니다." });
     } catch (error) {
       error.failedApi = "테이블 생성";
       throw error;
@@ -176,7 +176,7 @@ class MypageController {
       }
       await this.mypageService.createStoreWhisky(store_id, whisky_id, count);
 
-      res.status(201).json({ message: "위스키목록을 추가하였습니다." });
+      res.status(200).json({ message: "위스키목록을 추가하였습니다." });
     } catch (error) {
       error.failedApi = "위스키목록 추가";
       throw error;

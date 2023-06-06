@@ -7,7 +7,7 @@
   },
   "host": "jjmdev.site",
   "basePath": "/",
-  "schemes": ["http", "https"],
+  "schemes": ["https", "http"],
   "paths": {
     "/api/auth/login/user": {
       "post": {
@@ -20,8 +20,8 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": { "example": "jjm@jjm.com" },
-                "password": { "example": "1234abc" }
+                "email": { "example": "wysl9681@gmail.com" },
+                "password": { "example": "qkrwl1212" }
               }
             }
           }
@@ -95,6 +95,7 @@
                 "email": { "example": "junkyo814@naver.com" },
                 "store": { "example": "상호명" },
                 "biz_number": { "example": "12345678912" },
+                "biz_photo": { "example": "[\"photo1.jpg\", \"photo2.jpg\"]", "type": "array", "items": { "type": "string" } },
                 "password": { "example": "123456a" },
                 "authCode": { "example": "123456" }
               }
@@ -352,7 +353,7 @@
                 "phone": { "example": "01012345678" },
                 "notice": { "example": "분위기좋은 위스키바입니다" },
                 "runtime": { "example": "17:00~04:00" },
-                "biz_photo": { "example": "djoiedddddd" }
+                "biz_photo": { "example": "[\"photo1.jpg\", \"photo2.jpg\"]", "type": "array", "items": { "type": "string" } }
               }
             }
           }
@@ -864,13 +865,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          },          
           {
             "name": "refreshtoken",
             "in": "header",
@@ -900,13 +895,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          },         
           {
             "name": "body",
             "in": "body",
@@ -950,13 +939,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          },        
           {
             "name": "body",
             "in": "body",
@@ -1000,13 +983,7 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          },          
           {
             "name": "refreshtoken",
             "in": "header",
