@@ -21,7 +21,7 @@ class ReviewController {
 
       await this.reviewService.createReview(user_id, whisky_id, content);
 
-      res.status(201).json({ message: "리뷰를 작성하였습니다." });
+      res.status(200).json({ message: "리뷰를 작성하였습니다." });
     } catch (error) {
       error.failedApi = "리뷰 작성";
       throw error;
