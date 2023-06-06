@@ -10,9 +10,10 @@ class ReviewService {
   };
 
   //리뷰찾기
-  findReviewById = async (review_id) => {
-    return await this.reviewRepository.findOneReview(review_id);
+  findWhiskyReview = async (user_id, whisky_id) => {
+    return await this.reviewRepository.findOneReview(user_id, whisky_id);
   };
+
   //리뷰등록
   createReview = async (user_id, whisky_id, content) => {
     return await this.reviewRepository.createReview(
@@ -23,13 +24,17 @@ class ReviewService {
   };
 
   //리뷰수정
-  updateReview = async (review_id, content) => {
-    return await this.reviewRepository.updateReview(review_id, content);
+  updateReview = async (user_id, whisky_id, content) => {
+    return await this.reviewRepository.updateReview(
+      user_id,
+      whisky_id,
+      content
+    );
   };
 
   //리뷰삭제
-  deleteReview = async (review_id) => {
-    await this.reviewRepository.deleteReview(review_id);
+  deleteReview = async (user_id, whisky_id) => {
+    await this.reviewRepository.deleteReview(user_id, whisky_id);
   };
 }
 
