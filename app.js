@@ -81,6 +81,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "http://52.78.56.220:3000",
+      "https://dawhisky.com",
     ],
     credentials: "true",
     // cors options
