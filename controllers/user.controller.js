@@ -97,7 +97,7 @@ class UserController {
 
         await this.userService.signup(email, name, age, gender, password);
 
-        res.status(200).redirect("http://jjmdev.site/api/whisky");
+        res.status(200).redirect("https://dawhisky.com/");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -110,7 +110,7 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://jjmdev.site/api/whisky");
+        res.status(200).redirect("https://dawhisky.com/");
       }
     } catch (error) {
       console.error(error);
