@@ -48,7 +48,7 @@ class QueController {
 
       await this.queService.createQue(user_id, store_id, request, head_count);
 
-      res.status(201).json({ message: "줄서기를 요청하였습니다." });
+      res.status(200).json({ message: "줄서기를 요청하였습니다." });
     } catch (error) {
       error.failedApi = "줄서기 요청";
       throw error;

@@ -15,10 +15,25 @@ class MypageController {
     }
   };
 
-  //스토어상세조회
-  storeMypage = async (req, res, next) => {
+  //유저가 스토어상세조회
+  storePage = async (req, res, next) => {
     try {
       const { store_id } = req.params;
+      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      if (!storeInfo) {
+        throw new Error("404/스토어가 존재하지 않습니다.");
+      }
+      res.status(200).json(storeInfo);
+    } catch (error) {
+      error.failedApi = "스토어 상세 조회";
+      throw error;
+    }
+  };
+
+  //점주가 스토어상세조회
+  storeMypage = async (req, res, next) => {
+    try {
+      const { store_id } = res.locals.store;
       const storeInfo = await this.mypageService.getStoreMypage(store_id);
       if (!storeInfo) {
         throw new Error("404/스토어가 존재하지 않습니다.");
@@ -96,9 +111,14 @@ class MypageController {
       const { store_id } = res.locals.store;
       const { hall_table, bar_table } = req.body;
 
+      const storetable = await this.mypageService.findStoretableById(store_id);
+      if (storetable) {
+        throw new Error("412/이미 스토어테이블을 생성하였습니다.");
+      }
+
       await this.mypageService.createTable(store_id, hall_table, bar_table);
 
-      res.status(201).json({ message: "테이블을 생성하였습니다." });
+      res.status(200).json({ message: "테이블을 생성하였습니다." });
     } catch (error) {
       error.failedApi = "테이블 생성";
       throw error;
@@ -155,13 +175,20 @@ class MypageController {
       const { whisky_id, count } = req.body;
 
       const whisky = await this.mypageService.findWhisky(whisky_id);
-
+      const storeWhisky = await this.mypageService.findStoreWhisky(
+        whisky_id,
+        store_id
+      );
       if (!whisky) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }
+      if (storeWhisky) {
+        throw new Error("412/이미 등록된 스토어위스키 입니다.");
+      }
+
       await this.mypageService.createStoreWhisky(store_id, whisky_id, count);
 
-      res.status(201).json({ message: "위스키목록을 추가하였습니다." });
+      res.status(200).json({ message: "위스키목록을 추가하였습니다." });
     } catch (error) {
       error.failedApi = "위스키목록 추가";
       throw error;
@@ -172,27 +199,23 @@ class MypageController {
   updateStoreWhisky = async (req, res, next) => {
     try {
       const { store_id } = res.locals.store;
-      const { whisky_id, count } = req.body;
-      const { storewhisky_id } = req.params;
+      const { count } = req.body;
+      const { whisky_id } = req.params;
 
       const whisky = await this.mypageService.findWhisky(whisky_id);
 
       if (!whisky) {
-        throw new Error("403/위스키가 존재하지 않습니다.");
+        throw new Error("404/위스키가 존재하지 않습니다.");
       }
-      const storewhisky = await this.mypageService.findStorewhiskyById(
-        storewhisky_id
+      const storeWhisky = await this.mypageService.findStoreWhisky(
+        whisky_id,
+        store_id
       );
 
-      if (!storewhisky) {
-        throw new Error("404/위스키목록이 존재하지 않습니다.");
+      if (!storeWhisky) {
+        throw new Error("412/위스키목록이 존재하지 않습니다.");
       }
-      await this.mypageService.updateStoreWhisky(
-        storewhisky_id,
-        store_id,
-        whisky_id,
-        count
-      );
+      await this.mypageService.updateStoreWhisky(store_id, whisky_id, count);
 
       return res.status(200).json({ message: "위스키목록을 수정했습니다." });
     } catch (error) {
@@ -205,15 +228,17 @@ class MypageController {
   deleteStoreWhisky = async (req, res, next) => {
     try {
       const { store_id } = res.locals.store;
-      const { storewhisky_id } = req.params;
+      const { whisky_id } = req.params;
 
-      const storewhisky = await this.mypageService.findStorewhiskyById(
-        storewhisky_id
+      const storeWhisky = await this.mypageService.findStoreWhisky(
+        whisky_id,
+        store_id
       );
-      if (!storewhisky) {
-        throw new Error("404/위스키목록이 존재하지 않습니다.");
+
+      if (!storeWhisky) {
+        throw new Error("412/위스키목록이 존재하지 않습니다.");
       }
-      await this.mypageService.deleteStoreWhisky(storewhisky_id);
+      await this.mypageService.deleteStoreWhisky(store_id, whisky_id);
 
       return res.status(200).json({ message: "위스키목록을 삭제하였습니다." });
     } catch (error) {

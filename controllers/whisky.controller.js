@@ -16,22 +16,11 @@ class WhiskyController {
     }
   };
 
-  //위스키 전체조회
-  //   allWhisky = async (req, res, next) => {
-  //     try {
-  //       const allWhisky = await this.whiskyService.findAllWhisky();
-
-  //       res.status(200).json(allWhisky);
-  //     } catch (error) {
-  //       error.failedApi = "위스키 전체 조회";
-  //       throw error;
-  //     }
-  //   };
   paginatedWhiskies = async (req, res, next) => {
     try {
-      const page = parseInt(req.query.page) || 1; // 페이지 번호 가져오기 (기본값: 1)
-      const pageSize = parseInt(req.query.pageSize) || 10; // 페이지당 항목 수 가져오기 (기본값: 10)
-      const offset = (page - 1) * pageSize; // 오프셋 계산
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10;
+      const offset = (page - 1) * pageSize;
 
       const whiskies = await this.whiskyService.findPaginatedWhiskies(
         offset,
@@ -45,36 +34,12 @@ class WhiskyController {
   };
 
   //위스키 상세조회
-  // whiskyDetail = async (req, res, next) => {
-  //   try {
-  //     const { whisky_id } = req.params;
-  //     let { user } = req.cookies;
-  //     if (!user) {
-  //       user = 0;
-  //     }
-  //     console.log(user, "here!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-  //     const whiskyDetail = await this.whiskyService.whiskyDetail(
-  //       whisky_id,
-  //       user
-  //     );
-  //     if (!whiskyDetail) {
-  //       throw new Error("404/위스키가 존재하지 않습니다.");
-  //     }
-
-  //     res.status(200).json(whiskyDetail);
-  //   } catch (error) {
-  //     error.failedApi = "위스키 상세 조회";
-  //     throw error;
-  //   }
-  // };
-
-  //위스키 상세조회
   whiskyDetail = async (req, res, next) => {
     try {
       const { whisky_id } = req.params;
       const jwt = require("jsonwebtoken");
       require("dotenv").config();
-      let email = 0;
+      let email = "aaa";
 
       let { authorization, refreshtoken } = req.headers;
 
@@ -88,12 +53,10 @@ class WhiskyController {
         const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
         email = decodedToken.email;
       }
-
       const whiskyDetail = await this.whiskyService.whiskyDetail(
         whisky_id,
         email
       );
-      console.log(email);
       if (!whiskyDetail) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }

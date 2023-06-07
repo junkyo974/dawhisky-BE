@@ -8,8 +8,11 @@ const uploadImage = require("../modules/biz_photo.js");
 //마이페이지
 router.get("/user", authMiddleware, mypageController.mypage);
 
-//스토어상세조회
-router.get("/store/:store_id", mypageController.storeMypage);
+//유저가 스토어상세조회
+router.get("/store/:store_id", mypageController.storePage);
+
+//점주가 스토어상세조회
+router.get("/store", authMiddleware, mypageController.storeMypage);
 
 //스토어마이페이지수정
 router.put(
@@ -41,13 +44,13 @@ router.post(
 
 //스토어위스키수정
 router.put(
-  "/store/whisky/:storewhisky_id",
+  "/store/whisky/:whisky_id",
   authMiddleware,
   mypageController.updateStoreWhisky
 );
 //스토어위스키 삭제
 router.delete(
-  "/store/whisky/:storewhisky_id",
+  "/store/whisky/:whisky_id",
   authMiddleware,
   mypageController.deleteStoreWhisky
 );

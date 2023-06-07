@@ -100,8 +100,8 @@ class MyapgeService {
   };
 
   //스토어위스키 찾기
-  findStorewhiskyById = async (storewhisky_id) => {
-    return await this.mypageRepository.findStorewhiskyById(storewhisky_id);
+  findStoreWhisky = async (whisky_id, store_id) => {
+    return await this.mypageRepository.findStorewhisky(whisky_id, store_id);
   };
 
   //스토어위스키 생성
@@ -114,9 +114,8 @@ class MyapgeService {
   };
 
   //스토어위스키수정
-  updateStoreWhisky = async (storewhisky_id, store_id, whisky_id, count) => {
+  updateStoreWhisky = async (store_id, whisky_id, count) => {
     return await this.mypageRepository.updateStoreWhisky(
-      storewhisky_id,
       store_id,
       whisky_id,
       count
@@ -124,8 +123,8 @@ class MyapgeService {
   };
 
   //스토어위스키 삭제
-  deleteStoreWhisky = async (storewhisky_id) => {
-    return await this.mypageRepository.deleteStoreWhisky(storewhisky_id);
+  deleteStoreWhisky = async (store_id, whisky_id) => {
+    return await this.mypageRepository.deleteStoreWhisky(store_id, whisky_id);
   };
 }
 
