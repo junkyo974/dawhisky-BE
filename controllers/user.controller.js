@@ -61,7 +61,7 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://jjmdev.site/api/auth/login/user",
+            redirect_uri: "https://jjmdev.site/api/auth/login/user",
           },
         }
       );
@@ -97,7 +97,7 @@ class UserController {
 
         await this.userService.signup(email, name, age, gender, password);
 
-        res.status(200).redirect("https://dawhisky.com/");
+        res.status(200).redirect("http://localhost:3000");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -110,7 +110,7 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("https://dawhisky.com/");
+        res.status(200).redirect("http://localhost:3000");
       }
     } catch (error) {
       console.error(error);
