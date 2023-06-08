@@ -34,7 +34,13 @@ class MypageRepository {
           include: [
             {
               model: this.Whiskys,
-              attributes: ["whisky_id", "whisky_kor"],
+              attributes: [
+                "whisky_id",
+                "whisky_kor",
+                "whisky_eng",
+                "whisky_photo",
+                "whisky_abv",
+              ],
             },
           ],
         },
@@ -50,11 +56,17 @@ class MypageRepository {
         },
         {
           model: this.Reviews,
-          attributes: ["content"],
+          attributes: ["content", "whisky_id"],
           include: [
             {
               model: this.Whiskys,
-              attributes: ["whisky_id", "whisky_kor"],
+              attributes: [
+                "whisky_id",
+                "whisky_kor",
+                "whisky_eng",
+                "whisky_photo",
+                "whisky_abv",
+              ],
             },
           ],
         },
