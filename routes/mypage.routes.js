@@ -18,7 +18,7 @@ router.get("/store", authMiddleware, mypageController.storeMypage);
 router.put(
   "/store",
   authMiddleware,
-  uploadImage.array("biz_photo", 5),
+  uploadImage.single("biz_photo"),
   mypageController.UpdatestoreMypage
 );
 

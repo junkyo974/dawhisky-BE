@@ -14,6 +14,7 @@ class StoreController {
       email,
       store,
       biz_number,
+      biz_photo,
       password,
       authCode,
       address,
@@ -21,8 +22,7 @@ class StoreController {
       notice,
       runtime,
     } = req.body;
-    const biz_photos = req.files.map((files) => files.location);
-    const biz_photo = JSON.stringify(biz_photos);
+
     const redisGetResult = await redisClient.get(email);
     const emailFilter = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$/.test(email);
     const passwordFilter = /^(?=.*\d)(?=.*[a-zA-Z]).{4,}$/.test(password);
