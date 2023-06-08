@@ -60,7 +60,7 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "http://localhost:3000/api/auth/login/user",
+            redirect_uri: "https://jjmdev.site/api/auth/login/user",
           },
         }
       );
