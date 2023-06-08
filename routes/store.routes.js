@@ -9,7 +9,7 @@ const uploadImage = require("../modules/biz_photo.js");
 // POST: 회원가입
 router.post(
   "/signup/store",
-  uploadImage.array("biz_photo", 5),
+  uploadImage.single("biz_photo"),
   storeController.signup
 );
 

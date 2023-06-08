@@ -37,7 +37,7 @@ const uploadImage = multer({
         return callback(new Error("확장자 에러"));
       }
       const bizPhoto = `biz_photo/${date}_${randomNumber}`;
-      req.files.biz_photo = `https://dawhisky.s3.ap-northeast-2.amazonaws.com/${bizPhoto}`;
+      req.body.biz_photo = `https://dawhisky.s3.ap-northeast-2.amazonaws.com/${bizPhoto}`;
 
       callback(null, bizPhoto);
     },

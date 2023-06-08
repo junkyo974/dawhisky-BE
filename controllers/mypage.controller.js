@@ -49,9 +49,7 @@ class MypageController {
   UpdatestoreMypage = async (req, res, next) => {
     try {
       const { store_id } = res.locals.store;
-      const { store, address, phone, notice, runtime } = req.body;
-      const biz_photos = req.files.map((files) => files.location);
-      const biz_photo = JSON.stringify(biz_photos);
+      const { store, address, phone, notice, runtime, biz_photo } = req.body;
       const storeInfo = await this.mypageService.getStoreMypage(store_id);
       if (!storeInfo) {
         throw new Error("404/스토어가 존재하지 않습니다.");
