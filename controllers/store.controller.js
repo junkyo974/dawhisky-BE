@@ -151,6 +151,43 @@ class StoreController {
       res.status(400).json({ errorMessage: "회원정보 삭제에 실패하였습니다." });
     }
   };
+
+  pushMessage = async (req, res) => {
+    const admin = require("firebase-admin");
+    const serviceAccount = require("../modules/da-whiksy-firebase-adminsdk-eghey-0885aef20e.json");
+    // const { store_id } = req.locals.store;
+    let deviceToken = await redisClient.get(userDeviceToken);
+
+    try {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL:
+          "https://da-whiksy-default-rtdb.asia-southeast1.firebasedatabase.app",
+      });
+
+      const message = {
+        notification: {
+          title: "Da-whisky 줄서기 예약 알림",
+          body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 알림을 선택하여 주세요.",
+          image: "dawhisky.png",
+        },
+        data: {
+          url: "https://dawhisky.com",
+        },
+        token: deviceToken,
+      };
+
+      admin
+        .messaging()
+        .send(message)
+        .then((response) => {
+          console.log("메세지 전송 성공", response);
+        });
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ errorMessage: "메세지 전송에 실패했습니다." });
+    }
+  };
 }
 
 module.exports = StoreController;
