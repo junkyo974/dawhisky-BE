@@ -99,7 +99,6 @@ class UserController {
         res.redirect("http://localhost:3000");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
-
         res.cookie(
           "authorization",
           `${userData.accessObject.type} ${userData.accessObject.token}`
@@ -109,13 +108,13 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.setHeader(
-          "authorization",
-          `${userData.accessObject.type} ${userData.accessObject.token}`
-        );
-        res.setHeader("refreshToken", `${userData.refreshObject.token}`);
-        res.setHeader("user", `${user.user_id}`);
-        res.redirect("https:/localhost:3000");
+        // res.json({
+        //   authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
+        //   refreshToken: `${userData.refreshObject.token}`,
+        //   user: `${user.user_id}`,
+        // });
+
+        res.redirect("http://localhost:3000");
       }
     } catch (error) {
       console.error(error);
