@@ -81,7 +81,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "http://52.78.56.220:3000",
-      "https://dawhisky.com",
+      "https://www.dawhisky.com",
     ],
     credentials: "true",
     // cors options
@@ -91,9 +91,6 @@ app.use(
 // router
 const apiMainRouter = require("./routes/index");
 app.use("/api", [apiMainRouter]);
-// app.get("/", (req, res) => {
-//   res.send("CD성공!!!! 찐막");
-// });
 
 // errorHandler
 app.use(errorHandler);
@@ -105,8 +102,8 @@ app.listen(port, () => {
   console.log(`running http://localhost:${port}`);
 });
 
-// chatServer.listen(chatPort, () => {
-//   console.log(`running http://localhost:${chatPort}`);
-// });
+chatServer.listen(chatPort, () => {
+  console.log(`running http://localhost:${chatPort}`);
+});
 
 module.exports = app;
