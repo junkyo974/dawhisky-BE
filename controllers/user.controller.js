@@ -47,7 +47,6 @@ class UserController {
   kakaologin = async (req, res) => {
     const code = req.query.code;
     console.log("코드" + code);
-
     try {
       // Access token 가져오기
       const res1 = await Axios.post(
@@ -65,7 +64,7 @@ class UserController {
           },
         }
       );
-
+      console.log("res1" + res1);
       // Access token을 이용해 정보 가져오기
       const res2 = await Axios.post(
         "https://kapi.kakao.com/v2/user/me",
@@ -80,7 +79,7 @@ class UserController {
       const data = res2.data;
       const email = data.kakao_account.email;
       const user = await this.userService.findOneUserEmail(email);
-
+      console.log("res2" + res2);
       if (!user) {
         const name = data.kakao_account.name;
         const birthyear = data.kakao_account.birthyear;
@@ -97,7 +96,7 @@ class UserController {
 
         await this.userService.signup(email, name, age, gender, password);
 
-        res.status(200).redirect("http://localhost:3000");
+        res.status(200).json({ message: "가입성공" });
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -110,7 +109,11 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).redirect("http://localhost:3000");
+        res.status(200).json({
+          authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
+          refreshToken: `${userData.refreshObject.token}`,
+          user: `${user.user_id}`,
+        });
       }
     } catch (error) {
       console.error(error);
