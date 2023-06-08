@@ -55,25 +55,42 @@ app.use(errorHandler);
 const SocketController = require("./controllers/socket.controller");
 const socketController = new SocketController();
 
-app.get("/api/socket", (req, res) => {
-  try {
-    io.on("connection", (socket) => {
-      // 새로운 사용자 접속 처리
-      socket.on("newUser", socketController.handleNewUser(io, socket));
+io.on("connection", (socket) => {
+  // 새로운 사용자 접속 처리
+  socket.on("newUser", (name, room) => {
+    socketController.handleNewUser(io, socket, name, room);
+  });
 
-      // 메시지 처리
-      socket.on("message", socketController.handleMessage(io, socket));
+  // 메시지 처리
+  socket.on("message", (data) => {
+    socketController.handleMessage(io, socket, data);
+  });
 
-      // 연결 종료 처리
-      socket.on("disconnect", socketController.handleDisconnect(io, socket));
-    });
-    res.status(200).json({ message: "소켓서버 접속에 성공하였습니다." });
-  } catch {
-    res.status(400).json({
-      errorMessage: "소켓 망함",
-    });
-  }
+  // 연결 종료 처리
+  socket.on("disconnect", () => {
+    socketController.handleDisconnect(io, socket);
+  });
 });
+
+// app.get("/api/socket", (req, res) => {
+//   try {
+//     io.on("connection", (socket) => {
+//       // 새로운 사용자 접속 처리
+//       socket.on("newUser", socketController.handleNewUser(io, socket));
+
+//       // 메시지 처리
+//       socket.on("message", socketController.handleMessage(io, socket));
+
+//       // 연결 종료 처리
+//       socket.on("disconnect", socketController.handleDisconnect(io, socket));
+//     });
+//     res.status(200).json({ message: "소켓서버 접속에 성공하였습니다." });
+//   } catch {
+//     res.status(400).json({
+//       errorMessage: "소켓 망함",
+//     });
+//   }
+// });
 
 // swagger
 app.use("/api/swag", swaggerUi.serve, swaggerUi.setup(swaggerFile));
