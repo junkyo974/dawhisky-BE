@@ -9,7 +9,7 @@ class MapRepository {
   //스토어 불러오기
   findAllStore = async () => {
     return await this.Stores.findAll({
-      attributes: ["store_id", "store", "address"],
+      attributes: ["store_id", "store", "address", "biz_photo"],
       include: [
         {
           model: this.StoreTables,
