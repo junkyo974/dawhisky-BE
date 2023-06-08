@@ -96,7 +96,7 @@ class UserController {
 
         await this.userService.signup(email, name, age, gender, password);
 
-        res.status(200).json({ message: "가입성공" });
+        res.redirect("http://localhost:3000");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -109,11 +109,13 @@ class UserController {
 
         res.cookie("user", `${user.user_id}`);
 
-        res.status(200).json({
-          authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
-          refreshToken: `${userData.refreshObject.token}`,
-          user: `${user.user_id}`,
-        });
+        res.setHeader(
+          "authorization",
+          `${userData.accessObject.type} ${userData.accessObject.token}`
+        );
+        res.setHeader("refreshToken", `${userData.refreshObject.token}`);
+        res.setHeader("user", `${user.user_id}`);
+        res.redirect("https:/localhost:3000");
       }
     } catch (error) {
       console.error(error);
