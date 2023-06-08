@@ -61,6 +61,7 @@ class UserController {
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
             redirect_uri: "https://jjmdev.site/api/auth/login/user",
+            redirect_uri: "https://jjmdev.site/api/auth/login/user",
           },
         }
       );
