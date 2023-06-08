@@ -25,7 +25,38 @@ class MyapgeService {
   //마이페이지
   findAllInfoMypage = async (user_id) => {
     const MyInfo = await this.mypageRepository.findAllMyInfo(user_id);
-    return MyInfo;
+    const result = MyInfo.map((info) => {
+      return {
+        user_id: info.user_id,
+        name: info.name,
+        whisky_likes: info.WhiskyLikes.map((like) => {
+          return {
+            whisky_id: like.whisky_id,
+            whisky_kor: like.Whisky.whisky_kor,
+            whisky_eng: like.Whisky.whisky_eng,
+            whisky_photo: like.Whisky.whisky_photo,
+            whisky_abv: like.Whisky.whisky_abv,
+          };
+        }),
+        store_likes: info.StoreLikes.map((like) => {
+          return {
+            store_id: like.store_id,
+            store: like.Store.store,
+          };
+        }),
+        reviews: info.Reviews.map((review) => {
+          return {
+            content: review.content,
+            whisky_id: review.whisky_id,
+            whisky_kor: review.Whisky.whisky_kor,
+            whisky_eng: review.Whisky.whisky_eng,
+            whisky_photo: review.Whisky.whisky_photo,
+            whisky_abv: review.Whisky.whisky_abv,
+          };
+        }),
+      };
+    });
+    return result;
   };
 
   //스토어상세조회
