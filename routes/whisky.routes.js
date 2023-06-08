@@ -9,6 +9,9 @@ const whiskyController = new WhiskyController();
 //위스키 검색
 router.get("/search/:keyword", whiskyController.searchWhisky);
 
+//위스키 필터
+router.get("/filter/:whisky_country", whiskyController.filterWhisky);
+
 //위스키 전체조회
 router.get("/", whiskyController.paginatedWhiskies);
 
