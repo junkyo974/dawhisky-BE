@@ -18,7 +18,7 @@ router.use("/mypage", mypageRouter);
 router.use("/review", reviewRouter);
 router.use("/que", queRouter);
 router.use("/whisky", whiskyRouter);
-// router.use("/socket", socketRouter);
+router.use("/socket", socketRouter);
 router.use("/map", mapRouter);
 router.use("/like", likeRouter);
 
