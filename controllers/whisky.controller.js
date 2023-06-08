@@ -16,6 +16,36 @@ class WhiskyController {
     }
   };
 
+  //위스키 필터
+  filterWhisky = async (req, res, next) => {
+    try {
+      const { whisky_country } = req.params;
+      if (!whisky_country) {
+        throw new Error("404/나라명을 입력해주세요.");
+      } else if (
+        whisky_country !== "Scotland" &&
+        whisky_country !== "usa" &&
+        whisky_country !== "Ireland" &&
+        whisky_country !== "etc"
+      ) {
+        throw new Error("412/올바른 필터명을 입력해주세요.");
+      }
+      if (whisky_country == "etc") {
+        console.log(whisky_country, "d여기 etc나와야댐~~~~~~~~~~~~~~~~~~~~~");
+        const filterWhisky = await this.whiskyService.filterWhiskyEtc();
+        res.status(200).json(filterWhisky);
+      } else {
+        const filterWhisky = await this.whiskyService.filterWhisky(
+          whisky_country
+        );
+        res.status(200).json(filterWhisky);
+      }
+    } catch (error) {
+      error.failedApi = "위스키 필터";
+      throw error;
+    }
+  };
+
   paginatedWhiskies = async (req, res, next) => {
     try {
       const page = parseInt(req.query.page) || 1;

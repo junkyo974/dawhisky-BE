@@ -33,6 +33,39 @@ class WhiskyRepository {
     });
   };
 
+  //위스키 필터
+  filterWhisky = async (whisky_country) => {
+    return await this.Whiskys.findAll({
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
+      where: { whisky_country },
+    });
+  };
+
+  filterWhiskyEtc = async () => {
+    return await this.Whiskys.findAll({
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
+      where: {
+        [Op.and]: [
+          { whisky_country: { [Op.ne]: "Scotland" } },
+          { whisky_country: { [Op.ne]: "usa" } },
+          { whisky_country: { [Op.ne]: "Ireland" } },
+        ],
+      },
+    });
+  };
+
   findPaginatedWhiskies = async (offset, pageSize) => {
     return await this.Whiskys.findAll({
       attributes: [
