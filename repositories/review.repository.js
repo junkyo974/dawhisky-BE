@@ -2,11 +2,30 @@ const { Op } = require("sequelize");
 const sequelize = require("sequelize");
 
 class ReviewRepository {
-  constructor(Reviews, Whiskys, Users) {
+  constructor(Reviews, Whiskys, WhiskyLikes) {
     this.Reviews = Reviews;
     this.Whiskys = Whiskys;
-    this.Users = Users;
+    this.WhiskyLikes = WhiskyLikes;
   }
+
+  //내가쓴 리뷰 조회
+  findOneMyReview = async (user_id, whisky_id) => {
+    return await this.Reviews.findOne({
+      where: { user_id, whisky_id },
+      attributes: ["content"],
+      include: [
+        {
+          model: this.Whiskys,
+          attributes: ["whisky_kor", "whisky_eng", "whisky_photo"],
+        },
+      ],
+    });
+  };
+
+  findOneLike = async (user_id, whisky_id) => {
+    return await this.WhiskyLikes.findOne({ where: { user_id, whisky_id } });
+  };
+
   //위스키찾기
   findOneWhisky = async (whisky_id) => {
     return await this.Whiskys.findOne({ where: { whisky_id } });

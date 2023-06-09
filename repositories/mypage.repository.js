@@ -50,13 +50,13 @@ class MypageRepository {
           include: [
             {
               model: this.Stores,
-              attributes: ["store_id", "store"],
+              attributes: ["store_id", "store", "address", "biz_photo"],
             },
           ],
         },
         {
           model: this.Reviews,
-          attributes: ["content", "whisky_id"],
+          attributes: ["review_id", "content", "whisky_id"],
           include: [
             {
               model: this.Whiskys,

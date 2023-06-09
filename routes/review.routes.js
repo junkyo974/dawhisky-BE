@@ -6,6 +6,9 @@ const ReviewController = require("../controllers/review.controller");
 
 const reviewController = new ReviewController();
 
+//내가쓴 리뷰 조회
+router.get("/:whisky_id/", authMiddleware, reviewController.getReview);
+
 //리뷰등록
 router.post("/:whisky_id/", authMiddleware, reviewController.createReview);
 //리뷰수정
