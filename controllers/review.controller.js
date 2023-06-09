@@ -3,6 +3,29 @@ const ReviewService = require("../services/review.service.js");
 class ReviewController {
   reviewService = new ReviewService();
 
+  //내가쓴 리뷰 조회
+  getReview = async (req, res, next) => {
+    try {
+      const { user_id } = res.locals.user;
+      const { whisky_id } = req.params;
+
+      const whisky = await this.reviewService.findWhiskyById(whisky_id);
+      if (!whisky) {
+        throw new Error("404/위스키가 존재하지 않습니다.");
+      }
+
+      const reviewWhisky = await this.reviewService.getReview(
+        user_id,
+        whisky_id
+      );
+
+      res.status(200).json(reviewWhisky);
+    } catch (error) {
+      error.failedApi = "리뷰 조회";
+      throw error;
+    }
+  };
+
   //리뷰등록
   createReview = async (req, res, next) => {
     try {

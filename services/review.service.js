@@ -1,8 +1,29 @@
 const ReviewRepository = require("../repositories/review.repository.js");
-const { Reviews, Whiskys } = require("../models");
+const { Reviews, Whiskys, WhiskyLikes } = require("../models");
 
 class ReviewService {
-  reviewRepository = new ReviewRepository(Reviews, Whiskys);
+  reviewRepository = new ReviewRepository(Reviews, Whiskys, WhiskyLikes);
+
+  //내가쓴 리뷰 조회
+  getReview = async (user_id, whisky_id) => {
+    const review = await this.reviewRepository.findOneMyReview(
+      user_id,
+      whisky_id
+    );
+
+    let liked = (await this.reviewRepository.findOneLike(user_id, whisky_id))
+      ? true
+      : false;
+    if (WhiskyLikes)
+      return {
+        content: review.content,
+        whisky_id: whisky_id,
+        whisky_kor: review.dataValues.Whisky.dataValues.whisky_kor,
+        whisky_eng: review.dataValues.Whisky.dataValues.whisky_eng,
+        whisky_photo: review.dataValues.Whisky.dataValues.whisky_photo,
+        liked: liked,
+      };
+  };
 
   //위스키찾기
   findWhiskyById = async (whisky_id) => {

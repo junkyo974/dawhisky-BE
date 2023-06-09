@@ -42,10 +42,13 @@ class MyapgeService {
           return {
             store_id: like.store_id,
             store: like.Store.store,
+            address: like.Store.address,
+            biz_photo: like.Store.biz_photo,
           };
         }),
         reviews: info.Reviews.map((review) => {
           return {
+            review_id: review.review_id,
             content: review.content,
             whisky_id: review.whisky_id,
             whisky_kor: review.Whisky.whisky_kor,
