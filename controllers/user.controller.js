@@ -2,6 +2,9 @@ const UserService = require("../services/user.service");
 const Axios = require("axios");
 const redisClient = require("../utils/redis.js");
 require("dotenv").config();
+const axiosInstance = Axios.create({
+  withCredentials: true,
+});
 
 class UserController {
   userService = new UserService();
@@ -49,7 +52,7 @@ class UserController {
     console.log("코드" + code);
     try {
       // Access token 가져오기
-      const res1 = await Axios.post(
+      const res1 = await axiosInstance.post(
         "https://kauth.kakao.com/oauth/token",
         {},
         {
@@ -99,21 +102,28 @@ class UserController {
         res.redirect("http://localhost:3000");
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
+
         res.cookie(
           "authorization",
-          `${userData.accessObject.type} ${userData.accessObject.token}`
+          `${userData.accessObject.type} ${userData.accessObject.token}`,
+          { sameSite: "none", secure: true }
         );
 
-        res.cookie("refreshToken", `${userData.refreshObject.token}`);
+        res.cookie("refreshToken", `${userData.refreshObject.token}`, {
+          sameSite: "none",
+          secure: true,
+        });
 
-        res.cookie("user", `${user.user_id}`);
+        res.cookie("user", `${user.user_id}`, {
+          sameSite: "none",
+          secure: true,
+        });
 
         // res.json({
         //   authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
         //   refreshToken: `${userData.refreshObject.token}`,
         //   user: `${user.user_id}`,
         // });
-
         res.redirect("http://localhost:3000");
       }
     } catch (error) {
