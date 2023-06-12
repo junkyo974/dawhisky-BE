@@ -39,9 +39,11 @@ class UserService {
     );
     const refreshObject = { type: "Bearer", token: refreshToken };
 
+    const user_id = user.user_id;
+
     await this.redisClient.SET(email, JSON.stringify(refreshToken));
 
-    return { accessObject, refreshObject };
+    return { accessObject, refreshObject, user_id };
   };
 
   logout = async (user_id) => {
