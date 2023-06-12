@@ -2,14 +2,17 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 require("express-async-errors");
-const socket = require("socket.io");
-const http = require("http");
-const chatServer = http.createServer(app);
-const io = socket(chatServer);
-const chatPort = 3001;
-const cors = require("cors");
 const { host, sentry } = require("./config/config");
 const port = host.port;
+const socket = require("socket.io");
+const server = app.listen(port, () => {
+  console.log(`running http://localhost:${port}`);
+});
+const io = socket(server, { path: "/socket.io" });
+// const http = require("http");
+// const chatServer = http.createServer(app);
+// const chatPort = 3001;
+const cors = require("cors");
 const errorHandler = require("./middlewares/error-handler");
 const Sentry = require("@sentry/node");
 const swaggerUi = require("swagger-ui-express");
@@ -113,12 +116,8 @@ io.on("connection", (socket) => {
 // swagger
 app.use("/api/swag", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.listen(port, () => {
-  console.log(`running http://localhost:${port}`);
-});
-
-chatServer.listen(chatPort, () => {
-  console.log(`running http://localhost:${chatPort}`);
-});
+// chatServer.listen(chatPort, () => {
+//   console.log(`running http://localhost:${chatPort}`);
+// });
 
 module.exports = app;
