@@ -39,6 +39,7 @@ class WhiskyController {
         "Single Malt Whisky",
         "Single Grain Whisky",
         "Blended Malt Whisky",
+        "Blended Whisky",
         "Bourbon",
         "Rye",
         "Tennessee",

@@ -80,6 +80,7 @@ class WhiskyRepository {
                 "Single Malt Whisky",
                 "Single Grain Whisky",
                 "Blended Malt Whisky",
+                "Blended Whisky",
               ],
             },
             {
