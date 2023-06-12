@@ -27,18 +27,21 @@ class WhiskyService {
     }
   };
 
-  //위스키 필터
-  filterWhisky = async (whisky_country) => {
-    return await this.whiskyRepository.filterWhisky(whisky_country);
-  };
-
-  filterWhiskyEtc = async () => {
-    return await this.whiskyRepository.filterWhiskyEtc();
-  };
-
-  //위스키 전체조회
-  findPaginatedWhiskies = async (offset, pageSize) => {
-    return await this.whiskyRepository.findPaginatedWhiskies(offset, pageSize);
+  //위스키 전체조회 + 필터
+  findPaginatedWhiskies = async (
+    offset,
+    pageSize,
+    whisky_country,
+    whisky_region,
+    whisky_type
+  ) => {
+    return await this.whiskyRepository.findPaginatedWhiskies(
+      offset,
+      pageSize,
+      whisky_country,
+      whisky_region,
+      whisky_type
+    );
   };
 
   //위스키 상세조회
