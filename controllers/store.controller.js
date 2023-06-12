@@ -109,12 +109,12 @@ class StoreController {
 
       res.cookie("refreshToken", `${storeData.refreshObject.token}`);
 
-      res.cookie("store", `${store.store_id}`);
+      res.cookie("store", `${storeData.store_id}`);
 
       res.status(200).json({
         authorization: `${storeData.accessObject.type} ${storeData.accessObject.token}`,
         refreshToken: `${storeData.refreshObject.token}`,
-        store: `${store.store_id}`,
+        store: `${storeData.store_id}`,
       });
     } catch (err) {
       console.error("로그인 에러 로그", err);
@@ -169,7 +169,6 @@ class StoreController {
         notification: {
           title: "Da-whisky 줄서기 예약 알림",
           body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 알림을 선택하여 주세요.",
-          image: "dawhisky.png",
         },
         data: {
           url: "https://dawhisky.com",

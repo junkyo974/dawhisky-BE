@@ -2,9 +2,6 @@ const UserService = require("../services/user.service");
 const Axios = require("axios");
 const redisClient = require("../utils/redis.js");
 require("dotenv").config();
-const axiosInstance = Axios.create({
-  withCredentials: true,
-});
 
 class UserController {
   userService = new UserService();
@@ -48,11 +45,10 @@ class UserController {
 
   //소셜 로그인
   kakaologin = async (req, res) => {
-    const code = req.query.code;
-    console.log("코드" + code);
+    const { code } = req.body;
     try {
       // Access token 가져오기
-      const res1 = await axiosInstance.post(
+      const res1 = await Axios.post(
         "https://kauth.kakao.com/oauth/token",
         {},
         {
@@ -63,7 +59,7 @@ class UserController {
             grant_type: "authorization_code",
             client_id: process.env.KAKAO_SECRET_KEY,
             code: code,
-            redirect_uri: "https://jjmdev.site/api/auth/login/user",
+            redirect_uri: "http://localhost:3000/loginOauth",
           },
         }
       );
@@ -82,7 +78,6 @@ class UserController {
       const data = res2.data;
       const email = data.kakao_account.email;
       const user = await this.userService.findOneUserEmail(email);
-      console.log("res2" + res2);
       if (!user) {
         const name = data.kakao_account.name;
         const birthyear = data.kakao_account.birthyear;
@@ -91,15 +86,23 @@ class UserController {
         const gender = true;
         const password = "123456";
 
-        if (age < 19) {
-          return res
-            .status(404)
-            .json({ errorMessage: "19세 미만은 회원 가입이 불가능합니다." });
-        }
-
         await this.userService.signup(email, name, age, gender, password);
+        const userData = await this.userService.login(data.kakao_account.email);
 
-        res.redirect("http://localhost:3000");
+        res.cookie(
+          "authorization",
+          `${userData.accessObject.type} ${userData.accessObject.token}`
+        );
+
+        res.cookie("refreshToken", `${userData.refreshObject.token}`);
+
+        res.cookie("user", `${userData.user_id}`);
+
+        res.status(200).json({
+          authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
+          refreshToken: `${userData.refreshObject.token}`,
+          user: `${userData.user_id}`,
+        });
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
 
@@ -114,17 +117,16 @@ class UserController {
           secure: true,
         });
 
-        res.cookie("user", `${user.user_id}`, {
+        res.cookie("user", `${userData.user_id}`, {
           sameSite: "none",
           secure: true,
         });
 
-        // res.json({
-        //   authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
-        //   refreshToken: `${userData.refreshObject.token}`,
-        //   user: `${user.user_id}`,
-        // });
-        res.redirect("http://localhost:3000");
+        res.status(200).json({
+          authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
+          refreshToken: `${userData.refreshObject.token}`,
+          user: `${userData.user_id}`,
+        });
       }
     } catch (error) {
       console.error(error);

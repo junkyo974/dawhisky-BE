@@ -59,9 +59,11 @@ class StoreService {
     );
     const refreshObject = { type: "Bearer", token: refreshToken };
 
+    const store_id = store.store_id;
+
     await this.redisClient.SET(email, JSON.stringify(refreshToken));
 
-    return { accessObject, refreshObject };
+    return { accessObject, refreshObject, store_id };
   };
 
   logout = async (store_id) => {

@@ -6,9 +6,9 @@ const UserController = require("../controllers/user.controller.js");
 const userController = new UserController();
 
 // POST: 로컬 로그인
-router.post("/login/user", userController.login);
-// GET: 카카오 로그인;
-router.get("/login/user", userController.kakaologin);
+router.post("/login/localUser", userController.login);
+// POST: 카카오 로그인;
+router.post("/login/user", userController.kakaologin);
 
 // DELETE: 로그아웃
 router.delete("/logout/user", authMiddleware, userController.logout);
