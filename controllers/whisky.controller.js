@@ -1,4 +1,5 @@
 const WhiskyService = require("../services/whisky.service");
+const redisClient = require("../utils/redis.js");
 
 class WhiskyController {
   whiskyService = new WhiskyService();
@@ -16,50 +17,55 @@ class WhiskyController {
     }
   };
 
-  //위스키 필터
-  filterWhisky = async (req, res, next) => {
-    try {
-      const { whisky_country } = req.params;
-      if (!whisky_country) {
-        throw new Error("404/나라명을 입력해주세요.");
-      } else if (
-        whisky_country !== "Scotland" &&
-        whisky_country !== "usa" &&
-        whisky_country !== "Ireland" &&
-        whisky_country !== "etc"
-      ) {
-        throw new Error("412/올바른 필터명을 입력해주세요.");
-      }
-      if (whisky_country == "etc") {
-        console.log(whisky_country, "d여기 etc나와야댐~~~~~~~~~~~~~~~~~~~~~");
-        const filterWhisky = await this.whiskyService.filterWhiskyEtc();
-        res.status(200).json(filterWhisky);
-      } else {
-        const filterWhisky = await this.whiskyService.filterWhisky(
-          whisky_country
-        );
-        res.status(200).json(filterWhisky);
-      }
-    } catch (error) {
-      error.failedApi = "위스키 필터";
-      throw error;
-    }
-  };
-
+  //위스키 전체조회 + 필터
   paginatedWhiskies = async (req, res, next) => {
     try {
       const page = parseInt(req.query.page) || 1;
       const pageSize = parseInt(req.query.pageSize) || 10;
       const offset = (page - 1) * pageSize;
+      const whisky_country = req.query.country;
+      const whisky_region = req.query.region;
+      const whisky_type = req.query.type;
+      const countries = ["Scotland", "usa", "Ireland", "etc"];
+      const regions = [
+        "Speyside",
+        "Highlands",
+        "Lowlands",
+        "Campbeltown",
+        "Islay",
+        "etc",
+      ];
+      const types = [
+        "Single Malt Whisky",
+        "Single Grain Whisky",
+        "Blended Malt Whisky",
+        "Bourbon",
+        "Rye",
+        "Tennessee",
+        "etc",
+      ];
+
+      if (
+        !countries.includes(whisky_country) &&
+        !regions.includes(whisky_region) &&
+        !types.includes(whisky_type)
+      ) {
+        throw new Error("412/올바른 필터명을 입력해주세요.");
+      }
 
       const whiskies = await this.whiskyService.findPaginatedWhiskies(
         offset,
-        pageSize
+        pageSize,
+        whisky_country,
+        whisky_region,
+        whisky_type
       );
 
       res.status(200).json(whiskies);
     } catch (error) {
-      next(error);
+      console.log(error);
+      error.failedApi = "위스키 조회";
+      throw error;
     }
   };
 

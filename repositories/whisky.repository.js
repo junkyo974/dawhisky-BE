@@ -33,40 +33,71 @@ class WhiskyRepository {
     });
   };
 
-  //위스키 필터
-  filterWhisky = async (whisky_country) => {
-    return await this.Whiskys.findAll({
-      attributes: [
-        "whisky_id",
-        "whisky_kor",
-        "whisky_eng",
-        "whisky_photo",
-        "whisky_abv",
-      ],
-      where: { whisky_country },
-    });
-  };
+  //위스키 전체조회 + 필터
+  findPaginatedWhiskies = async (
+    offset,
+    pageSize,
+    whisky_country,
+    whisky_region,
+    whisky_type
+  ) => {
+    const filterOptions = {};
 
-  filterWhiskyEtc = async () => {
-    return await this.Whiskys.findAll({
-      attributes: [
-        "whisky_id",
-        "whisky_kor",
-        "whisky_eng",
-        "whisky_photo",
-        "whisky_abv",
-      ],
-      where: {
-        [Op.and]: [
-          { whisky_country: { [Op.ne]: "Scotland" } },
-          { whisky_country: { [Op.ne]: "usa" } },
-          { whisky_country: { [Op.ne]: "Ireland" } },
-        ],
-      },
-    });
-  };
+    if (whisky_country) {
+      if (whisky_country == "etc") {
+        filterOptions.whisky_country = {
+          [Op.notIn]: ["Scotland", "usa", "Ireland"],
+        };
+      } else {
+        filterOptions.whisky_country = {
+          [Op.like]: `%${whisky_country}%`,
+        };
+      }
+    }
 
-  findPaginatedWhiskies = async (offset, pageSize) => {
+    if (whisky_region) {
+      if (whisky_region == "etc") {
+        filterOptions.whisky_region = {
+          [Op.notIn]: [
+            "Speyside",
+            "Highlands",
+            "Lowlands",
+            "Campbeltown",
+            "Islay",
+          ],
+        };
+      } else {
+        filterOptions.whisky_region = { [Op.like]: `%${whisky_region}%` };
+      }
+    }
+
+    if (whisky_type) {
+      if (whisky_type == "etc") {
+        filterOptions.whisky_type = {
+          [Op.and]: [
+            {
+              [Op.notIn]: [
+                "Single Malt Whisky",
+                "Single Grain Whisky",
+                "Blended Malt Whisky",
+              ],
+            },
+            {
+              [Op.and]: [
+                { [Op.notLike]: "%Bourbon%" },
+                { [Op.notLike]: "%Rye%" },
+                { [Op.notLike]: "%Tennessee%" },
+              ],
+            },
+          ],
+        };
+      } else {
+        filterOptions.whisky_type = {
+          [Op.like]: `%${whisky_type}%`,
+        };
+      }
+    }
+
     return await this.Whiskys.findAll({
       attributes: [
         "whisky_id",
@@ -75,10 +106,12 @@ class WhiskyRepository {
         "whisky_photo",
         "whisky_abv",
       ],
+      where: filterOptions,
       limit: pageSize,
       offset: offset,
     });
   };
+
   //위스키 좋아요 여부 찾기
   findOneUser = async (whisky_id, email) => {
     const like = await this.Users.findOne({
