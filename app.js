@@ -56,7 +56,7 @@ app.use(errorHandler);
 app.use("/api/swag", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //chat2
-const socketHandler = require("./socket-handler");
+const socketHandler = require("./modules/socket-handler");
 socketHandler(io);
 
 module.exports = app;
