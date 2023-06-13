@@ -64,7 +64,6 @@ class QueController {
       }
 
       await this.queService.updateQue(que_id, request, head_count);
-      // const socketHandler = require("./modules/socket-handler");
       return res.status(200).json({ message: "줄서기 요청을 수정했습니다." });
     } catch (error) {
       error.faiedApi = "줄서기 요청 수정";
