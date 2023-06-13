@@ -1208,58 +1208,10 @@
         }
       }
     },
-    "/api/whisky/filter/{whisky_country}": {
-      "get": {
-        "tags": ["whisky"],
-        "description": "위스키 나라별 필터, 스카치=Scotland / 아메리칸=usa / 아이리시=Ireland / 그외=etc",
-        "parameters": [
-          {
-            "name": "whisky_country",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": [
-            {
-              "whisky_id": 62,
-              "whisky_kor": "부시밀스 10년 - 뉴즈 디자인",
-              "whisky_eng": "Bushmills 10 Years - neues Design",
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/6/3/csm_1636553719_image_BUSHM1000_D1_1_e2b85887e0.jpg",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 63,
-              "whisky_kor": "부시밀스 10년",
-              "whisky_eng": "Bushmills 10 Years",
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/7/5/csm_0_13308b_bushm1000b_w_cf7dec8691.jpg",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 64,
-              "whisky_kor": "부시밀스 10년 셰리 캐스크 마감",
-              "whisky_eng": "Bushmills 10 Years Sherry Cask Finish",
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/e/csm_BUSHM101L_bw_a3d2b944a4.jpg",
-              "whisky_abv": "46%"
-            }
-          ],
-          "400": {
-            "description": "위스키 필터에 실패하였습니다."
-          },
-          "404": {
-            "description": "나라명을 입력해주세요."
-          },
-          "412": {
-            "description": "올바른 필터명을 입력해주세요."
-          }
-        }
-      }
-    },
     "/api/whisky/": {
       "get": {
         "tags": ["whisky"],
-        "description": "위스키 전체 조회",
+        "description": "위스키 전체 조회 & 필터",
         "parameters": [
           {
             "name": "page",
@@ -1272,6 +1224,24 @@
             "in": "query",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -1292,7 +1262,10 @@
             }
           ],
           "400": {
-            "description": "위스키 검색에 실패하였습니다."
+            "description": "위스키 검색조회 실패하였습니다."
+          },
+          "412": {
+            "description": "올바른 필터명을 입력해주세요."
           }
         }
       }
