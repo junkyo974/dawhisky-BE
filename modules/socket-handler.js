@@ -1,16 +1,22 @@
+const QueService = require("../services/que.service");
+const queService = new QueService();
+
 const socketHandler = (io) => {
   io.on("connection", (socket) => {
-    socket.on("enter", (name, room) => {
-      console.log(`${name}님이 ${room}에 접속하셨습니다.`);
+    socket.on("enter", async (name, store_id) => {
+      console.log(`${name}님이 ${store_id}에 접속하셨습니다.`);
       socket.name = name;
-      socket.room = room;
-      socket.join(room);
+      socket.room = store_id;
+      socket.join(store_id);
 
-      io.to(socket.room).emit("update", {
-        type: "connect",
-        name: "WHISKY MASTER",
-        message: `${name}님이 ${room}방에 접속하셨습니다.`,
-      });
+      try {
+        const getQue = await queService.findAllQue(store_id);
+
+        io.to(socket.room).emit("getQueData", getQue);
+        console.log("잘보내짐?", getQue);
+      } catch (err) {
+        console.log("점주 줄서기 socket 실패", err);
+      }
     });
 
     socket.on("message", (data) => {
