@@ -30,42 +30,27 @@ class StoreController {
 
     try {
       if (!authCodeFilter) {
-        return res.status(412).json({
-          errorMessage: "인증코드는 6자리 숫자만 입력하세요",
-        });
+        throw new Error("412/인증코드는 6자리 숫자만 입력하세요");
       }
 
       if (authCode !== redisGetResult) {
-        return res.status(412).json({
-          errorMessage: "인증코드가 일치하지 않습니다.",
-        });
+        throw new Error("412/인증코드가 일치하지 않습니다");
       }
 
       if (!emailFilter) {
-        res.status(412).json({
-          errorMessage: "이메일 형식이 일치하지 않습니다.",
-        });
-        return;
+        throw new Error("412/이메일 형식이 일치하지 않습니다");
       }
 
       if (!passwordFilter) {
-        res.status(412).json({
-          errorMessage: "패스워드 형식이 일치하지 않습니다.",
-        });
-        return;
+        throw new Error("412/패스워드 형식이 일치하지 않습니다");
       }
 
       if (password.includes(store)) {
-        res.status(412).json({
-          errorMessage: "패스워드에 상호명이 포함되어 있습니다.",
-        });
-        return;
+        throw new Error("412/패스워드에 상호명이 포함되어 있습니다");
       }
 
       if (!biz_photo) {
-        return res.status(412).json({
-          errorMessage: "사진을 올려주세요.",
-        });
+        throw new Error("412/사진을 올려주세요");
       }
 
       const signupData = await this.storeService.signup(
@@ -80,11 +65,9 @@ class StoreController {
         runtime
       );
       res.status(200).json(signupData);
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({
-        errorMessage: "요청한 데이터 형식이 올바르지 않습니다.",
-      });
+    } catch (error) {
+      error.failedApi = "스토어 유저 회원가입";
+      throw error;
     }
   };
 
@@ -94,10 +77,7 @@ class StoreController {
 
     try {
       if (!store || password !== store.password) {
-        res.status(412).json({
-          errorMessage: "이메일 또는 패스워드를 확인해주세요.",
-        });
-        return;
+        throw new Error("412/이메일 또는 패스워드를 확인해주세요");
       }
 
       const storeData = await this.storeService.login(email);
@@ -116,11 +96,9 @@ class StoreController {
         refreshToken: `${storeData.refreshObject.token}`,
         store: `${storeData.store_id}`,
       });
-    } catch (err) {
-      console.error("로그인 에러 로그", err);
-      res.status(400).json({
-        errorMessage: "로그인에 실패하였습니다.",
-      });
+    } catch (error) {
+      error.failedApi = "스토어 로그인";
+      throw error;
     }
   };
 
@@ -132,9 +110,9 @@ class StoreController {
       res.clearCookie("authorization", "refreshToken", "store");
       res.status(200).json(logoutData);
       delete res.locals.store;
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "로그아웃에 실패하였습니다." });
+    } catch (error) {
+      error.failedApi = "스토어 로그아웃";
+      throw error;
     }
   };
 
@@ -146,9 +124,9 @@ class StoreController {
       res.clearCookie("authorization", "refreshToken", "store");
       res.status(200).json(deleteStore);
       delete res.locals.store;
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "회원정보 삭제에 실패하였습니다." });
+    } catch (error) {
+      error.failedApi = "스토어 탈퇴";
+      throw error;
     }
   };
 
@@ -170,10 +148,21 @@ class StoreController {
           title: "Da-whisky 줄서기 예약 알림",
           body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 알림을 선택하여 주세요.",
         },
-        data: {
-          url: "https://dawhisky.com",
-        },
         token: deviceToken,
+        webpush: {
+          notification: {
+            actions: [
+              {
+                action: "accept",
+                title: "곧 갈게요!",
+              },
+              {
+                action: "cancle",
+                title: "취소해 주세요!",
+              },
+            ],
+          },
+        },
       };
 
       admin
@@ -182,9 +171,9 @@ class StoreController {
         .then((response) => {
           console.log("메세지 전송 성공", response);
         });
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "메세지 전송에 실패했습니다." });
+    } catch (error) {
+      error.failedApi = "push message 전송";
+      throw error;
     }
   };
 }

@@ -1,5 +1,5 @@
 const UserService = require("../services/user.service");
-const Axios = require("axios");
+const axios = require("axios");
 const redisClient = require("../utils/redis.js");
 require("dotenv").config();
 
@@ -13,10 +13,7 @@ class UserController {
 
     try {
       if (!user || password !== user.password) {
-        res.status(412).json({
-          errorMessage: "이메일 또는 패스워드를 확인해주세요.",
-        });
-        return;
+        throw new Error("412/이메일 또는 패스워드를 확인해주세요.");
       }
 
       const userData = await this.userService.login(email);
@@ -35,11 +32,9 @@ class UserController {
         refreshToken: `${userData.refreshObject.token}`,
         user: `${user.user_id}`,
       });
-    } catch (err) {
-      console.error("로그인 에러 로그", err);
-      res.status(400).json({
-        errorMessage: "로그인에 실패하였습니다.",
-      });
+    } catch (error) {
+      error.failedApi = "유저 로컬 로그인";
+      throw error;
     }
   };
 
@@ -48,7 +43,7 @@ class UserController {
     const { code } = req.body;
     try {
       // Access token 가져오기
-      const res1 = await Axios.post(
+      const res1 = await axios.post(
         "https://kauth.kakao.com/oauth/token",
         {},
         {
@@ -63,9 +58,9 @@ class UserController {
           },
         }
       );
-      console.log("res1" + res1);
+      console.log(res1.data.access_token);
       // Access token을 이용해 정보 가져오기
-      const res2 = await Axios.post(
+      const res2 = await axios.post(
         "https://kapi.kakao.com/v2/user/me",
         {},
         {
@@ -80,13 +75,8 @@ class UserController {
       const user = await this.userService.findOneUserEmail(email);
       if (!user) {
         const name = data.kakao_account.name;
-        const birthyear = data.kakao_account.birthyear;
-        const currentYear = new Date().getFullYear();
-        const age = currentYear - birthyear;
-        const gender = true;
-        const password = "123456";
 
-        await this.userService.signup(email, name, age, gender, password);
+        await this.userService.signup(email, name);
         const userData = await this.userService.login(data.kakao_account.email);
 
         res.cookie(
@@ -129,8 +119,8 @@ class UserController {
         });
       }
     } catch (error) {
-      console.error(error);
-      res.status(400).json({ errorMessage: "로그인에 실패했습니다." });
+      error.failedApi = "유저 소셜 로그인";
+      throw error;
     }
   };
 
@@ -143,9 +133,9 @@ class UserController {
       res.status(200).json(logoutData);
       console.log(logoutData);
       delete res.locals.user;
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "로그아웃에 실패하였습니다." });
+    } catch (error) {
+      error.failedApi = "유저 로그아웃";
+      throw error;
     }
   };
 
@@ -157,9 +147,9 @@ class UserController {
       res.clearCookie("authorization", "refreshtoken", "user");
       res.status(200).json(deleteUser);
       delete res.locals.user;
-    } catch (err) {
-      console.error(err);
-      res.status(400).json({ errorMessage: "회원정보 삭제에 실패하였습니다." });
+    } catch (error) {
+      error.failedApi = "유저 탈퇴";
+      throw error;
     }
   };
 }
