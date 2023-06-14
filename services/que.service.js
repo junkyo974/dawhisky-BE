@@ -1,5 +1,6 @@
 const QueRepository = require("../repositories/que.repository");
 const { Ques, Users } = require("../models");
+const QueController = require("../controllers/que.controller");
 class QueService {
   queRepository = new QueRepository(Ques, Users);
 
@@ -8,43 +9,50 @@ class QueService {
     return await this.queRepository.findAllQue(store_id);
   };
 
+  findExistQue = async (store_id, user_id) => {
+    return await this.queRepository.findMyQue(store_id, user_id);
+  };
+
   //내 줄서기 현황 조회
   findMyQue = async (store_id, user_id) => {
     const myQue = await this.queRepository.findMyQue(store_id, user_id);
-    const queCount = await this.queRepository.findAndCountAll(store_id);
-    const myOrder = queCount.count;
+    const que_id = myQue.que_id;
+    const que = await this.queRepository.findAllQue(store_id);
 
-    return { myQue, myOrder };
+    const count = que.filter((que) => que.que_id <= que_id).length;
+
+    return { myQue, count };
   };
 
   //줄서기 찾기
-  findQue = async (user_id, store_id) => {
-    return await this.queRepository.findQue(user_id, store_id);
+  findQue = async (que_id) => {
+    return await this.queRepository.findQue(que_id);
   };
 
   //줄서기 요청
-  createQue = async (user_id, store_id, request, head_count) => {
+  createQue = async (user_id, store_id, request, head_count, want_table) => {
     return await this.queRepository.createQue(
       user_id,
       store_id,
       request,
-      head_count
+      head_count,
+      want_table
     );
   };
 
   //줄서기 수정
-  updateQue = async (user_id, store_id, request, head_count) => {
+  updateQue = async (que_id, request, head_count, want_table) => {
     return await this.queRepository.updateQue(
-      user_id,
-      store_id,
+      que_id,
       request,
-      head_count
+      head_count,
+      want_table
     );
   };
 
   //줄서기 삭제
-  deleteQue = async (user_id, store_id) => {
-    return await this.queRepository.deleteQue(user_id, store_id);
+  deleteQue = async (que_id) => {
+    return await this.queRepository.deleteQue(que_id);
   };
 }
 

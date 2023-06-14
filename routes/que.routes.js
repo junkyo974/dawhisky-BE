@@ -13,8 +13,8 @@ router.get("/:store_id", authMiddleware, queController.getMyQue);
 //줄서기 요청
 router.post("/:store_id", authMiddleware, queController.createQue);
 //줄서기 수정
-router.put("/:store_id", authMiddleware, queController.updateQue);
+router.put("/:que_id", authMiddleware, queController.updateQue);
 //줄서기 삭제
-router.delete("/:store_id", authMiddleware, queController.deleteQue);
+router.delete("/:que_id", authMiddleware, queController.deleteQue);
 
 module.exports = router;

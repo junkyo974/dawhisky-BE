@@ -19,12 +19,6 @@ class QueRepository {
       ],
     });
   };
-  //내 순서조회
-  findAndCountAll = async (store_id) => {
-    return await this.Ques.findAndCountAll({
-      where: { store_id },
-    });
-  };
 
   //내 줄서기 현황 조회
   findMyQue = async (store_id, user_id) => {
@@ -34,40 +28,41 @@ class QueRepository {
   };
 
   //줄서기 찾기
-  findQue = async (user_id, store_id) => {
+  findQue = async (que_id) => {
     return await this.Ques.findOne({
-      where: {
-        [Op.and]: [{ user_id }, { store_id }],
-      },
+      where: { que_id },
     });
   };
 
   //줄서기 요청
-  createQue = async (user_id, store_id, request, head_count) => {
-    return await this.Ques.create({ user_id, store_id, request, head_count });
+  createQue = async (user_id, store_id, request, head_count, want_table) => {
+    return await this.Ques.create({
+      user_id,
+      store_id,
+      request,
+      head_count,
+      want_table,
+    });
   };
 
   //줄서기 수정
-  updateQue = async (user_id, store_id, request, head_count) => {
+  updateQue = async (que_id, request, head_count, want_table) => {
     return await this.Ques.update(
       {
         request,
         head_count,
+        want_table,
       },
       {
-        where: {
-          [Op.and]: [{ user_id }, { store_id }],
-        },
+        where: { que_id },
       }
     );
   };
 
   //줄서기 삭제
-  deleteQue = async (user_id, store_id) => {
+  deleteQue = async (que_id) => {
     return await this.Ques.destroy({
-      where: {
-        [Op.and]: [{ user_id }, { store_id }],
-      },
+      where: { que_id },
     });
   };
 }

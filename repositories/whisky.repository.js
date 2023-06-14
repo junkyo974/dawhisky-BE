@@ -46,7 +46,12 @@ class WhiskyRepository {
     if (whisky_country) {
       if (whisky_country == "etc") {
         filterOptions.whisky_country = {
-          [Op.notIn]: ["Scotland", "usa", "Ireland"],
+          [Op.or]: [
+            { [Op.eq]: null },
+            {
+              [Op.notIn]: ["Scotland", "usa", "Ireland", "Japan", "Canada"],
+            },
+          ],
         };
       } else {
         filterOptions.whisky_country = {
@@ -58,12 +63,17 @@ class WhiskyRepository {
     if (whisky_region) {
       if (whisky_region == "etc") {
         filterOptions.whisky_region = {
-          [Op.notIn]: [
-            "Speyside",
-            "Highlands",
-            "Lowlands",
-            "Campbeltown",
-            "Islay",
+          [Op.or]: [
+            { [Op.eq]: null },
+            {
+              [Op.notIn]: [
+                "Speyside",
+                "Highlands",
+                "Lowlands",
+                "Campbeltown",
+                "Islay",
+              ],
+            },
           ],
         };
       } else {
@@ -74,20 +84,23 @@ class WhiskyRepository {
     if (whisky_type) {
       if (whisky_type == "etc") {
         filterOptions.whisky_type = {
-          [Op.and]: [
-            {
-              [Op.notIn]: [
-                "Single Malt Whisky",
-                "Single Grain Whisky",
-                "Blended Malt Whisky",
-                "Blended Whisky",
-              ],
-            },
+          [Op.or]: [
+            { [Op.eq]: null },
             {
               [Op.and]: [
-                { [Op.notLike]: "%Bourbon%" },
-                { [Op.notLike]: "%Rye%" },
-                { [Op.notLike]: "%Tennessee%" },
+                {
+                  [Op.notIn]: [
+                    "Single Malt Whisky",
+                    "Single Grain Whisky",
+                    "Blended Malt Whisky",
+                    "Blended Whisky",
+                  ],
+                  [Op.and]: [
+                    { [Op.notLike]: "%Bourbon%" },
+                    { [Op.notLike]: "%Rye%" },
+                    { [Op.notLike]: "%Tennessee%" },
+                  ],
+                },
               ],
             },
           ],
