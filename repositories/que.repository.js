@@ -35,16 +35,23 @@ class QueRepository {
   };
 
   //줄서기 요청
-  createQue = async (user_id, store_id, request, head_count) => {
-    return await this.Ques.create({ user_id, store_id, request, head_count });
+  createQue = async (user_id, store_id, request, head_count, want_table) => {
+    return await this.Ques.create({
+      user_id,
+      store_id,
+      request,
+      head_count,
+      want_table,
+    });
   };
 
   //줄서기 수정
-  updateQue = async (que_id, request, head_count) => {
+  updateQue = async (que_id, request, head_count, want_table) => {
     return await this.Ques.update(
       {
         request,
         head_count,
+        want_table,
       },
       {
         where: { que_id },
