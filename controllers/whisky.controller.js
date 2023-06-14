@@ -26,8 +26,17 @@ class WhiskyController {
       const whisky_country = req.query.country;
       const whisky_region = req.query.region;
       const whisky_type = req.query.type;
-      const countries = ["Scotland", "usa", "Ireland", "etc"];
+      const countries = [
+        "",
+        "Scotland",
+        "usa",
+        "Ireland",
+        "Japan",
+        "Canada",
+        "etc",
+      ];
       const regions = [
+        "",
         "Speyside",
         "Highlands",
         "Lowlands",
@@ -36,6 +45,7 @@ class WhiskyController {
         "etc",
       ];
       const types = [
+        "",
         "Single Malt Whisky",
         "Single Grain Whisky",
         "Blended Malt Whisky",
