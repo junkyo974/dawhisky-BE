@@ -40,7 +40,7 @@ class QueController {
   createQue = async (req, res, next) => {
     try {
       const { user_id } = res.locals.user;
-      const { request, head_count, want_table } = req.body;
+      const { request, head_count, want_table, device_token } = req.body;
       const { store_id } = req.params;
       const que = await this.queService.findExistQue(store_id, user_id);
       if (que) {
@@ -59,7 +59,8 @@ class QueController {
         store_id,
         request,
         head_count,
-        want_table
+        want_table,
+        device_token
       );
 
       res.status(200).json({ message: "줄서기를 요청하였습니다." });
@@ -73,7 +74,7 @@ class QueController {
   updateQue = async (req, res, next) => {
     try {
       const { user_id } = res.locals.user;
-      const { request, head_count, want_table } = req.body;
+      const { request, head_count, want_table, device_token } = req.body;
       const { que_id } = req.params;
 
       const que = await this.queService.findQue(que_id);
@@ -88,7 +89,13 @@ class QueController {
         throw new Error("412/올바른 테이블 형식을 지정해주세요.");
       }
 
-      await this.queService.updateQue(que_id, request, head_count, want_table);
+      await this.queService.updateQue(
+        que_id,
+        request,
+        head_count,
+        want_table,
+        device_token
+      );
       return res.status(200).json({ message: "줄서기 요청을 수정했습니다." });
     } catch (error) {
       error.faiedApi = "줄서기 요청 수정";

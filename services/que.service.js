@@ -30,23 +30,32 @@ class QueService {
   };
 
   //줄서기 요청
-  createQue = async (user_id, store_id, request, head_count, want_table) => {
+  createQue = async (
+    user_id,
+    store_id,
+    request,
+    head_count,
+    want_table,
+    device_token
+  ) => {
     return await this.queRepository.createQue(
       user_id,
       store_id,
       request,
       head_count,
-      want_table
+      want_table,
+      device_token
     );
   };
 
   //줄서기 수정
-  updateQue = async (que_id, request, head_count, want_table) => {
+  updateQue = async (que_id, request, head_count, want_table, device_token) => {
     return await this.queRepository.updateQue(
       que_id,
       request,
       head_count,
-      want_table
+      want_table,
+      device_token
     );
   };
 
