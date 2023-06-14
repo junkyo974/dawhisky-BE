@@ -17,9 +17,7 @@ module.exports = async (req, res, next) => {
 
     const [authType, authToken] = (authorization ?? "").split(" ");
     if (authType !== "Bearer" || !authToken) {
-      return res
-        .status(403)
-        .json({ errormessage: "로그인이 필요한 기능입니다." });
+      throw new Error("403/로그인이 필요한 기능입니다.");
     }
 
     const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
@@ -29,9 +27,7 @@ module.exports = async (req, res, next) => {
     const store = await Stores.findOne({ where: { email } });
 
     if (!user && !store) {
-      return res.status(401).json({
-        errormessage: "토큰에 해당하는 사용자가 존재하지 않습니다.",
-      });
+      throw new Error("403/토큰에 해당하는 사용자가 존재하지 않습니다.");
     }
     if (user) {
       res.locals.user = {
@@ -58,9 +54,9 @@ module.exports = async (req, res, next) => {
       const store = await Stores.findOne({ where: { email } });
 
       if (!user && !store) {
-        return res.status(401).json({
-          errormessage: "리프레시 토큰에 해당하는 사용자가 존재하지 않습니다.",
-        });
+        throw new Error(
+          "403/리프레시 토큰에 해당하는 사용자가 존재하지 않습니다."
+        );
       }
 
       if (user) {
@@ -89,9 +85,8 @@ module.exports = async (req, res, next) => {
 
       return next();
     } else {
-      return res.status(403).json({
-        errormessage: "전달된 쿠키에서 오류가 발생하였습니다.",
-      });
+      error.failedApi = "사용자 인증 미들웨어";
+      throw error;
     }
   }
 };
