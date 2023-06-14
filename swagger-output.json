@@ -1073,7 +1073,8 @@
               "type": "object",
               "properties": {
                 "request": { "example": "요청사항" },
-                "head_count": { "example": "1" }
+                "head_count": { "example": "1" },
+                "want_table": { "example": "hall" }
               }
             }
           },
@@ -1117,7 +1118,8 @@
               "type": "object",
               "properties": {
                 "request": { "example": "요청사항" },
-                "head_count": { "example": "1" }
+                "head_count": { "example": "1" },
+                "want_table": { "example": "hall" }
               }
             }
           },

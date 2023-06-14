@@ -9,8 +9,8 @@ class QueService {
     return await this.queRepository.findAllQue(store_id);
   };
 
-  findExistQue = async (user_id, store_id) => {
-    return await this.queRepository.findMyQue(user_id, store_id);
+  findExistQue = async (store_id, user_id) => {
+    return await this.queRepository.findMyQue(store_id, user_id);
   };
 
   //내 줄서기 현황 조회
@@ -30,18 +30,24 @@ class QueService {
   };
 
   //줄서기 요청
-  createQue = async (user_id, store_id, request, head_count) => {
+  createQue = async (user_id, store_id, request, head_count, want_table) => {
     return await this.queRepository.createQue(
       user_id,
       store_id,
       request,
-      head_count
+      head_count,
+      want_table
     );
   };
 
   //줄서기 수정
-  updateQue = async (que_id, request, head_count) => {
-    return await this.queRepository.updateQue(que_id, request, head_count);
+  updateQue = async (que_id, request, head_count, want_table) => {
+    return await this.queRepository.updateQue(
+      que_id,
+      request,
+      head_count,
+      want_table
+    );
   };
 
   //줄서기 삭제
