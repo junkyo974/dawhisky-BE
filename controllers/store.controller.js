@@ -95,6 +95,7 @@ class StoreController {
         authorization: `${storeData.accessObject.type} ${storeData.accessObject.token}`,
         refreshToken: `${storeData.refreshObject.token}`,
         store: `${storeData.store_id}`,
+        message: "로그인 되었습니다!",
       });
     } catch (error) {
       error.failedApi = "스토어 로그인";
@@ -132,45 +133,33 @@ class StoreController {
 
   pushMessage = async (req, res) => {
     const admin = require("firebase-admin");
-    const serviceAccount = require("../modules/da-whiksy-firebase-adminsdk-eghey-0885aef20e.json");
-    // const { store_id } = req.locals.store;
-    let deviceToken = await redisClient.get(userDeviceToken);
+    const serviceAccount = require("../config/firebase.json");
+    // const { que_id } = req.body;
+    // let deviceToken = await this.storeService.findDeviceToken(que_id);
 
     try {
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL:
-          "https://da-whiksy-default-rtdb.asia-southeast1.firebasedatabase.app",
-      });
+      if (!admin.apps.length) {
+        admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+          databaseURL: "https://da-whisky-default-rtdb.firebaseio.com",
+        });
+      }
 
       const message = {
         notification: {
           title: "Da-whisky 줄서기 예약 알림",
-          body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 알림을 선택하여 주세요.",
+          body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 사이트를 확인해주세요.",
         },
-        token: deviceToken,
-        webpush: {
-          notification: {
-            actions: [
-              {
-                action: "accept",
-                title: "곧 갈게요!",
-              },
-              {
-                action: "cancle",
-                title: "취소해 주세요!",
-              },
-            ],
-          },
-        },
+        token:
+          "fkNUdIQStSebdLFOgiemwF:APA91bEBm2A-6CctZ36MxhV1bWVaUlWBywkzLdVNob0Pw7S-pnLSxu36i8IZp9QSgrZoWw2489PtXqAC0B3eielZtId-OhKgk7jgx2ouqxR2YzHZ8ymjYKkOjBsDYsAXQWMauVmrHyKB",
       };
+      const messaging = admin.messaging();
+      const response = await messaging.send(message);
+      console.log("푸시 메시지 전송 결과:", response);
 
-      admin
-        .messaging()
-        .send(message)
-        .then((response) => {
-          console.log("메세지 전송 성공", response);
-        });
+      res.status(200).json({
+        message: "메세지 전송에 성공하였습니다.",
+      });
     } catch (error) {
       error.failedApi = "push message 전송";
       throw error;

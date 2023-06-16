@@ -3,6 +3,8 @@ const app = express();
 const cookieParser = require("cookie-parser");
 require("express-async-errors");
 
+app.use(express.static("public"));
+
 //chat1
 const { host, sentry } = require("./config/config");
 const port = host.port;

@@ -1,4 +1,4 @@
-const { Stores } = require("../models");
+const { Stores, Ques } = require("../models");
 
 class StoreRepository {
   createStore = async (storesData) => {
@@ -35,6 +35,13 @@ class StoreRepository {
       where: { store_id: store_id },
     });
     return deleteStore;
+  };
+
+  findDeviceToken = async (que_id) => {
+    const deviceToken = await Ques.findOne({
+      where: { que_id: que_id },
+    });
+    return deviceToken.dataValues.device_token;
   };
 }
 
