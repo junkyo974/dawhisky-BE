@@ -122,7 +122,7 @@ const socketHandler = (io) => {
   // });
 
   io.on("connection", (socket) => {
-    socket.on("enter", async (store_id) => {
+    socket.on("enter", (store_id) => {
       console.log(`위스키바 store_id:${store_id} 접속 완료`);
       socket.room = store_id;
       socket.join(store_id);
@@ -147,8 +147,10 @@ const socketHandler = (io) => {
       //   );
       // });
 
-      const query = connectionMysql.query("SELECT * FROM 테이블이름");
-      const watcher = connectionMysql.query(query.stream());
+      const query = connectionMysql.query(
+        `SELECT * FROM Ques WHERE store_id = ${store_id}`
+      );
+      const watcher = query.stream();
 
       // 데이터베이스 변화 감지 이벤트
       watcher.on("result", (row) => {
