@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "da-whisky",
+    "private_key_id": "bc3cf39136b806254a24e51a42781c61f03daed4",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3LxlSqN1/ZXP6\nAu7kB1FqWugbJvo/mp5SWFV3WCNfCTgMVq3SVVEO7/MWvulBHUH9KabguZMqYLlC\nc1DzaKzK/GDASuEzs61hQ2Vq0qYQwfFjWkMGAlFDOgNea0CkkKI823y1EkxAXP6C\nvQSnVvkZMRSoFSnekOO4+PinC7T6HmhBS/zqwLb0V55sdRR2HSXSnBac0RHqSolr\nMcptaLv9dHABiLMAVC17g691pMRLWiKppY3UgY/9tFrpQkez3CPPSFNcUfDvFgpN\nk6RJm1tv6vl1edHgcHSYa6iyzeUEK7bBOUXYy6s3N/6f7J/z6c0gjIzz/2LLVLtK\ntSv4M0FRAgMBAAECggEAIjh/P4ziTBFU2CjCHgEr+XVgFOp0J3uoBfQQi0oA2Zks\nSknLERb1HJhAzkf95TclA7lLPoIMdwc4tKw8PCya0xTQsjuK1JDFW/0uLgWKFmlU\nwd2z1aSLL8bfqDzbB6MpW7sZEe6IJiH5Pc032FcME+OyWzAQ8U4Z7I0+Tl6GgY7o\nwq/rg9XLruCM3WqPxERoHn8BSN3zKII0fZ/nWN+FSQvVNBtU44Bg/ZiwJ4uGvp/+\nW8uiU99+kgNV9/R2ZoHs15wUEJoYRoZseX0nED7WJrqmOCyp/exw0TKjYRgUPeTb\nQxhUTVdBc3ucsK++cr+XeTcIpTN8MAZZJ52yzkJ9LQKBgQD83YuidP85t59Uv0rE\nKNlk9X2Ue+hNJi7WsNbGX7+muFWmhNNzeccpCJrCg81Zny66+UFa0J6HKR7uEM1z\n8rIvNGK9B5uLDtiTX8L1cPb3yjpb4u++grhWxysjTFHeeu/Jz1v4V+PRWHp9h/m0\n9W94BzMQFtN1ixC5Mqb/KqbO7wKBgQC5dGxaoePgCxiFRTaVfwwqsNmtb4aN44yR\n4c3lPKB8XWpEQB7tSlh7PRLVkAK8Z/zhfmADxOOW/HtUerqoqOwozlDh/Vj5nMUm\nIolub3enl7SRjYtZATRpDw1dB2XFNs4f1yvKTP7gkRRcQ9RoVrIoQFX/q+JbikaI\n1pGQZc7zvwKBgGJ2JfwhUIx56qnGPue4/EWqrbaWtPLtjkl83HSsLeVOW9OWXvvV\nDG728cQSLHDcYgbeLcud9kys/2U117pxY16sKFJw1ulD46MnI7QMw63i6eyDplTp\nc7wem7aH7k0SU7Kicq52EriemjutKdeDxl7XdtOp/7cCaoWiqpIrWn6zAoGBALhi\nl4R45v6PKZ7/VKjIO0mKsbItayNRdSZp0fM0Fv/vRMN82QLl4xkMfNhWqVG3Ngbg\nRggZToqElv5EU6dy4/IiRuqZoEf05VLoDan+K4I2Y/I/P6eLehdmPswamcW9mqyv\nmzs02EhgFlUxn1Lpt5IrfRWJSLHoxf4xD2L4xg0zAoGBAOQfdQ7vY3GFF3XW4oVJ\njbC85ZfLv+FZ5dvdsEGHGdXm6NMX04hmPgIqXDFeNkYLYof9+Itu8alg+WKPuzMS\nDH2GJYiH+qBt8n/D3taIlrBKnP7W+UkezxZqrNwnxdI64ZJau5ZnRtKWmEkCMt+t\nTdWVjDwBj0LP6fY7mKd0mXfE\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-oljyx@da-whisky.iam.gserviceaccount.com",
+    "client_id": "116692599202049567538",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-oljyx%40da-whisky.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+    }

@@ -8,11 +8,11 @@ class UserController {
 
   // test용 로컬 로그인
   login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email } = req.body;
     const user = await this.userService.findOneUserEmail(email);
 
     try {
-      if (!user || password !== user.password) {
+      if (!user) {
         throw new Error("412/이메일 또는 패스워드를 확인해주세요.");
       }
 
@@ -58,7 +58,6 @@ class UserController {
           },
         }
       );
-      console.log(res1.data.access_token);
       // Access token을 이용해 정보 가져오기
       const res2 = await axios.post(
         "https://kapi.kakao.com/v2/user/me",
@@ -73,6 +72,7 @@ class UserController {
       const data = res2.data;
       const email = data.kakao_account.email;
       const user = await this.userService.findOneUserEmail(email);
+      console.log(res2);
       if (!user) {
         const name = data.kakao_account.name;
 
@@ -92,6 +92,7 @@ class UserController {
           authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
           refreshToken: `${userData.refreshObject.token}`,
           user: `${userData.user_id}`,
+          message: "회원가입 되었습니다!",
         });
       } else {
         const userData = await this.userService.login(data.kakao_account.email);
@@ -116,6 +117,7 @@ class UserController {
           authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
           refreshToken: `${userData.refreshObject.token}`,
           user: `${userData.user_id}`,
+          message: "로그인 되었습니다!",
         });
       }
     } catch (error) {

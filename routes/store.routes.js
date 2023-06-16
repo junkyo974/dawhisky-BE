@@ -22,7 +22,7 @@ router.delete("/logout/store", authMiddleware, storeController.logout);
 // DELETE: 회원 탈퇴
 router.delete("/signout/store", authMiddleware, storeController.deleteStore);
 
-// GET: 알림메시지
-router.delete("/push", storeController.pushMessage);
+// POST: 알림메시지
+router.post("/push", storeController.pushMessage);
 
 module.exports = router;

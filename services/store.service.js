@@ -1,5 +1,5 @@
 const StoreRepository = require("../repositories/store.repository");
-const { Stores } = require("../models");
+const { Stores, Ques } = require("../models");
 const redisClient = require("../utils/redis");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -81,6 +81,12 @@ class StoreService {
     const store = await this.storeRepository.deleteStore(store_id);
 
     return { message: "회원님의 계정이 삭제되었습니다." };
+  };
+
+  findDeviceToken = async (que_id) => {
+    const deviceToken = await this.storeRepository.findDeviceToken(que_id);
+
+    return deviceToken;
   };
 }
 
