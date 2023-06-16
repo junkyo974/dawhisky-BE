@@ -10,6 +10,9 @@ class ReviewService {
       user_id,
       whisky_id
     );
+    if (!review) {
+      throw new Error("404/위스키리뷰가 존재하지 않습니다.");
+    }
 
     let liked = (await this.reviewRepository.findOneLike(user_id, whisky_id))
       ? true
