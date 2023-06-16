@@ -12,7 +12,7 @@ class ReviewService {
     );
 
     if (!review) {
-      review = {};
+      review = { content: "" };
     }
 
     const whisky = await this.reviewRepository.findOneWhisky(whisky_id);
