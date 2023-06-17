@@ -42,6 +42,8 @@ app.use(
       "http://localhost:3000",
       "http://52.78.56.220:3000",
       "https://www.dawhisky.com",
+      "https://dawhisky-fe.vercel.app",
+      "https://dawhisky-test.vercel.app",
     ],
     credentials: "true",
   })

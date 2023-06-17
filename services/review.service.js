@@ -6,26 +6,29 @@ class ReviewService {
 
   //내가쓴 리뷰 조회
   getReview = async (user_id, whisky_id) => {
-    const review = await this.reviewRepository.findOneMyReview(
+    let review = await this.reviewRepository.findOneMyReview(
       user_id,
       whisky_id
     );
+
     if (!review) {
-      throw new Error("404/위스키리뷰가 존재하지 않습니다.");
+      review = { content: "" };
     }
+
+    const whisky = await this.reviewRepository.findOneWhisky(whisky_id);
 
     let liked = (await this.reviewRepository.findOneLike(user_id, whisky_id))
       ? true
       : false;
-    if (WhiskyLikes)
-      return {
-        content: review.content,
-        whisky_id: whisky_id,
-        whisky_kor: review.dataValues.Whisky.dataValues.whisky_kor,
-        whisky_eng: review.dataValues.Whisky.dataValues.whisky_eng,
-        whisky_photo: review.dataValues.Whisky.dataValues.whisky_photo,
-        liked: liked,
-      };
+
+    return {
+      content: review.content,
+      whisky_id: whisky_id,
+      whisky_kor: whisky.whisky_kor,
+      whisky_eng: whisky.whisky_eng,
+      whisky_photo: whisky.whisky_photo,
+      liked: liked,
+    };
   };
 
   //위스키찾기
