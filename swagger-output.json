@@ -1460,11 +1460,21 @@
         }
       }
     },
-    "/api/map/store/": {
+    "/api/map/store/{address}": {
       "get": {
         "tags": ["map"],
-        "description": "스토어 불러오기",
-        "parameters": [],
+        "description": "스토어 구별로 불러오기",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "구를 입력하세요."
+          }
+        ],
         "responses": {
           "200": [
             {

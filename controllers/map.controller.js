@@ -18,7 +18,8 @@ class MapController {
   //스토어 불러오기
   getStore = async (req, res, next) => {
     try {
-      const store = await this.mapService.getStore();
+      const address = encodeURIComponent(req.params.address);
+      const store = await this.mapService.getStore(address);
 
       res.status(200).json(store);
     } catch (error) {

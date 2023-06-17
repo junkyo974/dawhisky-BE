@@ -8,6 +8,6 @@ const mapController = new MapController();
 router.get("/", mapController.getMap);
 
 //스토어불러오기
-router.get("/store", mapController.getStore);
+router.get("/store/:address", mapController.getStore);
 
 module.exports = router;
