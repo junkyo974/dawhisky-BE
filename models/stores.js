@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       store: {
         type: DataTypes.STRING,
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       biz_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       biz_photo: {
         type: DataTypes.TEXT,
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       address: {
         type: DataTypes.STRING,

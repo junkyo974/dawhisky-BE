@@ -134,8 +134,8 @@ class StoreController {
   pushMessage = async (req, res) => {
     const admin = require("firebase-admin");
     const serviceAccount = require("../config/firebase.json");
-    // const { que_id } = req.body;
-    // let deviceToken = await this.storeService.findDeviceToken(que_id);
+    const { que_id } = req.body;
+    let deviceToken = await this.storeService.findDeviceToken(que_id);
 
     try {
       if (!admin.apps.length) {
@@ -150,12 +150,11 @@ class StoreController {
           title: "Da-whisky 줄서기 예약 알림",
           body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 사이트를 확인해주세요.",
         },
-        token:
-          "fkNUdIQStSebdLFOgiemwF:APA91bEBm2A-6CctZ36MxhV1bWVaUlWBywkzLdVNob0Pw7S-pnLSxu36i8IZp9QSgrZoWw2489PtXqAC0B3eielZtId-OhKgk7jgx2ouqxR2YzHZ8ymjYKkOjBsDYsAXQWMauVmrHyKB",
+        token: deviceToken,
       };
       const messaging = admin.messaging();
       const response = await messaging.send(message);
-      console.log("푸시 메시지 전송 결과:", response);
+      console.log("푸시 메시지 전송");
 
       res.status(200).json({
         message: "메세지 전송에 성공하였습니다.",

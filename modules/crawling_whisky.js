@@ -175,7 +175,35 @@
 //       ) {
 //         const translatedText = response.data.message.result.translatedText;
 //         whiskyData.whisky_kor = translatedText;
-//         console.log(translatedText);
+
+//         const descQuery = whiskyData.whisky_desc;
+//         const descResponse = await axios.post(
+//           api_url,
+//           {
+//             source: "en",
+//             target: "ko",
+//             text: descQuery,
+//           },
+//           {
+//             headers: {
+//               "X-Naver-Client-Id": client_id,
+//               "X-Naver-Client-Secret": client_secret,
+//             },
+//           }
+//         );
+
+//         if (
+//           descResponse.data &&
+//           descResponse.data.message &&
+//           descResponse.data.message.result
+//         ) {
+//           // whisky_desc 번역 결과를 저장
+//           const translatedDesc =
+//             descResponse.data.message.result.translatedText;
+//           whiskyData.whisky_desc_kor = translatedDesc;
+//         } else {
+//           console.log("번역 실패");
+//         }
 //       } else {
 //         console.log("번역 실패");
 //       }
@@ -204,7 +232,7 @@
 //             whiskyData.whisky_region,
 //             whiskyData.whisky_age,
 //             whiskyData.whisky_type,
-//             whiskyData.whisky_desc,
+//             whiskyData.whisky_desc_kor,
 //             whiskyData.whisky_abv,
 //             whiskyData.whisky_photo,
 //           ];
