@@ -1,6 +1,4 @@
-// const fs = require("fs");
 const mysql = require("mysql2");
-const axios = require("axios");
 
 const connectionMysql = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -45,15 +43,16 @@ connectionMysql.connect((err) => {
 //   END
 //   `; // 트리거 생성 쿼리
 
-//   const dropProcedureQuery = `DROP PROCEDURE IF EXISTS sendDataToExternalSystem`;
+// //프로시저 삭제 쿼리
+// const dropProcedureQuery = `DROP PROCEDURE IF EXISTS sendDataToExternalSystem`;
 
-//   // 프로시저 삭제 쿼리 실행
-//   connectionMysql.query(dropProcedureQuery, (err, results) => {
-//     if (err) {
-//       console.error("Error dropping procedure:", err);
-//       return;
-//     }
-//   });
+// // 프로시저 삭제 쿼리 실행
+// connectionMysql.query(dropProcedureQuery, (err, results) => {
+//   if (err) {
+//     console.error("Error dropping procedure:", err);
+//     return;
+//   }
+// });
 
 //   const procedureQuery = `
 //   CREATE PROCEDURE sendDataToExternalSystem(newData VARCHAR(255), OUT response VARCHAR(255))
@@ -127,26 +126,6 @@ const socketHandler = (io) => {
       socket.room = store_id;
       socket.join(store_id);
 
-      // fs.readFile("./modules/trigger.sql", "utf8", (err, data) => {
-      //   if (err) {
-      //     console.error(err);
-      //     return;
-      //   }
-
-      //   connectionMysql.query(
-      //     `CREATE TRIGGER trigger_name AFTER INSERT, UPDATE, DELETE ON Ques FOR EACH ROW BEGIN SELECT * FROM Ques WHERE ${store_id} = NEW.${store_id}; END;`,
-      //     (error, results) => {
-      //       if (error) {
-      //         console.error(error);
-      //         return;
-      //       }
-      //       console.log(results);
-
-      //       console.log("Trigger created successfully");
-      //     }
-      //   );
-      // });
-
       const query = connectionMysql.query(
         `SELECT * FROM Ques WHERE store_id = ${store_id}`
       );
@@ -154,10 +133,10 @@ const socketHandler = (io) => {
 
       // 데이터베이스 변화 감지 이벤트
       watcher.on("result", (row) => {
-        console.log("변화 감지:", row);
+        console.log("테스트 성공했냐?:", row);
 
         // 클라이언트에게 변화된 데이터 전송
-        io.to(socket.room).emit("test", row);
+        io.to(socket.room).emit("getQueData", row);
       });
 
       // 클라이언트 연결 해제

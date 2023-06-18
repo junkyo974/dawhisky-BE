@@ -1,4 +1,6 @@
 const QueService = require("../services/que.service");
+const socketHandler = require("../modules/socket-handler");
+
 class QueController {
   queService = new QueService();
 
@@ -63,7 +65,8 @@ class QueController {
         device_token
       );
 
-      res.status(200).json({ message: "줄서기를 요청하였습니다." });
+      socketHandler(io);
+      return res.status(200).json({ message: "줄서기를 요청하였습니다." });
     } catch (error) {
       error.failedApi = "줄서기 요청";
       throw error;
@@ -96,6 +99,7 @@ class QueController {
         want_table,
         device_token
       );
+      socketHandler(io);
       return res.status(200).json({ message: "줄서기 요청을 수정했습니다." });
     } catch (error) {
       error.faiedApi = "줄서기 요청 수정";
@@ -124,6 +128,7 @@ class QueController {
 
       if (user_id == que.user_id || store_id == que.store_id) {
         await this.queService.deleteQue(que_id);
+        socketHandler(io);
         return res.status(200).json({ message: "테이블을 삭제하였습니다." });
       } else {
         throw new Error("404/줄서기 요청 권한이 존재하지 않습니다.");

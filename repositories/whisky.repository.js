@@ -164,7 +164,7 @@ class WhiskyRepository {
 
   //위스키 코멘트 조회
   findAllWhiskyComment = async (whisky_id) => {
-    return await this.Reviews.findOne({
+    return await this.Reviews.findAll({
       where: { whisky_id },
     });
   };
