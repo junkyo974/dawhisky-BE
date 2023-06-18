@@ -113,8 +113,7 @@ connectionMysql.connect((err) => {
 
 const socketHandler = (io) => {
   io.on("connection", (socket) => {
-    socket.on("enter", (store_id) => {
-      store_id = 458;
+    socket.on("enter", (store_id) => {      
       console.log(`위스키바 store_id:${store_id} 접속 완료`);
       socket.room = store_id;
       socket.join(store_id);
