@@ -7,14 +7,6 @@ const connectionMysql = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-connectionMysql.connect((err) => {
-  if (err) {
-    console.error("MySQL connection failed:", err);
-    return;
-  }
-  console.log("Connected to MySQL");
-});
-
 //여기서부터
 
 // // 트리거 삭제 쿼리
@@ -112,13 +104,13 @@ connectionMysql.connect((err) => {
 //여기까지
 
 const socketHandler = (io) => {
-  // connectionMysql.connect((err) => {
-  //   if (err) {
-  //     console.error("MySQL connection failed:", err);
-  //     return;
-  //   }
-  //   console.log("Connected to MySQL");
-  // });
+  connectionMysql.connect((err) => {
+    if (err) {
+      console.error("MySQL connection failed:", err);
+      return;
+    }
+    console.log("Connected to MySQL");
+  });
 
   io.on("connection", (socket) => {
     socket.on("enter", (store_id) => {
@@ -126,23 +118,20 @@ const socketHandler = (io) => {
       socket.room = store_id;
       socket.join(store_id);
 
-      const query = connectionMysql.query(
-        `SELECT * FROM Ques WHERE store_id = ${store_id}`
-      );
-      const watcher = query.stream();
+      const query = `SELECT * FROM Ques WHERE store_id = ${store_id}`;
+      connectionMysql.query(query, (err, rows) => {
+        if (err) {
+          console.error("Error in watching table changes:", err);
+          return;
+        }
 
-      // 데이터베이스 변화 감지 이벤트
-      watcher.on("result", (row) => {
-        console.log("테스트 성공했냐?:", row);
-
-        // 클라이언트에게 변화된 데이터 전송
-        io.to(socket.room).emit("getQueData", row);
+        io.to(socket.room).emit("getQueData", rows);
+        console.log("que DB 전송 완료");
       });
 
       // 클라이언트 연결 해제
       socket.on("disconnect", () => {
         console.log("클라이언트와의 연결이 해제되었습니다.");
-        watcher.destroy();
       });
 
       const watchTableChanges = () => {

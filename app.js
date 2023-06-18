@@ -44,6 +44,7 @@ app.use(
       "https://www.dawhisky.com",
       "https://dawhisky-fe.vercel.app",
       "https://dawhisky-test.vercel.app",
+      "https://dawhisky-pwa.vercel.app",
     ],
     credentials: "true",
   })
