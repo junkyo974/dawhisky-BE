@@ -1,4 +1,3 @@
-const fs = require("fs");
 const MapService = require("../services/map.service");
 
 class MapController {
