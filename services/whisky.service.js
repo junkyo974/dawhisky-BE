@@ -57,7 +57,17 @@ class WhiskyService {
 
   //위스키 보유 스토어 조회
   whiskyStore = async (whisky_id) => {
-    return await this.whiskyRepository.findAllWhiskyStore(whisky_id);
+    const stores = await this.whiskyRepository.findAllWhiskyStore(whisky_id);
+    const Stores = stores.map((store) => {
+      return {
+        store_id: store.Store.store_id,
+        biz_photo: store.Store.biz_photo,
+        whisky_id: store.Store.whisky_id,
+        store: store.Store.store,
+        address: store.Store.address,
+      };
+    });
+    return Stores;
   };
 
   //위스키 코멘트 조회
