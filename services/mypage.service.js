@@ -91,7 +91,20 @@ class MyapgeService {
 
   //스토어위스키 조회
   getStoreWhisky = async (store_id) => {
-    return await this.mypageRepository.findAllStoreWhisky(store_id);
+    const whiskys = await this.mypageRepository.findAllStoreWhisky(store_id);
+    const Whiskys = whiskys.map((whisky) => {
+      return {
+        store_id: whisky.store_id,
+        storewhisky_id: whisky.storewhisky_id,
+        whisky_id: whisky.whisky_id,
+        count: whisky.count,
+        whisky_photo: whisky.Whisky.whisky_photo,
+        whisky_kor: whisky.Whisky.whisky_kor,
+        whisky_eng: whisky.Whisky.whisky_eng,
+        whisky_abv: whisky.Whisky.whisky_abv,
+      };
+    });
+    return Whiskys;
   };
 
   //스토어테이블 조회
