@@ -114,12 +114,19 @@ connectionMysql.connect((err) => {
 const socketHandler = (io) => {
   io.on("connection", (socket) => {
     socket.on("enter", (store_id) => {
-      store_id = 458;
       console.log(`위스키바 store_id:${store_id} 접속 완료`);
       socket.room = store_id;
       socket.join(store_id);
 
-      const query = `SELECT * FROM Ques WHERE store_id = ${store_id}`;
+      const query = `SELECT Ques.*, (
+        SELECT name
+        FROM Users
+        WHERE user_id = Ques.user_id
+        ) AS user_name
+        FROM Ques
+        WHERE store_id = ${store_id}
+        ORDER BY createdAt DESC
+        `;
 
       connectionMysql.query(query, (err, rows) => {
         if (err) {
@@ -136,22 +143,30 @@ const socketHandler = (io) => {
         console.log("클라이언트와의 연결이 해제되었습니다.");
       });
 
-      // const watchTableChanges = () => {
-      //   const query = `SELECT * FROM Ques WHERE store_id = ${store_id}`;
-      //   connectionMysql.query(query, (err, rows) => {
-      //     if (err) {
-      //       console.error("Error in watching table changes:", err);
-      //       return;
-      //     }
+      const watchTableChanges = () => {
+        const query = `SELECT Ques.*, (
+        SELECT name
+        FROM Users
+        WHERE user_id = Ques.user_id
+        ) AS user_name
+        FROM Ques
+        WHERE store_id = ${store_id}
+        ORDER BY createdAt DESC
+        `;
+        connectionMysql.query(query, (err, rows) => {
+          if (err) {
+            console.error("Error in watching table changes:", err);
+            return;
+          }
 
-      //     io.to(socket.room).emit("getQueData", rows);
-      //     console.log("que DB 전송 완료");
+          io.to(socket.room).emit("getQueData", rows);
+          console.log("que DB 전송 완료");
 
-      //     setTimeout(watchTableChanges, 3600000);
-      //   });
-      // };
+          setTimeout(watchTableChanges, 15000);
+        });
+      };
 
-      // watchTableChanges();
+      watchTableChanges();
     });
   });
 };
