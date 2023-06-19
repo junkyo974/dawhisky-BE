@@ -37,11 +37,16 @@ class StoreRepository {
     return deleteStore;
   };
 
-  findDeviceToken = async (que_id) => {
-    const deviceToken = await Ques.findOne({
+  findPushData = async (que_id) => {
+    const PushData = await Ques.findOne({
       where: { que_id: que_id },
+      attributes: ["device_token"],
+      include: {
+        model: Stores,
+        attributes: ["store"],
+      },
     });
-    return deviceToken.dataValues.device_token;
+    return PushData;
   };
 }
 

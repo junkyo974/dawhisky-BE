@@ -76,10 +76,10 @@ class StoreService {
     return { message: "회원님의 계정이 삭제되었습니다." };
   };
 
-  findDeviceToken = async (que_id) => {
-    const deviceToken = await this.storeRepository.findDeviceToken(que_id);
+  findPushData = async (que_id) => {
+    const PushData = await this.storeRepository.findPushData(que_id);
 
-    return deviceToken;
+    return PushData;
   };
 }
 

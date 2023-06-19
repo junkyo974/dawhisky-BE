@@ -131,11 +131,11 @@ class StoreController {
     }
   };
 
-  pushMessage = async (req, res) => {
+  pushReserveMessage = async (req, res) => {
     const admin = require("firebase-admin");
     const serviceAccount = require("../config/firebase.json");
     const { que_id } = req.body;
-    let deviceToken = await this.storeService.findDeviceToken(que_id);
+    let PushData = await this.storeService.findPushData(que_id);
 
     try {
       if (!admin.apps.length) {
@@ -147,14 +147,46 @@ class StoreController {
 
       const message = {
         notification: {
-          title: "Da-whisky 줄서기 예약 알림",
+          title: `${PushData.Store.store} 매장 예약 알림`,
           body: "곧 입장이 가능하니 매장에서 대기해주세요! \n취소 및 수정은 사이트를 확인해주세요.",
         },
-        token: deviceToken,
+        token: PushData.device_token,
       };
       const messaging = admin.messaging();
       const response = await messaging.send(message);
-      console.log("푸시 메시지 전송");
+
+      res.status(200).json({
+        message: "메세지 전송에 성공하였습니다.",
+      });
+    } catch (error) {
+      error.failedApi = "push message 전송";
+      throw error;
+    }
+  };
+
+  pushCancelMessage = async (req, res) => {
+    const admin = require("firebase-admin");
+    const serviceAccount = require("../config/firebase.json");
+    const { que_id } = req.body;
+    let PushData = await this.storeService.findPushData(que_id);
+
+    try {
+      if (!admin.apps.length) {
+        admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+          databaseURL: "https://da-whisky-default-rtdb.firebaseio.com",
+        });
+      }
+
+      const message = {
+        notification: {
+          title: `${PushData.Store.store} 매장 예약 알림`,
+          body: "요청하신 줄서기 예약이 취소되었습니다. \n 자세한 내용은 매장에 문의해주세요.",
+        },
+        token: PushData.device_token,
+      };
+      const messaging = admin.messaging();
+      const response = await messaging.send(message);
 
       res.status(200).json({
         message: "메세지 전송에 성공하였습니다.",
