@@ -74,6 +74,22 @@ class MypageRepository {
     });
   };
 
+  //스토어 좋아요 여부 찾기
+  findOneUser = async (store_id, email) => {
+    const like = await this.Users.findOne({
+      where: { email },
+      include: [
+        {
+          model: this.StoreLikes,
+          attributes: ["storelike_id"],
+          where: { store_id },
+        },
+      ],
+    });
+
+    return like;
+  };
+
   //스토어상세조회
   findAllStoreInfo = async (store_id) => {
     return await this.Stores.findOne({

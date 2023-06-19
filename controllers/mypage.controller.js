@@ -19,7 +19,26 @@ class MypageController {
   storePage = async (req, res, next) => {
     try {
       const { store_id } = req.params;
-      const storeInfo = await this.mypageService.getStoreMypage(store_id);
+      const jwt = require("jsonwebtoken");
+      require("dotenv").config();
+      let email = "aaa";
+
+      let { authorization, refreshtoken } = req.headers;
+
+      authorization = !req.headers.refreshtoken
+        ? req.cookies.authorization
+        : authorization;
+
+      if (authorization) {
+        const [authType, authToken] = (authorization ?? "").split(" ");
+
+        const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
+        email = decodedToken.email;
+      }
+      const storeInfo = await this.mypageService.getStoreMypage(
+        store_id,
+        email
+      );
       if (!storeInfo) {
         throw new Error("404/스토어가 존재하지 않습니다.");
       }
