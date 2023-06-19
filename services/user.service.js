@@ -23,19 +23,13 @@ class UserService {
 
     const accessToken = jwt.sign(
       { email: user.email },
-      process.env.USER_ACCESS_KEY,
-      {
-        expiresIn: process.env.ACCESS_EXPIRES,
-      }
+      process.env.USER_ACCESS_KEY
     );
     const accessObject = { type: "Bearer", token: accessToken };
 
     const refreshToken = jwt.sign(
       { email: user.email },
-      process.env.USER_REFRESH_KEY,
-      {
-        expiresIn: process.env.REFRESH_EXPIRES,
-      }
+      process.env.USER_REFRESH_KEY
     );
     const refreshObject = { type: "Bearer", token: refreshToken };
 
@@ -48,7 +42,6 @@ class UserService {
 
   logout = async (user_id) => {
     const user = await this.userRepository.findOneUserId(user_id);
-    // await this.redisClient.DEL(user.email);
     return { message: "로그아웃 되었습니다." };
   };
 

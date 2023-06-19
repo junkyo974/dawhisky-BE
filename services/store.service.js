@@ -43,19 +43,13 @@ class StoreService {
 
     const accessToken = jwt.sign(
       { email: store.email },
-      process.env.USER_ACCESS_KEY,
-      {
-        expiresIn: process.env.ACCESS_EXPIRES,
-      }
+      process.env.USER_ACCESS_KEY
     );
     const accessObject = { type: "Bearer", token: accessToken };
 
     const refreshToken = jwt.sign(
       { email: store.email },
-      process.env.USER_REFRESH_KEY,
-      {
-        expiresIn: process.env.REFRESH_EXPIRES,
-      }
+      process.env.USER_REFRESH_KEY
     );
     const refreshObject = { type: "Bearer", token: refreshToken };
 
@@ -68,7 +62,6 @@ class StoreService {
 
   logout = async (store_id) => {
     const store = await this.storeRepository.findOneStoreId(store_id);
-    // await this.redisClient.DEL(store.email);
     return { message: "로그아웃 되었습니다." };
   };
 

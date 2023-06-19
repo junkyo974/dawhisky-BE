@@ -23,8 +23,8 @@
 //   const whiskyList = [];
 //   const whiskyEngSet = new Set();
 
-//   const startPage = 60;
-//   const endPage = 60; //60까지 크롤링 완료
+//   const startPage = 33;
+//   const endPage = 33;
 
 //   let j = 1;
 
@@ -136,12 +136,12 @@
 
 //         await whiskyPage.close();
 //       }
-//       if (j === 16) {
-//         j = 1;
-//         i++;
-//       } else {
-//         j++;
-//       }
+//       //   if (j === 16) {
+//       //     j = 1;
+//       //     i++;
+//       //   } else {
+//       //     j++;
+//       //   }
 //     }
 //   }
 
@@ -149,8 +149,8 @@
 //   for (const whiskyData of whiskyList) {
 //     const query = whiskyData.whisky_eng;
 //     const api_url = "https://openapi.naver.com/v1/papago/n2mt";
-//     const client_id = "AafBncl7kO_Y87FQU5dr";
-//     const client_secret = "ySDym2Y2Mq";
+//     const client_id = "KhD4hJaI483y7SpUmoAW";
+//     const client_secret = "ErzzICMSwc";
 
 //     try {
 //       const response = await axios.post(
@@ -201,6 +201,7 @@
 //           const translatedDesc =
 //             descResponse.data.message.result.translatedText;
 //           whiskyData.whisky_desc_kor = translatedDesc;
+//           console.log(translatedText);
 //         } else {
 //           console.log("번역 실패");
 //         }

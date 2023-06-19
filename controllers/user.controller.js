@@ -31,6 +31,7 @@ class UserController {
         authorization: `${userData.accessObject.type} ${userData.accessObject.token}`,
         refreshToken: `${userData.refreshObject.token}`,
         user: `${user.user_id}`,
+        message: "로그인 되었습니다!",
       });
     } catch (error) {
       error.failedApi = "유저 로컬 로그인";
