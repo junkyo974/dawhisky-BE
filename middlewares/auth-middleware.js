@@ -62,10 +62,7 @@ module.exports = async (req, res, next) => {
       if (user) {
         const newAccessToken = jwt.sign(
           { email: user.email },
-          process.env.USER_ACCESS_KEY,
-          {
-            expiresIn: process.env.ACCESS_EXPIRES,
-          }
+          process.env.USER_ACCESS_KEY
         );
 
         res.cookie("authorization", `Bearer ${newAccessToken}`);
@@ -74,10 +71,7 @@ module.exports = async (req, res, next) => {
       if (store) {
         const newAccessToken = jwt.sign(
           { email: store.email },
-          process.env.USER_ACCESS_KEY,
-          {
-            expiresIn: process.env.ACCESS_EXPIRES,
-          }
+          process.env.USER_ACCESS_KEY
         );
 
         res.cookie("authorization", `Bearer ${newAccessToken}`);
