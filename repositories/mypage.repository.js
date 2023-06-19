@@ -91,7 +91,7 @@ class MypageRepository {
   };
 
   //스토어상세조회
-  findAllStoreInfo = async (store_id) => {
+  findOneStoreInfo = async (store_id) => {
     return await this.Stores.findOne({
       where: { store_id },
     });

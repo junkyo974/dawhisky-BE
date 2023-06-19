@@ -63,10 +63,10 @@ class MyapgeService {
   };
 
   //스토어상세조회
-  getStoreMypage = async (store_id, email) => {
+  getStoreMypageEmail = async (store_id, email) => {
     const storeLike = await this.mypageRepository.findOneUser(store_id, email);
     let liked = storeLike ? true : false;
-    const storeInfo = await this.mypageRepository.findAllStoreInfo(store_id);
+    const storeInfo = await this.mypageRepository.findOneStoreInfo(store_id);
     return {
       liked: liked,
       store_id: storeInfo.store_id,
@@ -81,6 +81,10 @@ class MyapgeService {
       notice: storeInfo.notice,
       runtime: storeInfo.runtime,
     };
+  };
+
+  getStoreMypage = async (store_id) => {
+    return await this.mypageRepository.findOneStoreInfo(store_id);
   };
 
   //스토어마이페이지수정

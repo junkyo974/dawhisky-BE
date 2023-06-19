@@ -35,7 +35,7 @@ class MypageController {
         const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
         email = decodedToken.email;
       }
-      const storeInfo = await this.mypageService.getStoreMypage(
+      const storeInfo = await this.mypageService.getStoreMypageEmail(
         store_id,
         email
       );
