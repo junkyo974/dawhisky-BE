@@ -125,7 +125,6 @@ class QueController {
       if (!que) {
         throw new Error("404/줄서기 요청이 존재하지 않습니다.");
       }
-
       if (user_id == que.user_id || store_id == que.store_id) {
         await this.queService.deleteQue(que_id);
         socketHandler(io);
