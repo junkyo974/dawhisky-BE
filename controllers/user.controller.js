@@ -73,9 +73,9 @@ class UserController {
       const data = res2.data;
       const email = data.kakao_account.email;
       const user = await this.userService.findOneUserEmail(email);
-      console.log(res2);
+
       if (!user) {
-        const name = data.kakao_account.name;
+        const name = data.properties.nickname;
 
         await this.userService.signup(email, name);
         const userData = await this.userService.login(data.kakao_account.email);
