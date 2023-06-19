@@ -1,5 +1,4 @@
 const mysql = require("mysql2");
-
 const connectionMysql = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -130,17 +129,16 @@ const socketHandler = (io) => {
 
       connectionMysql.query(query, (err, rows) => {
         if (err) {
-          console.error("Error in watching table changes:", err);
+          console.error("Error in querry:", err);
           return;
         }
 
         io.to(socket.room).emit("getQueData", rows);
-        console.log("que DB 전송 완료");
+        console.log(`${store_id}에 que DB 전송 완료`);
       });
 
-      // 클라이언트 연결 해제
       socket.on("disconnect", () => {
-        console.log("클라이언트와의 연결이 해제되었습니다.");
+        console.log(`${store_id}와 연결 해제`);
       });
 
       const watchTableChanges = () => {
@@ -155,14 +153,14 @@ const socketHandler = (io) => {
         `;
         connectionMysql.query(query, (err, rows) => {
           if (err) {
-            console.error("Error in watching table changes:", err);
+            console.error("Error in querry - call back:", err);
             return;
           }
 
           io.to(socket.room).emit("getQueData", rows);
-          console.log("que DB 전송 완료");
+          console.log(`${store_id}에 que DB 전송 완료(call back)`);
 
-          setTimeout(watchTableChanges, 15000);
+          setTimeout(watchTableChanges, 10000);
         });
       };
 

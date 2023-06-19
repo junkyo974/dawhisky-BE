@@ -18,7 +18,6 @@ const server = app.listen(port, () => {
   console.log(`running http://localhost:${port}`);
 });
 const io = socket(server, { path: "/socket.io" });
-global.io = io;
 
 // parser
 app.use(express.urlencoded({ extended: false }));
