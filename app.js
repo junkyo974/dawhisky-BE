@@ -1,24 +1,24 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
-require("express-async-errors");
-
-app.use(express.static("public"));
-
-//chat1
 const { host, sentry } = require("./config/config");
 const port = host.port;
-const socket = require("socket.io");
-const server = app.listen(port, () => {
-  console.log(`running http://localhost:${port}`);
-});
-const io = socket(server, { path: "/socket.io" });
-
 const cors = require("cors");
 const errorHandler = require("./middlewares/error-handler");
 const Sentry = require("@sentry/node");
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger-output");
+require("express-async-errors");
+
+app.use(express.static("public"));
+
+//chat1
+const socket = require("socket.io");
+const server = app.listen(port, () => {
+  console.log(`running http://localhost:${port}`);
+});
+const io = socket(server, { path: "/socket.io" });
+global.io = io;
 
 // parser
 app.use(express.urlencoded({ extended: false }));
@@ -44,6 +44,7 @@ app.use(
       "https://www.dawhisky.com",
       "https://dawhisky-fe.vercel.app",
       "https://dawhisky-test.vercel.app",
+      "https://dawhisky-pwa.vercel.app",
     ],
     credentials: "true",
   })

@@ -104,7 +104,13 @@ class MypageRepository {
       include: [
         {
           model: this.Whiskys,
-          attributes: ["whisky_kor"],
+          attributes: [
+            "whisky_id",
+            "whisky_photo",
+            "whisky_kor",
+            "whisky_eng",
+            "whisky_abv",
+          ],
         },
       ],
     });

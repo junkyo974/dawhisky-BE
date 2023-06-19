@@ -5,8 +5,8 @@ class MapService {
   mapRepository = new MapRepository(StoreTables, Stores);
 
   //스토어 불러오기
-  getStore = async () => {
-    const store = await this.mapRepository.findAllStore();
+  getStore = async (address) => {
+    const store = await this.mapRepository.findAllStore(address);
     return store;
   };
 }

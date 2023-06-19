@@ -1,6 +1,4 @@
-// const fs = require("fs");
 const mysql = require("mysql2");
-const axios = require("axios");
 
 const connectionMysql = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -45,15 +43,16 @@ connectionMysql.connect((err) => {
 //   END
 //   `; // 트리거 생성 쿼리
 
-//   const dropProcedureQuery = `DROP PROCEDURE IF EXISTS sendDataToExternalSystem`;
+// //프로시저 삭제 쿼리
+// const dropProcedureQuery = `DROP PROCEDURE IF EXISTS sendDataToExternalSystem`;
 
-//   // 프로시저 삭제 쿼리 실행
-//   connectionMysql.query(dropProcedureQuery, (err, results) => {
-//     if (err) {
-//       console.error("Error dropping procedure:", err);
-//       return;
-//     }
-//   });
+// // 프로시저 삭제 쿼리 실행
+// connectionMysql.query(dropProcedureQuery, (err, results) => {
+//   if (err) {
+//     console.error("Error dropping procedure:", err);
+//     return;
+//   }
+// });
 
 //   const procedureQuery = `
 //   CREATE PROCEDURE sendDataToExternalSystem(newData VARCHAR(255), OUT response VARCHAR(255))
@@ -113,61 +112,47 @@ connectionMysql.connect((err) => {
 //여기까지
 
 const socketHandler = (io) => {
-  // connectionMysql.connect((err) => {
-  //   if (err) {
-  //     console.error("MySQL connection failed:", err);
-  //     return;
-  //   }
-  //   console.log("Connected to MySQL");
-  // });
-
   io.on("connection", (socket) => {
     socket.on("enter", (store_id) => {
       console.log(`위스키바 store_id:${store_id} 접속 완료`);
       socket.room = store_id;
       socket.join(store_id);
 
-      // fs.readFile("./modules/trigger.sql", "utf8", (err, data) => {
-      //   if (err) {
-      //     console.error(err);
-      //     return;
-      //   }
+      const query = `SELECT Ques.*, (
+        SELECT name
+        FROM Users
+        WHERE user_id = Ques.user_id
+        ) AS user_name
+        FROM Ques
+        WHERE store_id = ${store_id}
+        ORDER BY createdAt DESC
+        `;
 
-      //   connectionMysql.query(
-      //     `CREATE TRIGGER trigger_name AFTER INSERT, UPDATE, DELETE ON Ques FOR EACH ROW BEGIN SELECT * FROM Ques WHERE ${store_id} = NEW.${store_id}; END;`,
-      //     (error, results) => {
-      //       if (error) {
-      //         console.error(error);
-      //         return;
-      //       }
-      //       console.log(results);
+      connectionMysql.query(query, (err, rows) => {
+        if (err) {
+          console.error("Error in watching table changes:", err);
+          return;
+        }
 
-      //       console.log("Trigger created successfully");
-      //     }
-      //   );
-      // });
-
-      const query = connectionMysql.query(
-        `SELECT * FROM Ques WHERE store_id = ${store_id}`
-      );
-      const watcher = query.stream();
-
-      // 데이터베이스 변화 감지 이벤트
-      watcher.on("result", (row) => {
-        console.log("변화 감지:", row);
-
-        // 클라이언트에게 변화된 데이터 전송
-        io.to(socket.room).emit("test", row);
+        io.to(socket.room).emit("getQueData", rows);
+        console.log("que DB 전송 완료");
       });
 
       // 클라이언트 연결 해제
       socket.on("disconnect", () => {
         console.log("클라이언트와의 연결이 해제되었습니다.");
-        watcher.destroy();
       });
 
       const watchTableChanges = () => {
-        const query = `SELECT * FROM Ques WHERE store_id = ${store_id}`;
+        const query = `SELECT Ques.*, (
+        SELECT name
+        FROM Users
+        WHERE user_id = Ques.user_id
+        ) AS user_name
+        FROM Ques
+        WHERE store_id = ${store_id}
+        ORDER BY createdAt DESC
+        `;
         connectionMysql.query(query, (err, rows) => {
           if (err) {
             console.error("Error in watching table changes:", err);
@@ -177,7 +162,7 @@ const socketHandler = (io) => {
           io.to(socket.room).emit("getQueData", rows);
           console.log("que DB 전송 완료");
 
-          setTimeout(watchTableChanges, 3600000);
+          setTimeout(watchTableChanges, 15000);
         });
       };
 

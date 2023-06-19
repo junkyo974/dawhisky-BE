@@ -151,12 +151,12 @@ class WhiskyRepository {
 
   //위스키 보유 스토어 조회
   findAllWhiskyStore = async (whisky_id) => {
-    return await this.StoreWhiskys.findOne({
+    return await this.StoreWhiskys.findAll({
       where: { whisky_id },
       include: [
         {
           model: this.Stores,
-          attributes: ["store"],
+          attributes: ["store_id", "biz_photo", "store", "address"],
         },
       ],
     });
@@ -164,7 +164,7 @@ class WhiskyRepository {
 
   //위스키 코멘트 조회
   findAllWhiskyComment = async (whisky_id) => {
-    return await this.Reviews.findOne({
+    return await this.Reviews.findAll({
       where: { whisky_id },
     });
   };

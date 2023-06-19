@@ -1,4 +1,5 @@
 const sequelize = require("sequelize");
+const { Op } = require("sequelize");
 
 class MapRepository {
   constructor(StoreTables, Stores) {
@@ -7,8 +8,12 @@ class MapRepository {
   }
 
   //스토어 불러오기
-  findAllStore = async () => {
+  findAllStore = async (address) => {
+    const decodedAddress = decodeURIComponent(address);
     return await this.Stores.findAll({
+      where: {
+        address: { [Op.regexp]: "^.[^ ]* " + decodedAddress },
+      },
       attributes: ["store_id", "store", "address", "biz_photo"],
       include: [
         {
