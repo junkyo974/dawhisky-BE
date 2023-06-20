@@ -15,6 +15,21 @@ class MypageController {
     }
   };
 
+  //내 모든 줄서기 현황 조회
+  myAllQue = async (req, res, next) => {
+    try {
+      const { user_id } = res.locals.user;
+      const myQue = await this.mypageService.findAllMyQue(user_id);
+      if (!myQue) {
+        res.status(200).json({ message: "내 줄서기 내역이 없습니다." });
+      }
+      res.status(200).json(myQue);
+    } catch (error) {
+      error.failedApi = "줄서기 내역 조회";
+      throw error;
+    }
+  };
+
   //유저가 스토어상세조회
   storePage = async (req, res, next) => {
     try {

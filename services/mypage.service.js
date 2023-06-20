@@ -8,6 +8,7 @@ const {
   StoreWhiskys,
   Whiskys,
   Stores,
+  Ques,
 } = require("../models");
 
 class MyapgeService {
@@ -19,7 +20,8 @@ class MyapgeService {
     StoreTables,
     StoreWhiskys,
     Whiskys,
-    Stores
+    Stores,
+    Ques
   );
 
   //마이페이지
@@ -60,6 +62,11 @@ class MyapgeService {
       };
     });
     return result;
+  };
+
+  //내 모든 줄서기 현황 조회
+  findAllMyQue = async (user_id) => {
+    return await this.mypageRepository.findAllMyQue(user_id);
   };
 
   //스토어상세조회
