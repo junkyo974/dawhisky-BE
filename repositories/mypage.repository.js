@@ -80,6 +80,12 @@ class MypageRepository {
   findAllMyQue = async (user_id) => {
     return await this.Ques.findAll({
       where: { user_id },
+      include: [
+        {
+          model: this.Stores,
+          attributes: ["store"],
+        },
+      ],
     });
   };
 

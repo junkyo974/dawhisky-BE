@@ -66,7 +66,19 @@ class MyapgeService {
 
   //내 모든 줄서기 현황 조회
   findAllMyQue = async (user_id) => {
-    return await this.mypageRepository.findAllMyQue(user_id);
+    const myAllQue = await this.mypageRepository.findAllMyQue(user_id);
+
+    const que = myAllQue.map((que) => ({
+      que_id: que.que_id,
+      user_id: user_id,
+      store_id: que.store_id,
+      store: que.Store.store,
+      request: que.request,
+      head_count: que.head_count,
+      want_table: que.want_table,
+      device_token: que.device_token,
+    }));
+    return que;
   };
 
   //스토어상세조회
