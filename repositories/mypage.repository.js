@@ -10,7 +10,8 @@ class MypageRepository {
     StoreTables,
     StoreWhiskys,
     Whiskys,
-    Stores
+    Stores,
+    Ques
   ) {
     this.Users = Users;
     this.WhiskyLikes = WhiskyLikes;
@@ -20,6 +21,7 @@ class MypageRepository {
     this.StoreWhiskys = StoreWhiskys;
     this.Whiskys = Whiskys;
     this.Stores = Stores;
+    this.Ques = Ques;
   }
 
   // 마이페이지 조회
@@ -71,6 +73,13 @@ class MypageRepository {
           ],
         },
       ],
+    });
+  };
+
+  //내 모든 줄서기 현황 조회
+  findAllMyQue = async (user_id) => {
+    return await this.Ques.findAll({
+      where: { user_id },
     });
   };
 

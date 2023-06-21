@@ -8,6 +8,9 @@ const uploadImage = require("../modules/biz_photo.js");
 //마이페이지
 router.get("/user", authMiddleware, mypageController.mypage);
 
+//내 모든 줄서기 현황 조회
+router.get("/user/que", authMiddleware, mypageController.myAllQue);
+
 //유저가 스토어상세조회
 router.get("/store/:store_id", mypageController.storePage);
 
