@@ -89,6 +89,13 @@ class MypageRepository {
     });
   };
 
+  //줄서기 요청들 조회
+  findAllQue = async (store_id) => {
+    return await this.Ques.findAll({
+      where: { store_id },
+    });
+  };
+
   //스토어 좋아요 여부 찾기
   findOneUser = async (store_id, email) => {
     const like = await this.Users.findOne({

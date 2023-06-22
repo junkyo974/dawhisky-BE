@@ -68,17 +68,25 @@ class MyapgeService {
   findAllMyQue = async (user_id) => {
     const myAllQue = await this.mypageRepository.findAllMyQue(user_id);
 
-    const que = myAllQue.map((que) => ({
-      que_id: que.que_id,
-      user_id: user_id,
-      store_id: que.store_id,
-      store: que.Store.store,
-      request: que.request,
-      head_count: que.head_count,
-      want_table: que.want_table,
-      device_token: que.device_token,
-    }));
-    return que;
+    const que = myAllQue.map(async (que) => {
+      const count = await this.mypageRepository.findAllQue(que.store_id);
+      const myTurn = count.filter(
+        (storeQue) => storeQue.que_id <= que.que_id
+      ).length;
+      return {
+        que_id: que.que_id,
+        user_id: user_id,
+        store_id: que.store_id,
+        store: que.Store.store,
+        request: que.request,
+        head_count: que.head_count,
+        want_table: que.want_table,
+        device_token: que.device_token,
+        myTurn: myTurn,
+      };
+    });
+    const myQue = await Promise.all(que);
+    return myQue;
   };
 
   //스토어상세조회
