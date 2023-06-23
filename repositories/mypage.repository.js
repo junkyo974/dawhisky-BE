@@ -201,16 +201,8 @@ class MypageRepository {
   };
 
   //스토어위스키 생성
-  createStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.StoreWhiskys.create({ store_id, whisky_id, count });
-  };
-
-  //스토어위스키수정
-  updateStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.StoreWhiskys.update(
-      { count },
-      { where: { [Op.and]: [{ whisky_id }, { store_id }] } }
-    );
+  createStoreWhisky = async (store_id, whisky_id) => {
+    return await this.StoreWhiskys.create({ store_id, whisky_id });
   };
 
   //스토어위스키 삭제

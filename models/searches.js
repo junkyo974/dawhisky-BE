@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class StoreWhiskys extends Model {
+  class Searches extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,19 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Stores, {
-        targetKey: "store_id",
-        foreignKey: "store_id",
-      });
       this.belongsTo(models.Whiskys, {
         targetKey: "whisky_id",
         foreignKey: "whisky_id",
       });
     }
   }
-  StoreWhiskys.init(
+  Searches.init(
     {
-      storewhisky_id: {
+      search_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -36,14 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         onDelete: "CASCADE",
       },
-      store_id: {
-        allowNull: false,
+      count: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "Stores",
-          key: "store_id",
-        },
-        onDelete: "CASCADE",
+        allowNull: false,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -58,8 +50,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "StoreWhiskys",
+      modelName: "Searches",
     }
   );
-  return StoreWhiskys;
+  return Searches;
 };

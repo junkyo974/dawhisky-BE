@@ -6,6 +6,7 @@ const {
   Stores,
   WhiskyLikes,
   Users,
+  Searches,
 } = require("../models");
 
 class WhiskyService {
@@ -15,16 +16,19 @@ class WhiskyService {
     StoreWhiskys,
     Stores,
     WhiskyLikes,
-    Users
+    Users,
+    Searches
   );
 
   //위스키 검색
   searchWhisky = async (keyword) => {
+    let whiskys;
     if (/[a-zA-Z]/.test(keyword)) {
-      return await this.whiskyRepository.searchAllWhiskyEng(keyword);
+      whiskys = await this.whiskyRepository.searchAllWhiskyEng(keyword);
     } else {
-      return await this.whiskyRepository.searchAllWhiskyKor(keyword);
+      whiskys = await this.whiskyRepository.searchAllWhiskyKor(keyword);
     }
+    return whiskys;
   };
 
   //위스키 전체조회 + 필터
@@ -33,14 +37,16 @@ class WhiskyService {
     pageSize,
     whisky_country,
     whisky_region,
-    whisky_type
+    whisky_type,
+    like
   ) => {
     return await this.whiskyRepository.findPaginatedWhiskies(
       offset,
       pageSize,
       whisky_country,
       whisky_region,
-      whisky_type
+      whisky_type,
+      like
     );
   };
 
@@ -52,6 +58,7 @@ class WhiskyService {
     );
     let liked = whiskyLike ? true : false;
     const whiskyInfo = await this.whiskyRepository.findOneWhisky(whisky_id);
+    this.whiskyRepository.updateSearch(whisky_id);
     return { liked, whiskyInfo };
   };
 

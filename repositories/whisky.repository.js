@@ -2,19 +2,34 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
 class WhiskyRepository {
-  constructor(Whiskys, Reviews, StoreWhiskys, Stores, WhiskyLikes, Users) {
+  constructor(
+    Whiskys,
+    Reviews,
+    StoreWhiskys,
+    Stores,
+    WhiskyLikes,
+    Users,
+    Searches
+  ) {
     this.Whiskys = Whiskys;
     this.Reviews = Reviews;
     this.StoreWhiskys = StoreWhiskys;
     this.Stores = Stores;
     this.WhiskyLikes = WhiskyLikes;
     this.Users = Users;
+    this.Searches = Searches;
   }
 
   //위스키 검색
   searchAllWhiskyEng = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_eng", "whisky_id"],
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
       where: {
         whisky_eng: {
           [Op.like]: `%${keyword}%`,
@@ -24,12 +39,31 @@ class WhiskyRepository {
   };
   searchAllWhiskyKor = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_kor", "whisky_id"],
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
       where: {
         whisky_kor: {
           [Op.like]: `%${keyword}%`,
         },
       },
+    });
+  };
+
+  //인기검색어
+  updateSearch = async (whisky_id) => {
+    const existSearch = await this.Searches.findOne({ where: { whisky_id } });
+    if (!existSearch) {
+      await this.Searches.create({
+        whisky_id,
+      });
+    }
+    await this.Searches.increment("count", {
+      where: { whisky_id },
     });
   };
 
@@ -39,9 +73,17 @@ class WhiskyRepository {
     pageSize,
     whisky_country,
     whisky_region,
-    whisky_type
+    whisky_type,
+    like
   ) => {
     const filterOptions = {};
+    const orderOptions = [];
+
+    if (like == "y") {
+      orderOptions.push(["wlikes", "DESC"]);
+    } else {
+      orderOptions.push(["whisky_id", "ASC"]);
+    }
 
     if (whisky_country) {
       if (whisky_country == "etc") {
@@ -121,6 +163,8 @@ class WhiskyRepository {
         "whisky_abv",
       ],
       where: filterOptions,
+
+      order: orderOptions,
       limit: pageSize,
       offset: offset,
     });
