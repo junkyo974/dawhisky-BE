@@ -198,21 +198,8 @@ class MyapgeService {
   };
 
   //스토어위스키 생성
-  createStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.mypageRepository.createStoreWhisky(
-      store_id,
-      whisky_id,
-      count
-    );
-  };
-
-  //스토어위스키수정
-  updateStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.mypageRepository.updateStoreWhisky(
-      store_id,
-      whisky_id,
-      count
-    );
+  createStoreWhisky = async (store_id, whisky_id) => {
+    return await this.mypageRepository.createStoreWhisky(store_id, whisky_id);
   };
 
   //스토어위스키 삭제

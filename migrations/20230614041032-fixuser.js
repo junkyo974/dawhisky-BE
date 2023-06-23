@@ -9,11 +9,11 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    return [
-      queryInterface.removeColumn("Users", "age"),
-      queryInterface.removeColumn("Users", "gender"),
-      queryInterface.removeColumn("Users", "password"),
-    ];
+    // return [
+    //   queryInterface.removeColumn("Users", "age"),
+    //   queryInterface.removeColumn("Users", "gender"),
+    //   queryInterface.removeColumn("Users", "password"),
+    // ];
   },
 
   async down(queryInterface, Sequelize) {

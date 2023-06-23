@@ -204,7 +204,7 @@ class MypageController {
   createStoreWhisky = async (req, res, next) => {
     try {
       const { store_id } = res.locals.store;
-      const { whisky_id, count } = req.body;
+      const { whisky_id } = req.body;
 
       const whisky = await this.mypageService.findWhisky(whisky_id);
       const storeWhisky = await this.mypageService.findStoreWhisky(
@@ -218,40 +218,11 @@ class MypageController {
         throw new Error("412/이미 등록된 스토어위스키 입니다.");
       }
 
-      await this.mypageService.createStoreWhisky(store_id, whisky_id, count);
+      await this.mypageService.createStoreWhisky(store_id, whisky_id);
 
       res.status(200).json({ message: "위스키목록을 추가하였습니다." });
     } catch (error) {
       error.failedApi = "위스키목록 추가";
-      throw error;
-    }
-  };
-
-  //스토어위스키수정
-  updateStoreWhisky = async (req, res, next) => {
-    try {
-      const { store_id } = res.locals.store;
-      const { count } = req.body;
-      const { whisky_id } = req.params;
-
-      const whisky = await this.mypageService.findWhisky(whisky_id);
-
-      if (!whisky) {
-        throw new Error("404/위스키가 존재하지 않습니다.");
-      }
-      const storeWhisky = await this.mypageService.findStoreWhisky(
-        whisky_id,
-        store_id
-      );
-
-      if (!storeWhisky) {
-        throw new Error("412/위스키목록이 존재하지 않습니다.");
-      }
-      await this.mypageService.updateStoreWhisky(store_id, whisky_id, count);
-
-      return res.status(200).json({ message: "위스키목록을 수정했습니다." });
-    } catch (error) {
-      error.faiedApi = "위스키목록 수정";
       throw error;
     }
   };

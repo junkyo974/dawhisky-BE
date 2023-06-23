@@ -26,6 +26,7 @@ class WhiskyController {
       const whisky_country = req.query.country;
       const whisky_region = req.query.region;
       const whisky_type = req.query.type;
+      const like = req.query.like;
       const countries = [
         "",
         "Scotland",
@@ -55,11 +56,13 @@ class WhiskyController {
         "Tennessee",
         "etc",
       ];
+      const likes = ["y", "n"];
 
       if (
         !countries.includes(whisky_country) &&
         !regions.includes(whisky_region) &&
-        !types.includes(whisky_type)
+        !types.includes(whisky_type) &&
+        !likes.includes(like)
       ) {
         throw new Error("412/올바른 필터명을 입력해주세요.");
       }
@@ -69,7 +72,8 @@ class WhiskyController {
         pageSize,
         whisky_country,
         whisky_region,
-        whisky_type
+        whisky_type,
+        like
       );
 
       res.status(200).json(whiskies);
