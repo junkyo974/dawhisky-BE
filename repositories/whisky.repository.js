@@ -205,7 +205,7 @@ class WhiskyRepository {
       }
     }
 
-    return await this.Whiskys.findAll({
+    return await this.Whiskys.findAndCountAll({
       attributes: [
         "whisky_id",
         "whisky_kor",
@@ -214,7 +214,6 @@ class WhiskyRepository {
         "whisky_abv",
       ],
       where: filterOptions,
-
       order: orderOptions,
       limit: pageSize,
       offset: offset,
