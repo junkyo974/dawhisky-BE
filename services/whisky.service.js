@@ -80,7 +80,7 @@ class WhiskyService {
       like
     );
 
-    return { ...whiskys, last: true };
+    return [...whiskys.rows, Math.ceil(whiskys.count / pageSize)];
   };
 
   //위스키 상세조회
