@@ -31,6 +31,37 @@ class WhiskyService {
     return whiskys;
   };
 
+  //위스키 인기검색 조회
+  whiskyTrending = async () => {
+    const whiskys = await this.whiskyRepository.findAllWhiskyTrending();
+    const Whiskys = whiskys.map((whisky) => {
+      return {
+        whisky_id: whisky.whisky_id,
+        count: whisky.count,
+        whisky_photo: whisky.Whisky.whisky_photo,
+        whisky_kor: whisky.Whisky.whisky_kor,
+        whisky_eng: whisky.Whisky.whisky_eng,
+        whisky_abv: whisky.Whisky.whisky_abv,
+      };
+    });
+    return Whiskys;
+  };
+
+  //위스키 초보자 추천 조회
+  whiskyBeginner = async () => {
+    const whiskys = await this.whiskyRepository.findAllWhiskyBeginner();
+    const Whiskys = whiskys.map((whisky) => {
+      return {
+        whisky_id: whisky.whisky_id,
+        whisky_photo: whisky.whisky_photo,
+        whisky_kor: whisky.whisky_kor,
+        whisky_eng: whisky.whisky_eng,
+        whisky_abv: whisky.whisky_abv,
+      };
+    });
+    return Whiskys;
+  };
+
   //위스키 전체조회 + 필터
   findPaginatedWhiskies = async (
     offset,
@@ -40,7 +71,7 @@ class WhiskyService {
     whisky_type,
     like
   ) => {
-    return await this.whiskyRepository.findPaginatedWhiskies(
+    const whiskys = await this.whiskyRepository.findPaginatedWhiskies(
       offset,
       pageSize,
       whisky_country,
@@ -48,17 +79,20 @@ class WhiskyService {
       whisky_type,
       like
     );
+    return { whiskys, last: true };
   };
 
   //위스키 상세조회
-  whiskyDetail = async (whisky_id, email) => {
+  whiskyDetail = async (whisky_id, email, search) => {
     const whiskyLike = await this.whiskyRepository.findOneUser(
       whisky_id,
       email
     );
     let liked = whiskyLike ? true : false;
     const whiskyInfo = await this.whiskyRepository.findOneWhisky(whisky_id);
-    this.whiskyRepository.updateSearch(whisky_id);
+    if (search) {
+      this.whiskyRepository.updateSearch(whisky_id);
+    }
     return { liked, whiskyInfo };
   };
 

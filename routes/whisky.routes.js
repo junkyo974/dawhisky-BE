@@ -9,10 +9,16 @@ const whiskyController = new WhiskyController();
 //위스키 검색
 router.get("/search/:keyword", whiskyController.searchWhisky);
 
+//위스키 인기검색 조회
+router.get("/trending", whiskyController.whiskyTrending);
+
+//위스키 초보자 추천 조회
+router.get("/beginner", whiskyController.whiskyBeginner);
+
 //위스키 전체조회 + 필터 ex)localhost:3000/api/whisky/?page=1&pageSize=30&like=y&country=Scotland&type=Single Malt Whisky&region=Islay (모든값 필수아님)
 router.get("/", whiskyController.paginatedWhiskies);
 
-//위스키 상세조회
+//위스키 상세조회+검색시 조회: 쿼리로 ex)localhost:3000/api/whisky/:whisky_id/?search=y
 router.get("/:whisky_id", whiskyController.whiskyDetail);
 
 //위스키 보유 스토어 조회
