@@ -17,6 +17,30 @@ class WhiskyController {
     }
   };
 
+  //위스키 인기검색 조회
+  whiskyTrending = async (req, res, next) => {
+    try {
+      const whiskyTrending = await this.whiskyService.whiskyTrending();
+
+      res.status(200).json(whiskyTrending);
+    } catch (error) {
+      error.failedApi = "위스키 인기검색 조회";
+      throw error;
+    }
+  };
+
+  //위스키 초보자 추천 조회
+  whiskyBeginner = async (req, res, next) => {
+    try {
+      const whiskyBeginner = await this.whiskyService.whiskyBeginner();
+
+      res.status(200).json(whiskyBeginner);
+    } catch (error) {
+      error.failedApi = "위스키 초보자추천 조회";
+      throw error;
+    }
+  };
+
   //위스키 전체조회 + 필터
   paginatedWhiskies = async (req, res, next) => {
     try {
@@ -88,6 +112,13 @@ class WhiskyController {
   whiskyDetail = async (req, res, next) => {
     try {
       const { whisky_id } = req.params;
+      const search = req.query.search || "";
+      const searches = ["y", ""];
+
+      if (!searches.includes(search)) {
+        throw new Error("412/올바른 search 조건을 입력해주세요.");
+      }
+
       const jwt = require("jsonwebtoken");
       require("dotenv").config();
       let email = "aaa";
@@ -106,7 +137,8 @@ class WhiskyController {
       }
       const whiskyDetail = await this.whiskyService.whiskyDetail(
         whisky_id,
-        email
+        email,
+        search
       );
       if (!whiskyDetail) {
         throw new Error("404/위스키가 존재하지 않습니다.");

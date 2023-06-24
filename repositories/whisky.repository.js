@@ -53,6 +53,57 @@ class WhiskyRepository {
       },
     });
   };
+  //위스키 인기검색 조회
+  findAllWhiskyTrending = async () => {
+    return await this.Searches.findAll({
+      order: [["count", "DESC"]],
+      limit: 10,
+      include: [
+        {
+          model: this.Whiskys,
+          attributes: [
+            "whisky_kor",
+            "whisky_eng",
+            "whisky_photo",
+            "whisky_abv",
+          ],
+        },
+      ],
+    });
+  };
+
+  //위스키 초보자 추천 조회
+  findAllWhiskyBeginner = async () => {
+    const whiskyIDs = [
+      "1. 글렌모렌지 오리지널(glenmorangie original) -1241",
+      "2. 글렌피딕 12년(glenfiddich 12y) -775",
+      "3. 발베니 12년(balvenie 12y)더블우드 -745",
+      "4. 보모어 12년(bow more 12y) -757",
+      "5. 글렌킨치 12년(glenkinchie 12y) -829",
+      "6. 하이랜드 파크 12년(highland park 12y) -742",
+      "7. 글렌드로낙 12년(glendronach 12y) -1120",
+      "8. 메이커스 마크(maker’s mark) -796",
+      "9. 와일드 터키101(wild turkey 101) -891",
+      "10. 제임슨 스탠다드(Jameson standard) -1230",
+      "11. 캐내디언 클럽 12년(Canadian club 12y) -1351",
+      "12. 버팔로 트레이스(buffalo trace) -980",
+      "13. 페이머스 그라우스(famous grouse) -1121",
+      "14. 조니워커 블랙라벨(Johnnie walker black label) -959",
+      "15. 오반 14년(oban 14y) -774",
+    ];
+
+    const whiskyIDsOnly = whiskyIDs.map((whisky) => {
+      const parts = whisky.split("-");
+      return parts[parts.length - 1].trim();
+    });
+
+    const beginnerOptions = {
+      whisky_id: {
+        [Op.or]: [whiskyIDsOnly],
+      },
+    };
+    return await this.Whiskys.findAll({ where: beginnerOptions });
+  };
 
   //인기검색어
   updateSearch = async (whisky_id) => {
