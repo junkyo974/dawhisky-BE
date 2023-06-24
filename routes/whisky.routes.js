@@ -27,22 +27,4 @@ router.get("/store/:whisky_id", whiskyController.whiskyStore);
 //위스키 코멘트 조회
 router.get("/comment/:whisky_id", whiskyController.whiskyComment);
 
-// 위스키정보 생성
-router.post(
-  "/",
-  uploadImage.single("whisky_photo"),
-  authMiddleware,
-  whiskyController.createWhisky
-);
-
-//위스키정보 수정
-router.put(
-  "/:whisky_id",
-  uploadImage.single("whisky_photo"),
-  authMiddleware,
-  whiskyController.updateWhisky
-);
-//위스키정보 삭제
-router.delete("/:whisky_id", authMiddleware, whiskyController.deleteWhisky);
-
 module.exports = router;

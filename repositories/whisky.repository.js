@@ -263,44 +263,6 @@ class WhiskyRepository {
       where: { whisky_id },
     });
   };
-
-  //위스키정보 생성
-  createWhisky = async (whiskyData) => {
-    return await this.Whiskys.create({
-      whisky_photo: whiskyData.whisky_photo,
-      whisky_eng: whiskyData.whisky_eng,
-      whisky_kor: whiskyData.whisky_kor,
-      whisky_country: whiskyData.whisky_country,
-      whisky_region: whiskyData.whisky_region,
-      whisky_age: whiskyData.whisky_age,
-      whisky_type: whiskyData.whisky_type,
-      whisky_desc: whiskyData.whisky_desc,
-      whisky_abv: whiskyData.whisky_abv,
-    });
-  };
-
-  //위스키정보 수정
-  updateWhisky = async (whisky_id, whiskyData) => {
-    return await this.Whiskys.update(
-      {
-        whisky_photo: whiskyData.whisky_photo,
-        whisky_eng: whiskyData.whisky_eng,
-        whisky_kor: whiskyData.whisky_kor,
-        whisky_country: whiskyData.whisky_country,
-        whisky_region: whiskyData.whisky_region,
-        whisky_age: whiskyData.whisky_age,
-        whisky_type: whiskyData.whisky_type,
-        whisky_desc: whiskyData.whisky_desc,
-        whisky_abv: whiskyData.whisky_abv,
-      },
-      { where: { whisky_id } }
-    );
-  };
-
-  //위스키정보 삭제
-  deleteWhisky = async (whisky_id) => {
-    return await this.Whiskys.destroy({ where: { whisky_id } });
-  };
 }
 
 module.exports = WhiskyRepository;

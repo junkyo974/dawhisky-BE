@@ -271,29 +271,6 @@ class WhiskyController {
       throw error;
     }
   };
-  //위스키 정보 삭제
-  deleteWhisky = async (req, res, next) => {
-    try {
-      const { user_id } = res.locals.user;
-      const { whisky_id } = req.params;
-
-      const whisky = await this.whiskyService.findWhiskyById(whisky_id);
-      if (!whisky) {
-        throw new Error("404/위스키가 존재하지 않습니다.");
-      }
-
-      // if (user_id !== "관리자 아이디") {
-      //   throw new Error("403/위스키 삭제 권한이 없습니다.");
-      // }
-
-      await this.whiskyService.deleteWhisky(whisky_id);
-
-      return res.status(200).json({ message: "위스키를 삭제하였습니다." });
-    } catch (error) {
-      error.faiedApi = "위스키 정보 삭제";
-      throw error;
-    }
-  };
 }
 
 module.exports = WhiskyController;
