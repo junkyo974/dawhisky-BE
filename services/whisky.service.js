@@ -79,7 +79,8 @@ class WhiskyService {
       whisky_type,
       like
     );
-    return { whiskys, last: true };
+
+    return { ...whiskys, last: true };
   };
 
   //위스키 상세조회
@@ -116,24 +117,9 @@ class WhiskyService {
     return await this.whiskyRepository.findAllWhiskyComment(whisky_id);
   };
 
-  // 위스키정보 생성
-  createWhisky = async (whiskyData) => {
-    return await this.whiskyRepository.createWhisky(whiskyData);
-  };
-
   //위스키 찾기
   findWhiskyById = async (whisky_id) => {
     return await this.whiskyRepository.findOneWhisky(whisky_id);
-  };
-
-  //위스키정보 수정
-  updateWhisky = async (whisky_id, whiskyData) => {
-    return await this.whiskyRepository.updateWhisky(whisky_id, whiskyData);
-  };
-
-  //위스키정보 삭제
-  deleteWhisky = async (whisky_id) => {
-    await this.whiskyRepository.deleteWhisky(whisky_id);
   };
 }
 
