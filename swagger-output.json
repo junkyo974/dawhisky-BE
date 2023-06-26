@@ -249,69 +249,6 @@
                   "whisky_eng": "Bunnahabhain 12 Years 0,2 Liter",
                   "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/7/csm_1640096120_image_BUNNA1202_B_1_792a4043b3.jpg",
                   "whisky_abv": "46.3%"
-                },
-                {
-                  "whisky_id": 2,
-                  "whisky_kor": "하이랜드 파크 12년",
-                  "whisky_eng": "Highland Park 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/9/csm_0_e0f279_highl1200_aw_0817f66b47.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 562,
-                  "whisky_kor": "Aberlour 12년 더블 캐스크 - Neues 디자인",
-                  "whisky_eng": "Aberlour 12 Years Double Cask - neues Design",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/7/4/csm_1573737313_image_ABERL12D0_1_459351cfad.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 22,
-                  "whisky_kor": "탈리스커 10년 차 태세 + 그루지카르트",
-                  "whisky_eng": "Talisker 10 Years with Tasse + Grußkarte",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/1/d/csm_1635344119_image_TALIS10GT_1_2c8edd0514.jpg",
-                  "whisky_abv": "45.8%"
-                },
-                {
-                  "whisky_id": 223,
-                  "whisky_kor": "통에서 나온 닛카 블렌디드 위스키",
-                  "whisky_eng": "Nikka Blended Whisky From the Barrel",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/c/0/csm_0_75c3cc_nikka_from_the_barrel_dfe32f78f3.jpg",
-                  "whisky_abv": "51.4%"
-                },
-                {
-                  "whisky_id": 681,
-                  "whisky_kor": "카발란 싱글 몰트 위스키",
-                  "whisky_eng": "Kavalan Single Malt Whisky",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/4/csm_0_e639e9_Kavalan_Single_Malt_Whisky_847f747d59.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 573,
-                  "whisky_kor": "검은 유리병",
-                  "whisky_eng": "Black Bottle with glass",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/4/csm_1643120120_image_BLACBO0GL_1_f2bd63b49a.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 157,
-                  "whisky_kor": "블레어 애솔 12주년",
-                  "whisky_eng": "Blair Athol 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/web_data/tx_datamintsflaschendb/flaschen/0_0032a6_BLATHF_F.jpg",
-                  "whisky_abv": "43%"
-                },
-                {
-                  "whisky_id": 100,
-                  "whisky_kor": "글렌은 15년을 달성했다",
-                  "whisky_eng": "Glenallachie 15 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/f/csm_GALLA1500_096a80e8cd.jpg",
-                  "whisky_abv": "46%"
-                },
-                {
-                  "whisky_id": 670,
-                  "whisky_kor": "리틀밀 12년",
-                  "whisky_eng": "Littlemill 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/5/6/csm_0_3c6a06_littl1200_aw_3d0ed300f7.jpg",
-                  "whisky_abv": "40%"
                 }
               ],
               "store_likes": [
@@ -326,13 +263,7 @@
                   "store": "숙희",
                   "address": "서울 중구 충무로5가 88-4 1층",
                   "biz_photo": "http://t1.kakaocdn.net/fiy_reboot/place/34A2048303A8418DA4CA3808EDE821C3"
-                },
-                {
-                  "store_id": 49,
-                  "store": "감각의제국",
-                  "address": "서울 중구 을지로3가 302-17",
-                  "biz_photo": "http://t1.daumcdn.net/place/D57F2C01D3E04512BB63745D8A751B2A"
-                }
+                }               
               ],
               "reviews": [
                 {
@@ -351,15 +282,6 @@
                   "whisky_kor": "보모어 12년(새 판지 상자)",
                   "whisky_eng": "Bowmore 12 Years (new cardboard box)",
                   "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/1/csm_0_d29a71_bowmo1200_bw_61e9d80aa9.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "review_id": 21,
-                  "content": "670또먹을거에요요!",
-                  "whisky_id": 670,
-                  "whisky_kor": "리틀밀 12년",
-                  "whisky_eng": "Littlemill 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/5/6/csm_0_3c6a06_littl1200_aw_3d0ed300f7.jpg",
                   "whisky_abv": "40%"
                 }
               ]
@@ -402,17 +324,6 @@
               "want_table": "bar",
               "device_token": null,
               "myTurn": 8
-            },
-            {
-              "que_id": 186,
-              "user_id": 40,
-              "store_id": 101,
-              "store": "코코바",
-              "request": "test1",
-              "head_count": "4",
-              "want_table": "dontCare",
-              "device_token": null,
-              "myTurn": 2
             },
             {
               "que_id": 196,
@@ -1213,13 +1124,6 @@
               "whisky_eng": "Balvenie 12 Years Single Barrel First Fill",
               "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/0/b/csm_0_f7577a_balve12sb_aw_1625336958.jpg",
               "whisky_abv": "47.8%"
-            },
-            {
-              "whisky_id": 1140,
-              "whisky_kor": "발베니 12년 트리플 캐스크",
-              "whisky_eng": "Balvenie 12 Years Triple Cask",
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/c/csm_balvenie_02_36704ab48e.jpg",
-              "whisky_abv": "40%"
             }
           ],
           "400": {
@@ -1250,70 +1154,6 @@
               "whisky_kor": "라프로익 10년 트위스티드 튜브",
               "whisky_eng": "Laphroaig 10 Years Twisted Tube",
               "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 744,
-              "count": 4,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/0/7/xcsm_0_b65784_ardbe1000_aw_7969bb0422.jpg.pagespeed.ic.-tTY9pQI8u.webp",
-              "whisky_kor": "아드벡 10년",
-              "whisky_eng": "Ardbeg 10 Years TEN",
-              "whisky_abv": "46%"
-            },
-            {
-              "whisky_id": 1004,
-              "count": 4,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/e/8/csm_0_8e6557_gmory1500_aw_c541d81887.jpg",
-              "whisky_kor": "글렌 모레이 15년",
-              "whisky_eng": "Glen Moray 15 Years",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 888,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/web_data/tx_datamintsflaschendb/flaschen/0_869f4a_imagesCA5OPY0A.jpg",
-              "whisky_kor": "잭 다니엘 싱글배럴",
-              "whisky_eng": "Jack Daniel‘s Single Barrel",
-              "whisky_abv": "45%"
-            },
-            {
-              "whisky_id": 987,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/8/csm_0_6d0db7_ancno1200_aw_470641e2d8.jpg",
-              "whisky_kor": "아녹 12년",
-              "whisky_eng": "AnCnoc 12 Years",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 999,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/e/f/csm_0_60f890_lagav0800_aw_763d81efd5.jpg",
-              "whisky_kor": "라가불린 8년 200주년 한정판",
-              "whisky_eng": "Lagavulin 8 Years 200th Anniversary Limited Edition",
-              "whisky_abv": "48%"
-            },
-            {
-              "whisky_id": 743,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/2/5/xcsm_0_31882c_image_HIGHL1202_1_6834b67c37.jpg.pagespeed.ic.wGib4tftCO.webp",
-              "whisky_kor": "하이랜드 파크 12년 바이킹아너",
-              "whisky_eng": "Highland Park 12 Years Viking Honour",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 741,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/9/xcsm_0_c4c456_lagav1600_aw_7a3c1490b0.jpg.pagespeed.ic.lfGuvu9jO5.webp",
-              "whisky_kor": "라가불린 16년",
-              "whisky_eng": "Lagavulin 16 Years",
-              "whisky_abv": "43%"
-            },
-            {
-              "whisky_id": 747,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/a/b/xcsm_0_de2d76_laphr1040_aw_a7215eefb1.jpg.pagespeed.ic.7XggiGcf1Q.webp",
-              "whisky_kor": "라프로익 10년",
-              "whisky_eng": "laphroaig 10years old",
-              "whisky_abv": "40%"
             }
           ],
           "400": {
@@ -1343,70 +1183,6 @@
               "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/c/xcsm_1602836115_image_LAPHR104T_1_98e2d53fd7.jpg.pagespeed.ic.zGXY3lsXm-.webp",
               "whisky_kor": "라프로익 10년 트위스티드 튜브",
               "whisky_eng": "Laphroaig 10 Years Twisted Tube",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 744,
-              "count": 4,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/0/7/xcsm_0_b65784_ardbe1000_aw_7969bb0422.jpg.pagespeed.ic.-tTY9pQI8u.webp",
-              "whisky_kor": "아드벡 10년",
-              "whisky_eng": "Ardbeg 10 Years TEN",
-              "whisky_abv": "46%"
-            },
-            {
-              "whisky_id": 1004,
-              "count": 4,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/e/8/csm_0_8e6557_gmory1500_aw_c541d81887.jpg",
-              "whisky_kor": "글렌 모레이 15년",
-              "whisky_eng": "Glen Moray 15 Years",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 888,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/web_data/tx_datamintsflaschendb/flaschen/0_869f4a_imagesCA5OPY0A.jpg",
-              "whisky_kor": "잭 다니엘 싱글배럴",
-              "whisky_eng": "Jack Daniel‘s Single Barrel",
-              "whisky_abv": "45%"
-            },
-            {
-              "whisky_id": 987,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/8/csm_0_6d0db7_ancno1200_aw_470641e2d8.jpg",
-              "whisky_kor": "아녹 12년",
-              "whisky_eng": "AnCnoc 12 Years",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 999,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/e/f/csm_0_60f890_lagav0800_aw_763d81efd5.jpg",
-              "whisky_kor": "라가불린 8년 200주년 한정판",
-              "whisky_eng": "Lagavulin 8 Years 200th Anniversary Limited Edition",
-              "whisky_abv": "48%"
-            },
-            {
-              "whisky_id": 743,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/2/5/xcsm_0_31882c_image_HIGHL1202_1_6834b67c37.jpg.pagespeed.ic.wGib4tftCO.webp",
-              "whisky_kor": "하이랜드 파크 12년 바이킹아너",
-              "whisky_eng": "Highland Park 12 Years Viking Honour",
-              "whisky_abv": "40%"
-            },
-            {
-              "whisky_id": 741,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/9/xcsm_0_c4c456_lagav1600_aw_7a3c1490b0.jpg.pagespeed.ic.lfGuvu9jO5.webp",
-              "whisky_kor": "라가불린 16년",
-              "whisky_eng": "Lagavulin 16 Years",
-              "whisky_abv": "43%"
-            },
-            {
-              "whisky_id": 747,
-              "count": 3,
-              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/a/b/xcsm_0_de2d76_laphr1040_aw_a7215eefb1.jpg.pagespeed.ic.7XggiGcf1Q.webp",
-              "whisky_kor": "라프로익 10년",
-              "whisky_eng": "laphroaig 10years old",
               "whisky_abv": "40%"
             }
           ],
@@ -1708,12 +1484,6 @@
             {
               "store_id": 28,
               "store": "팀스피릿츠",
-              "address": "null",
-              "StoreTables": []
-            },
-            {
-              "store_id": 29,
-              "store": "팀스피릿츠2",
               "address": "null",
               "StoreTables": []
             }
