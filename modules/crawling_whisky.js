@@ -1,3 +1,5 @@
+// // 데이터 1350 까지 수정함
+
 // const puppeteer = require("puppeteer");
 // const axios = require("axios");
 // const mysql = require("mysql");
@@ -23,8 +25,8 @@
 //   const whiskyList = [];
 //   const whiskyEngSet = new Set();
 
-//   const startPage = 33;
-//   const endPage = 33;
+//   const startPage = 49;
+//   const endPage = 49;
 
 //   let j = 1;
 
@@ -149,8 +151,8 @@
 //   for (const whiskyData of whiskyList) {
 //     const query = whiskyData.whisky_eng;
 //     const api_url = "https://openapi.naver.com/v1/papago/n2mt";
-//     const client_id = "KhD4hJaI483y7SpUmoAW";
-//     const client_secret = "ErzzICMSwc";
+//     const client_id = "XUpkpTKQbkMVy1E53sTi";
+//     const client_secret = "rVsQIAyfnW";
 
 //     try {
 //       const response = await axios.post(
