@@ -8,6 +8,7 @@ const {
   StoreWhiskys,
   Whiskys,
   Stores,
+  Ques,
 } = require("../models");
 
 class MyapgeService {
@@ -19,7 +20,8 @@ class MyapgeService {
     StoreTables,
     StoreWhiskys,
     Whiskys,
-    Stores
+    Stores,
+    Ques
   );
 
   //마이페이지
@@ -62,10 +64,54 @@ class MyapgeService {
     return result;
   };
 
+  //내 모든 줄서기 현황 조회
+  findAllMyQue = async (user_id) => {
+    const myAllQue = await this.mypageRepository.findAllMyQue(user_id);
+
+    const que = myAllQue.map(async (que) => {
+      const count = await this.mypageRepository.findAllQue(que.store_id);
+      const myTurn = count.filter(
+        (storeQue) => storeQue.que_id <= que.que_id
+      ).length;
+      return {
+        que_id: que.que_id,
+        user_id: user_id,
+        store_id: que.store_id,
+        store: que.Store.store,
+        request: que.request,
+        head_count: que.head_count,
+        want_table: que.want_table,
+        device_token: que.device_token,
+        myTurn: myTurn,
+      };
+    });
+    const myQue = await Promise.all(que);
+    return myQue;
+  };
+
   //스토어상세조회
+  getStoreMypageEmail = async (store_id, email) => {
+    const storeLike = await this.mypageRepository.findOneUser(store_id, email);
+    let liked = storeLike ? true : false;
+    const storeInfo = await this.mypageRepository.findOneStoreInfo(store_id);
+    return {
+      liked: liked,
+      store_id: storeInfo.store_id,
+      email: storeInfo.email,
+      store: storeInfo.store,
+      biz_number: storeInfo.biz_number,
+      biz_photo: storeInfo.biz_photo,
+      slikes: storeInfo.slikes,
+      password: storeInfo.password,
+      address: storeInfo.address,
+      phone: storeInfo.phone,
+      notice: storeInfo.notice,
+      runtime: storeInfo.runtime,
+    };
+  };
+
   getStoreMypage = async (store_id) => {
-    const storeInfo = await this.mypageRepository.findAllStoreInfo(store_id);
-    return storeInfo;
+    return await this.mypageRepository.findOneStoreInfo(store_id);
   };
 
   //스토어마이페이지수정
@@ -152,21 +198,8 @@ class MyapgeService {
   };
 
   //스토어위스키 생성
-  createStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.mypageRepository.createStoreWhisky(
-      store_id,
-      whisky_id,
-      count
-    );
-  };
-
-  //스토어위스키수정
-  updateStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.mypageRepository.updateStoreWhisky(
-      store_id,
-      whisky_id,
-      count
-    );
+  createStoreWhisky = async (store_id, whisky_id) => {
+    return await this.mypageRepository.createStoreWhisky(store_id, whisky_id);
   };
 
   //스토어위스키 삭제

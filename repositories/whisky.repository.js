@@ -2,19 +2,34 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
 class WhiskyRepository {
-  constructor(Whiskys, Reviews, StoreWhiskys, Stores, WhiskyLikes, Users) {
+  constructor(
+    Whiskys,
+    Reviews,
+    StoreWhiskys,
+    Stores,
+    WhiskyLikes,
+    Users,
+    Searches
+  ) {
     this.Whiskys = Whiskys;
     this.Reviews = Reviews;
     this.StoreWhiskys = StoreWhiskys;
     this.Stores = Stores;
     this.WhiskyLikes = WhiskyLikes;
     this.Users = Users;
+    this.Searches = Searches;
   }
 
   //위스키 검색
   searchAllWhiskyEng = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_eng", "whisky_id"],
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
       where: {
         whisky_eng: {
           [Op.like]: `%${keyword}%`,
@@ -24,12 +39,82 @@ class WhiskyRepository {
   };
   searchAllWhiskyKor = async (keyword) => {
     return await this.Whiskys.findAll({
-      attributes: ["whisky_kor", "whisky_id"],
+      attributes: [
+        "whisky_id",
+        "whisky_kor",
+        "whisky_eng",
+        "whisky_photo",
+        "whisky_abv",
+      ],
       where: {
         whisky_kor: {
           [Op.like]: `%${keyword}%`,
         },
       },
+    });
+  };
+  //위스키 인기검색 조회
+  findAllWhiskyTrending = async () => {
+    return await this.Searches.findAll({
+      order: [["count", "DESC"]],
+      limit: 10,
+      include: [
+        {
+          model: this.Whiskys,
+          attributes: [
+            "whisky_kor",
+            "whisky_eng",
+            "whisky_photo",
+            "whisky_abv",
+          ],
+        },
+      ],
+    });
+  };
+
+  //위스키 초보자 추천 조회
+  findAllWhiskyBeginner = async () => {
+    const whiskyIDs = [
+      "1. 글렌모렌지 오리지널(glenmorangie original) -1241",
+      "2. 글렌피딕 12년(glenfiddich 12y) -775",
+      "3. 발베니 12년(balvenie 12y)더블우드 -745",
+      "4. 보모어 12년(bow more 12y) -757",
+      "5. 글렌킨치 12년(glenkinchie 12y) -829",
+      "6. 하이랜드 파크 12년(highland park 12y) -742",
+      "7. 글렌드로낙 12년(glendronach 12y) -1120",
+      "8. 메이커스 마크(maker’s mark) -796",
+      "9. 와일드 터키101(wild turkey 101) -891",
+      "10. 제임슨 스탠다드(Jameson standard) -1230",
+      "11. 캐내디언 클럽 12년(Canadian club 12y) -1351",
+      "12. 버팔로 트레이스(buffalo trace) -980",
+      "13. 페이머스 그라우스(famous grouse) -1121",
+      "14. 조니워커 블랙라벨(Johnnie walker black label) -959",
+      "15. 오반 14년(oban 14y) -774",
+    ];
+
+    const whiskyIDsOnly = whiskyIDs.map((whisky) => {
+      const parts = whisky.split("-");
+      return parts[parts.length - 1].trim();
+    });
+
+    const beginnerOptions = {
+      whisky_id: {
+        [Op.or]: [whiskyIDsOnly],
+      },
+    };
+    return await this.Whiskys.findAll({ where: beginnerOptions });
+  };
+
+  //인기검색어
+  updateSearch = async (whisky_id) => {
+    const existSearch = await this.Searches.findOne({ where: { whisky_id } });
+    if (!existSearch) {
+      await this.Searches.create({
+        whisky_id,
+      });
+    }
+    await this.Searches.increment("count", {
+      where: { whisky_id },
     });
   };
 
@@ -39,9 +124,17 @@ class WhiskyRepository {
     pageSize,
     whisky_country,
     whisky_region,
-    whisky_type
+    whisky_type,
+    like
   ) => {
     const filterOptions = {};
+    const orderOptions = [];
+
+    if (like == "y") {
+      orderOptions.push(["wlikes", "DESC"]);
+    } else {
+      orderOptions.push(["whisky_id", "ASC"]);
+    }
 
     if (whisky_country) {
       if (whisky_country == "etc") {
@@ -112,7 +205,7 @@ class WhiskyRepository {
       }
     }
 
-    return await this.Whiskys.findAll({
+    return await this.Whiskys.findAndCountAll({
       attributes: [
         "whisky_id",
         "whisky_kor",
@@ -121,6 +214,7 @@ class WhiskyRepository {
         "whisky_abv",
       ],
       where: filterOptions,
+      order: orderOptions,
       limit: pageSize,
       offset: offset,
     });
@@ -167,44 +261,6 @@ class WhiskyRepository {
     return await this.Reviews.findAll({
       where: { whisky_id },
     });
-  };
-
-  //위스키정보 생성
-  createWhisky = async (whiskyData) => {
-    return await this.Whiskys.create({
-      whisky_photo: whiskyData.whisky_photo,
-      whisky_eng: whiskyData.whisky_eng,
-      whisky_kor: whiskyData.whisky_kor,
-      whisky_country: whiskyData.whisky_country,
-      whisky_region: whiskyData.whisky_region,
-      whisky_age: whiskyData.whisky_age,
-      whisky_type: whiskyData.whisky_type,
-      whisky_desc: whiskyData.whisky_desc,
-      whisky_abv: whiskyData.whisky_abv,
-    });
-  };
-
-  //위스키정보 수정
-  updateWhisky = async (whisky_id, whiskyData) => {
-    return await this.Whiskys.update(
-      {
-        whisky_photo: whiskyData.whisky_photo,
-        whisky_eng: whiskyData.whisky_eng,
-        whisky_kor: whiskyData.whisky_kor,
-        whisky_country: whiskyData.whisky_country,
-        whisky_region: whiskyData.whisky_region,
-        whisky_age: whiskyData.whisky_age,
-        whisky_type: whiskyData.whisky_type,
-        whisky_desc: whiskyData.whisky_desc,
-        whisky_abv: whiskyData.whisky_abv,
-      },
-      { where: { whisky_id } }
-    );
-  };
-
-  //위스키정보 삭제
-  deleteWhisky = async (whisky_id) => {
-    return await this.Whiskys.destroy({ where: { whisky_id } });
   };
 }
 

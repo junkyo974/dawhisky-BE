@@ -6,6 +6,7 @@ const {
   Stores,
   WhiskyLikes,
   Users,
+  Searches,
 } = require("../models");
 
 class WhiskyService {
@@ -15,16 +16,50 @@ class WhiskyService {
     StoreWhiskys,
     Stores,
     WhiskyLikes,
-    Users
+    Users,
+    Searches
   );
 
   //위스키 검색
   searchWhisky = async (keyword) => {
+    let whiskys;
     if (/[a-zA-Z]/.test(keyword)) {
-      return await this.whiskyRepository.searchAllWhiskyEng(keyword);
+      whiskys = await this.whiskyRepository.searchAllWhiskyEng(keyword);
     } else {
-      return await this.whiskyRepository.searchAllWhiskyKor(keyword);
+      whiskys = await this.whiskyRepository.searchAllWhiskyKor(keyword);
     }
+    return whiskys;
+  };
+
+  //위스키 인기검색 조회
+  whiskyTrending = async () => {
+    const whiskys = await this.whiskyRepository.findAllWhiskyTrending();
+    const Whiskys = whiskys.map((whisky) => {
+      return {
+        whisky_id: whisky.whisky_id,
+        count: whisky.count,
+        whisky_photo: whisky.Whisky.whisky_photo,
+        whisky_kor: whisky.Whisky.whisky_kor,
+        whisky_eng: whisky.Whisky.whisky_eng,
+        whisky_abv: whisky.Whisky.whisky_abv,
+      };
+    });
+    return Whiskys;
+  };
+
+  //위스키 초보자 추천 조회
+  whiskyBeginner = async () => {
+    const whiskys = await this.whiskyRepository.findAllWhiskyBeginner();
+    const Whiskys = whiskys.map((whisky) => {
+      return {
+        whisky_id: whisky.whisky_id,
+        whisky_photo: whisky.whisky_photo,
+        whisky_kor: whisky.whisky_kor,
+        whisky_eng: whisky.whisky_eng,
+        whisky_abv: whisky.whisky_abv,
+      };
+    });
+    return Whiskys;
   };
 
   //위스키 전체조회 + 필터
@@ -33,25 +68,32 @@ class WhiskyService {
     pageSize,
     whisky_country,
     whisky_region,
-    whisky_type
+    whisky_type,
+    like
   ) => {
-    return await this.whiskyRepository.findPaginatedWhiskies(
+    const whiskys = await this.whiskyRepository.findPaginatedWhiskies(
       offset,
       pageSize,
       whisky_country,
       whisky_region,
-      whisky_type
+      whisky_type,
+      like
     );
+
+    return [...whiskys.rows, Math.ceil(whiskys.count / pageSize)];
   };
 
   //위스키 상세조회
-  whiskyDetail = async (whisky_id, email) => {
+  whiskyDetail = async (whisky_id, email, search) => {
     const whiskyLike = await this.whiskyRepository.findOneUser(
       whisky_id,
       email
     );
     let liked = whiskyLike ? true : false;
     const whiskyInfo = await this.whiskyRepository.findOneWhisky(whisky_id);
+    if (search) {
+      this.whiskyRepository.updateSearch(whisky_id);
+    }
     return { liked, whiskyInfo };
   };
 
@@ -75,24 +117,9 @@ class WhiskyService {
     return await this.whiskyRepository.findAllWhiskyComment(whisky_id);
   };
 
-  // 위스키정보 생성
-  createWhisky = async (whiskyData) => {
-    return await this.whiskyRepository.createWhisky(whiskyData);
-  };
-
   //위스키 찾기
   findWhiskyById = async (whisky_id) => {
     return await this.whiskyRepository.findOneWhisky(whisky_id);
-  };
-
-  //위스키정보 수정
-  updateWhisky = async (whisky_id, whiskyData) => {
-    return await this.whiskyRepository.updateWhisky(whisky_id, whiskyData);
-  };
-
-  //위스키정보 삭제
-  deleteWhisky = async (whisky_id) => {
-    await this.whiskyRepository.deleteWhisky(whisky_id);
   };
 }
 

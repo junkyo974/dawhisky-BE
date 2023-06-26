@@ -10,7 +10,8 @@ class MypageRepository {
     StoreTables,
     StoreWhiskys,
     Whiskys,
-    Stores
+    Stores,
+    Ques
   ) {
     this.Users = Users;
     this.WhiskyLikes = WhiskyLikes;
@@ -20,6 +21,7 @@ class MypageRepository {
     this.StoreWhiskys = StoreWhiskys;
     this.Whiskys = Whiskys;
     this.Stores = Stores;
+    this.Ques = Ques;
   }
 
   // 마이페이지 조회
@@ -74,8 +76,44 @@ class MypageRepository {
     });
   };
 
+  //내 모든 줄서기 현황 조회
+  findAllMyQue = async (user_id) => {
+    return await this.Ques.findAll({
+      where: { user_id },
+      include: [
+        {
+          model: this.Stores,
+          attributes: ["store"],
+        },
+      ],
+    });
+  };
+
+  //줄서기 요청들 조회
+  findAllQue = async (store_id) => {
+    return await this.Ques.findAll({
+      where: { store_id },
+    });
+  };
+
+  //스토어 좋아요 여부 찾기
+  findOneUser = async (store_id, email) => {
+    const like = await this.Users.findOne({
+      where: { email },
+      include: [
+        {
+          model: this.StoreLikes,
+          attributes: ["storelike_id"],
+          where: { store_id },
+        },
+      ],
+    });
+
+    return like;
+  };
+
   //스토어상세조회
-  findAllStoreInfo = async (store_id) => {
+  findOneStoreInfo = async (store_id) => {
     return await this.Stores.findOne({
       where: { store_id },
     });
@@ -163,16 +201,8 @@ class MypageRepository {
   };
 
   //스토어위스키 생성
-  createStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.StoreWhiskys.create({ store_id, whisky_id, count });
-  };
-
-  //스토어위스키수정
-  updateStoreWhisky = async (store_id, whisky_id, count) => {
-    return await this.StoreWhiskys.update(
-      { count },
-      { where: { [Op.and]: [{ whisky_id }, { store_id }] } }
-    );
+  createStoreWhisky = async (store_id, whisky_id) => {
+    return await this.StoreWhiskys.create({ store_id, whisky_id });
   };
 
   //스토어위스키 삭제
