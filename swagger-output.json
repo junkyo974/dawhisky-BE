@@ -263,7 +263,7 @@
                   "store": "숙희",
                   "address": "서울 중구 충무로5가 88-4 1층",
                   "biz_photo": "http://t1.kakaocdn.net/fiy_reboot/place/34A2048303A8418DA4CA3808EDE821C3"
-                }               
+                }
               ],
               "reviews": [
                 {
@@ -1365,12 +1365,12 @@
         "responses": {
           "200": [
             {
-              "review_id": 13,
-              "user_id": 2,
-              "whisky_id": 9,
-              "content": "맛있어요요",
-              "createdAt": "2023-06-05T06:34:57.000Z",
-              "updatedAt": "2023-06-05T06:34:57.000Z"
+              "review_id": 127,
+              "user_id": 111,
+              "whisky_id": 888,
+              "content": "나이스스~~",
+              "createdAt": "2023-06-27T14:31:41.000Z",
+              "mine": true
             }
           ],
           "404": {

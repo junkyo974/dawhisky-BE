@@ -113,8 +113,26 @@ class WhiskyService {
   };
 
   //위스키 코멘트 조회
-  whiskyComment = async (whisky_id) => {
-    return await this.whiskyRepository.findAllWhiskyComment(whisky_id);
+  whiskyComment = async (whisky_id, email) => {
+    const comments = await this.whiskyRepository.findAllWhiskyComment(
+      whisky_id,
+      email
+    );
+    let commentsWhithMine = comments.map((comment) => {
+      let mine = false;
+      if (email === comment.User.email) {
+        mine = true;
+      }
+      return {
+        review_id: comment.review_id,
+        user_id: comment.user_id,
+        whisky_id: comment.whisky_id,
+        content: comment.content,
+        createdAt: comment.createdAt,
+        mine: mine,
+      };
+    });
+    return commentsWhithMine;
   };
 
   //위스키 찾기

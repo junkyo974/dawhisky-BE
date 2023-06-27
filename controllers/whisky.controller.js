@@ -176,7 +176,28 @@ class WhiskyController {
       if (!whisky) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }
-      const whiskyComment = await this.whiskyService.whiskyComment(whisky_id);
+
+      const jwt = require("jsonwebtoken");
+      require("dotenv").config();
+      let email = "aaa";
+
+      let { authorization, refreshtoken } = req.headers;
+
+      authorization = !req.headers.refreshtoken
+        ? req.cookies.authorization
+        : authorization;
+
+      if (authorization) {
+        const [authType, authToken] = (authorization ?? "").split(" ");
+
+        const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
+        email = decodedToken.email;
+      }
+
+      const whiskyComment = await this.whiskyService.whiskyComment(
+        whisky_id,
+        email
+      );
 
       res.status(200).json(whiskyComment);
     } catch (error) {
