@@ -23,25 +23,29 @@ class UserService {
 
     const accessToken = jwt.sign(
       { email: user.email },
-      process.env.USER_ACCESS_KEY
+      process.env.USER_ACCESS_KEY,
+      {
+        expiresIn: process.env.ACCESS_EXPIRES,
+      }
     );
     const accessObject = { type: "Bearer", token: accessToken };
 
-    const refreshToken = jwt.sign(
+    const refreshtoken = jwt.sign(
       { email: user.email },
       process.env.USER_REFRESH_KEY
     );
-    const refreshObject = { type: "Bearer", token: refreshToken };
+    const refreshObject = { type: "Bearer", token: refreshtoken };
 
     const user_id = user.user_id;
 
-    await this.redisClient.SET(email, JSON.stringify(refreshToken));
+    await this.redisClient.SET(email, JSON.stringify(refreshtoken));
 
     return { accessObject, refreshObject, user_id };
   };
 
   logout = async (user_id) => {
     const user = await this.userRepository.findOneUserId(user_id);
+    await this.redisClient.DEL(user.email);
     return { message: "로그아웃 되었습니다." };
   };
 

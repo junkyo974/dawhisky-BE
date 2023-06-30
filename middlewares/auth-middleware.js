@@ -43,17 +43,19 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      const token = refreshtoken.split(" ")[1];
+      const token = refreshtoken;
       const decodedRefreshToken = jwt.verify(
         token,
         process.env.USER_REFRESH_KEY
       );
       const email = decodedRefreshToken.email;
+      const authRefreshToken = await this.redisClient.GET(email);
 
       const user = await Users.findOne({ where: { email } });
       const store = await Stores.findOne({ where: { email } });
 
-      if (!user && !store) {
+      if (!user && !store && token !== authRefreshToken) {
+        await this.redisClient.DEL(email);
         throw new Error(
           "403/리프레시 토큰에 해당하는 사용자가 존재하지 않습니다."
         );
@@ -66,6 +68,10 @@ module.exports = async (req, res, next) => {
         );
 
         res.cookie("authorization", `Bearer ${newAccessToken}`);
+
+        res.status(200).json({
+          authorization: `Bearer ${newAccessToken}`,
+        });
       }
 
       if (store) {
@@ -75,8 +81,10 @@ module.exports = async (req, res, next) => {
         );
 
         res.cookie("authorization", `Bearer ${newAccessToken}`);
+        res.status(200).json({
+          authorization: `Bearer ${newAccessToken}`,
+        });
       }
-
       return next();
     } else {
       error.failedApi = "사용자 인증 미들웨어";

@@ -47,21 +47,22 @@ class StoreService {
     );
     const accessObject = { type: "Bearer", token: accessToken };
 
-    const refreshToken = jwt.sign(
+    const refreshtoken = jwt.sign(
       { email: store.email },
       process.env.USER_REFRESH_KEY
     );
-    const refreshObject = { type: "Bearer", token: refreshToken };
+    const refreshObject = { type: "Bearer", token: refreshtoken };
 
     const store_id = store.store_id;
 
-    await this.redisClient.SET(email, JSON.stringify(refreshToken));
+    await this.redisClient.SET(email, JSON.stringify(refreshtoken));
 
     return { accessObject, refreshObject, store_id };
   };
 
   logout = async (store_id) => {
     const store = await this.storeRepository.findOneStoreId(store_id);
+    await this.redisClient.DEL(store.email);
     return { message: "로그아웃 되었습니다." };
   };
 

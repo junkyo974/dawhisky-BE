@@ -40,7 +40,7 @@ class StoreRepository {
   findPushData = async (que_id) => {
     const PushData = await Ques.findOne({
       where: { que_id: que_id },
-      attributes: ["device_token"],
+      attributes: ["device_token", "user_id"],
       include: {
         model: Stores,
         attributes: ["store"],

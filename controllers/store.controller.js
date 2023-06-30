@@ -82,12 +82,17 @@ class StoreController {
 
       const storeData = await this.storeService.login(email);
 
+      await redisClient.SET(
+        storeData.store_id,
+        `${storeData.refreshObject.token}`
+      );
+
       res.cookie(
         "authorization",
         `${storeData.accessObject.type} ${storeData.accessObject.token}`
       );
 
-      res.cookie("refreshToken", `${storeData.refreshObject.token}`);
+      res.cookie("refreshtoken", `${storeData.refreshObject.token}`);
 
       res.cookie("store", `${storeData.store_id}`);
 
