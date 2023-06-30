@@ -249,69 +249,6 @@
                   "whisky_eng": "Bunnahabhain 12 Years 0,2 Liter",
                   "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/7/csm_1640096120_image_BUNNA1202_B_1_792a4043b3.jpg",
                   "whisky_abv": "46.3%"
-                },
-                {
-                  "whisky_id": 2,
-                  "whisky_kor": "하이랜드 파크 12년",
-                  "whisky_eng": "Highland Park 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/9/csm_0_e0f279_highl1200_aw_0817f66b47.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 562,
-                  "whisky_kor": "Aberlour 12년 더블 캐스크 - Neues 디자인",
-                  "whisky_eng": "Aberlour 12 Years Double Cask - neues Design",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/7/4/csm_1573737313_image_ABERL12D0_1_459351cfad.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 22,
-                  "whisky_kor": "탈리스커 10년 차 태세 + 그루지카르트",
-                  "whisky_eng": "Talisker 10 Years with Tasse + Grußkarte",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/1/d/csm_1635344119_image_TALIS10GT_1_2c8edd0514.jpg",
-                  "whisky_abv": "45.8%"
-                },
-                {
-                  "whisky_id": 223,
-                  "whisky_kor": "통에서 나온 닛카 블렌디드 위스키",
-                  "whisky_eng": "Nikka Blended Whisky From the Barrel",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/c/0/csm_0_75c3cc_nikka_from_the_barrel_dfe32f78f3.jpg",
-                  "whisky_abv": "51.4%"
-                },
-                {
-                  "whisky_id": 681,
-                  "whisky_kor": "카발란 싱글 몰트 위스키",
-                  "whisky_eng": "Kavalan Single Malt Whisky",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/4/csm_0_e639e9_Kavalan_Single_Malt_Whisky_847f747d59.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 573,
-                  "whisky_kor": "검은 유리병",
-                  "whisky_eng": "Black Bottle with glass",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/4/csm_1643120120_image_BLACBO0GL_1_f2bd63b49a.jpg",
-                  "whisky_abv": "40%"
-                },
-                {
-                  "whisky_id": 157,
-                  "whisky_kor": "블레어 애솔 12주년",
-                  "whisky_eng": "Blair Athol 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/web_data/tx_datamintsflaschendb/flaschen/0_0032a6_BLATHF_F.jpg",
-                  "whisky_abv": "43%"
-                },
-                {
-                  "whisky_id": 100,
-                  "whisky_kor": "글렌은 15년을 달성했다",
-                  "whisky_eng": "Glenallachie 15 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/f/csm_GALLA1500_096a80e8cd.jpg",
-                  "whisky_abv": "46%"
-                },
-                {
-                  "whisky_id": 670,
-                  "whisky_kor": "리틀밀 12년",
-                  "whisky_eng": "Littlemill 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/5/6/csm_0_3c6a06_littl1200_aw_3d0ed300f7.jpg",
-                  "whisky_abv": "40%"
                 }
               ],
               "store_likes": [
@@ -326,12 +263,6 @@
                   "store": "숙희",
                   "address": "서울 중구 충무로5가 88-4 1층",
                   "biz_photo": "http://t1.kakaocdn.net/fiy_reboot/place/34A2048303A8418DA4CA3808EDE821C3"
-                },
-                {
-                  "store_id": 49,
-                  "store": "감각의제국",
-                  "address": "서울 중구 을지로3가 302-17",
-                  "biz_photo": "http://t1.daumcdn.net/place/D57F2C01D3E04512BB63745D8A751B2A"
                 }
               ],
               "reviews": [
@@ -352,15 +283,6 @@
                   "whisky_eng": "Bowmore 12 Years (new cardboard box)",
                   "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/4/1/csm_0_d29a71_bowmo1200_bw_61e9d80aa9.jpg",
                   "whisky_abv": "40%"
-                },
-                {
-                  "review_id": 21,
-                  "content": "670또먹을거에요요!",
-                  "whisky_id": 670,
-                  "whisky_kor": "리틀밀 12년",
-                  "whisky_eng": "Littlemill 12 Years",
-                  "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/5/6/csm_0_3c6a06_littl1200_aw_3d0ed300f7.jpg",
-                  "whisky_abv": "40%"
                 }
               ]
             }
@@ -370,6 +292,56 @@
           },
           "403": {
             "description": "로그인이 필요한 기능입니다."
+          }
+        }
+      }
+    },
+    "/api/mypage/user/que": {
+      "get": {
+        "tags": ["mypage"],
+        "description": "유저 모든 줄서기 현황 조회",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": [
+            {
+              "que_id": 171,
+              "user_id": 40,
+              "store_id": 215,
+              "store": "믹솔로지",
+              "request": "하이 믹솔로지",
+              "head_count": "2",
+              "want_table": "bar",
+              "device_token": null,
+              "myTurn": 8
+            },
+            {
+              "que_id": 196,
+              "user_id": 40,
+              "store_id": 461,
+              "store": "팀스피릿츠",
+              "request": "하이 팀스피릿츠",
+              "head_count": "2",
+              "want_table": "hall",
+              "device_token": "cjcVKeN17NqGKxTbVuKBFG:APA91bGjgD-4nlJ4Yym6Qj7f2vQazz34vRNoPVwEQOZQuH9bK0ylzXxGqDfovdW5WR0_dbXb_eAmz3mqhMI6RWYAlgxLETQ1HbG8Z5Rw-WS1YAppz5ZVaH-oE9PBxNnvKbWwzoTh3YDb",
+              "myTurn": 1
+            }
+          ],
+          "201": {
+            "description": "(200)내 줄서기 내역이 없습니다."
+          },
+          "400": {
+            "description": "줄서기 내역 조회에 실패하였습니다."
           }
         }
       }
@@ -517,7 +489,6 @@
                 "storewhisky_id": 9,
                 "whisky_id": 9,
                 "store_id": 27,
-                "count": "55",
                 "createdAt": "2023-06-05T03:31:28.000Z",
                 "updatedAt": "2023-06-05T03:31:28.000Z",
                 "Whisky": {
@@ -528,7 +499,6 @@
                 "storewhisky_id": 10,
                 "whisky_id": 22,
                 "store_id": 27,
-                "count": "8",
                 "createdAt": "2023-06-05T03:31:36.000Z",
                 "updatedAt": "2023-06-05T03:31:36.000Z",
                 "Whisky": {
@@ -711,8 +681,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "whisky_id": { "example": "20" },
-                "count": { "example": "33" }
+                "whisky_id": { "example": "20" }
               }
             }
           }
@@ -737,55 +706,6 @@
       }
     },
     "/api/mypage/store/whisky/{whisky_id}": {
-      "put": {
-        "tags": ["mypage"],
-        "description": "점주가 스토어위스키 수정",
-        "parameters": [
-          {
-            "name": "whisky_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "refreshtoken",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "count": { "example": "33" }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "위스키목록을 수정하였습니다."
-          },
-          "404": {
-            "description": "위스키가 존재하지 않습니다."
-          },
-          "412": {
-            "description": "위스키목록이 존재하지 않습니다."
-          },
-          "400": {
-            "description": "위스키 목록 수정에 실패하였습니다."
-          },
-          "403": {
-            "description": "로그인이 필요한 기능입니다."
-          }
-        }
-      },
       "delete": {
         "tags": ["mypage"],
         "description": "점주가 스토어위스키 삭제",
@@ -1192,16 +1112,18 @@
         "responses": {
           "200": [
             {
-              "whisky_kor": "잭 다니엘스 올드 7번 - 기타 케이스",
-              "whisky_id": 186
+              "whisky_id": 745,
+              "whisky_kor": "발베니 12년 더블 우드",
+              "whisky_eng": "Balvenie 12 Years Double Wood",
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/1/2/xcsm_0_4e6ca6_balve1200_aw_10b171a0a0.jpg.pagespeed.ic.7uP1hFvWc8.webp",
+              "whisky_abv": "40%"
             },
             {
-              "whisky_kor": "잭 다니엘의 올드 넘버 7",
-              "whisky_id": 190
-            },
-            {
-              "whisky_kor": "올드 발란트루안 더 페이트 몰트",
-              "whisky_id": 458
+              "whisky_id": 878,
+              "whisky_kor": "발베니 12년 싱글 배럴 퍼스트 필",
+              "whisky_eng": "Balvenie 12 Years Single Barrel First Fill",
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/0/b/csm_0_f7577a_balve12sb_aw_1625336958.jpg",
+              "whisky_abv": "47.8%"
             }
           ],
           "400": {
@@ -1210,10 +1132,70 @@
         }
       }
     },
+    "/api/whisky/trending": {
+      "get": {
+        "tags": ["whisky"],
+        "description": "위스키 인기검색 조회(top 10)",
+        "parameters": [],
+        "responses": {
+          "200": [
+            {
+              "whisky_id": 742,
+              "count": 6,
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/9/xcsm_0_e0f279_highl1200_aw_0817f66b47.jpg.pagespeed.ic.MR-QVOW1xr.webp",
+              "whisky_kor": "하이랜드 파크 12년",
+              "whisky_eng": "Highland Park 12 Years",
+              "whisky_abv": "40%"
+            },
+            {
+              "whisky_id": 750,
+              "count": 5,
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/c/xcsm_1602836115_image_LAPHR104T_1_98e2d53fd7.jpg.pagespeed.ic.zGXY3lsXm-.webp",
+              "whisky_kor": "라프로익 10년 트위스티드 튜브",
+              "whisky_eng": "Laphroaig 10 Years Twisted Tube",
+              "whisky_abv": "40%"
+            }
+          ],
+          "400": {
+            "description": "위스키 인기검색 조회에 실패하였습니다."
+          }
+        }
+      }
+    },
+    "/api/whisky/beginner": {
+      "get": {
+        "tags": ["whisky"],
+        "description": "위스키 초보자 추천 조회",
+        "parameters": [],
+        "responses": {
+          "200": [
+            {
+              "whisky_id": 742,
+              "count": 6,
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/3/9/xcsm_0_e0f279_highl1200_aw_0817f66b47.jpg.pagespeed.ic.MR-QVOW1xr.webp",
+              "whisky_kor": "하이랜드 파크 12년",
+              "whisky_eng": "Highland Park 12 Years",
+              "whisky_abv": "40%"
+            },
+            {
+              "whisky_id": 750,
+              "count": 5,
+              "whisky_photo": "https://www.whisky.com//fileadmin/_processed_/d/c/xcsm_1602836115_image_LAPHR104T_1_98e2d53fd7.jpg.pagespeed.ic.zGXY3lsXm-.webp",
+              "whisky_kor": "라프로익 10년 트위스티드 튜브",
+              "whisky_eng": "Laphroaig 10 Years Twisted Tube",
+              "whisky_abv": "40%"
+            }
+          ],
+          "400": {
+            "description": "위스키 초보자추천 조회에 실패하였습니다."
+          }
+        }
+      }
+    },
     "/api/whisky/": {
       "get": {
         "tags": ["whisky"],
-        "description": "위스키 전체 조회 & 필터",
+        "description": "위스키 전체 조회 & 필터 & 기존리뷰순 or 좋아요순 정렬  country=Scotland,usa,Ireland,Japan,Canada,etc  regions=Sqeyside,Highlands,Lowlands,Cambeltown,Islay,etc  types=Single Malt Whisky,Single Grain Whisky,Blended Malt Whisky,Blended Whisky,Bourbon,Rye,Tennessee,etc  필터링 기준:like=y,n",
         "parameters": [
           {
             "name": "page",
@@ -1241,6 +1223,12 @@
           },
           {
             "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "like",
             "in": "query",
             "required": false,
             "type": "string"
@@ -1275,7 +1263,7 @@
     "/api/whisky/{whisky_id}": {
       "get": {
         "tags": ["whisky"],
-        "description": "위스키 상세조회",
+        "description": "위스키 상세조회  검색을 통한 상세조회 시 /?search=y 추가",
         "parameters": [
           {
             "name": "whisky_id",
@@ -1291,6 +1279,12 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -1340,7 +1334,6 @@
               "storewhisky_id": 9,
               "whisky_id": 9,
               "store_id": 27,
-              "count": "55",
               "createdAt": "2023-06-05T03:31:28.000Z",
               "updatedAt": "2023-06-05T03:31:28.000Z",
               "Store": {
@@ -1372,12 +1365,12 @@
         "responses": {
           "200": [
             {
-              "review_id": 13,
-              "user_id": 2,
-              "whisky_id": 9,
-              "content": "맛있어요요",
-              "createdAt": "2023-06-05T06:34:57.000Z",
-              "updatedAt": "2023-06-05T06:34:57.000Z"
+              "review_id": 127,
+              "user_id": 111,
+              "whisky_id": 888,
+              "content": "나이스스~~",
+              "createdAt": "2023-06-27T14:31:41.000Z",
+              "mine": true
             }
           ],
           "404": {
@@ -1491,12 +1484,6 @@
             {
               "store_id": 28,
               "store": "팀스피릿츠",
-              "address": "null",
-              "StoreTables": []
-            },
-            {
-              "store_id": 29,
-              "store": "팀스피릿츠2",
               "address": "null",
               "StoreTables": []
             }

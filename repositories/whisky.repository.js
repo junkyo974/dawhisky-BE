@@ -260,6 +260,12 @@ class WhiskyRepository {
   findAllWhiskyComment = async (whisky_id) => {
     return await this.Reviews.findAll({
       where: { whisky_id },
+      include: [
+        {
+          model: this.Users,
+          attributes: ["email"],
+        },
+      ],
     });
   };
 }

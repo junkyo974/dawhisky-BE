@@ -176,98 +176,32 @@ class WhiskyController {
       if (!whisky) {
         throw new Error("404/위스키가 존재하지 않습니다.");
       }
-      const whiskyComment = await this.whiskyService.whiskyComment(whisky_id);
+
+      const jwt = require("jsonwebtoken");
+      require("dotenv").config();
+      let email = "aaa";
+
+      let { authorization, refreshtoken } = req.headers;
+
+      authorization = !req.headers.refreshtoken
+        ? req.cookies.authorization
+        : authorization;
+
+      if (authorization) {
+        const [authType, authToken] = (authorization ?? "").split(" ");
+
+        const decodedToken = jwt.verify(authToken, process.env.USER_ACCESS_KEY);
+        email = decodedToken.email;
+      }
+
+      const whiskyComment = await this.whiskyService.whiskyComment(
+        whisky_id,
+        email
+      );
 
       res.status(200).json(whiskyComment);
     } catch (error) {
       error.failedApi = "위스키 코멘트 조회";
-      throw error;
-    }
-  };
-
-  //위스키정보 생성
-  createWhisky = async (req, res, next) => {
-    try {
-      const { user_id } = res.locals.user;
-      const {
-        whisky_eng,
-        whisky_kor,
-        whisky_country,
-        whisky_region,
-        whisky_age,
-        whisky_type,
-        whisky_photo,
-        whisky_desc,
-        whisky_abv,
-      } = req.body;
-
-      // if (user_id !== "관리자 아이디") {
-      //   throw new Error("404/위스키 등록 권한이 없습니다.");
-      // }
-
-      const whiskyData = {
-        whisky_photo,
-        whisky_eng,
-        whisky_kor,
-        whisky_country,
-        whisky_region,
-        whisky_age,
-        whisky_type,
-        whisky_desc,
-        whisky_abv,
-      };
-
-      await this.whiskyService.createWhisky(whiskyData);
-
-      res.status(200).json({ message: "위스키정보를 생성하였습니다." });
-    } catch (error) {
-      error.failedApi = "위스키 정보 생성";
-      throw error;
-    }
-  };
-
-  //위스키정보 수정
-  updateWhisky = async (req, res, next) => {
-    try {
-      const { user_id } = res.locals.user;
-      const { whisky_id } = req.params;
-      const {
-        whisky_eng,
-        whisky_kor,
-        whisky_country,
-        whisky_region,
-        whisky_age,
-        whisky_type,
-        whisky_photo,
-        whisky_desc,
-        whisky_abv,
-      } = req.body;
-
-      // if (user_id !== "관리자 아이디") {
-      //   throw new Error("404/위스키 수정 권한이 없습니다.");
-      // }
-
-      const whisky = await this.whiskyService.findWhiskyById(whisky_id);
-      if (!whisky) {
-        throw new Error("404/위스키가 존재하지 않습니다.");
-      }
-      const whiskyData = {
-        whisky_photo,
-        whisky_eng,
-        whisky_kor,
-        whisky_country,
-        whisky_region,
-        whisky_age,
-        whisky_type,
-        whisky_desc,
-        whisky_abv,
-      };
-
-      await this.whiskyService.updateWhisky(whisky_id, whiskyData);
-
-      return res.status(200).json({ message: "위스키 정보를 수정했습니다." });
-    } catch (error) {
-      error.faiedApi = "위스키 정보 수정";
       throw error;
     }
   };
